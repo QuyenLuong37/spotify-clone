@@ -5,6 +5,7 @@ import Center from '../components/Center'
 import Sidebar from '../components/Sidebar'
 
 const Home: NextPage = () => {
+  console.log('env: ', process.env.NEXTAUTH_URL)
   return (
     <div className='bg-black overflow-hidden h-screen'>
       <main className='flex'>
