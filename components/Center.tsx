@@ -1,18 +1,13 @@
 import { ArrowCircleLeftIcon, UserCircleIcon } from '@heroicons/react/outline'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { getProviders, signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 
 function Center() {
     const {data: session, status} = useSession();
-    const router = useRouter();
     console.log('session: ', session);
-    // console.log('status: ', status);
-    const handleSignOut = () => {
-        router.push('/auth/login');
-        signOut();
-    }
+    console.log('status: ', status);
     
   return (
     <div className='text-white bg-gray-900 h-full '>
@@ -20,12 +15,12 @@ function Center() {
             <div className='flex justify-between items-center'>
                 <ArrowCircleLeftIcon className='h-7 text-gray-400 cursor-pointer' />
 
-                {session && <button onClick={() => signOut({callbackUrl: '/auth/login'})} className='px-4  py-1 rounded cursor-pointer bg-gray-400'>Sign out</button>}
+                {session && <button onClick={() => signOut()} className='px-4  py-1 rounded cursor-pointer bg-gray-400'>Sign out</button>}
                 
                 {!session && <div>
                      
-                    <button  className='px-4  py-1 rounded cursor-pointer bg-gray-400'>
-                        <Link href='/auth/login' >Sign in</Link>
+                    <button onClick={() => signIn()} className='px-4  py-1 rounded cursor-pointer bg-gray-400'>
+                    Sign in
                     </button>
                 </div>}
             </div>
@@ -46,4 +41,4 @@ function Center() {
   )
 }
 
-export default Center
+  export default Center;

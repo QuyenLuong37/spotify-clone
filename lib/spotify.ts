@@ -3,7 +3,7 @@ export const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 export const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
 export const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
 export const PLAYLISTS_ENDPOINT = 'https://api.spotify.com/v1/me/playlists';
-import SpotifyWebApi  from 'spotify-web-api-node';
+// import SpotifyWebApi  from 'spotify-web-api-node';
 
 // var spotifyApi = new SpotifyWebApi({
 //   clientId: 'fcecfc72172e4cd267473117a17cbd4d',
@@ -26,7 +26,6 @@ const getAccessToken = async (refresh_token: string) => {
         refresh_token,
       }),
     });
-  
     return response.json();
   };
 

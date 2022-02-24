@@ -5,7 +5,7 @@ import Center from '../components/Center'
 import Sidebar from '../components/Sidebar'
 
 const Home: NextPage = () => {
-  console.log('env: ', process.env.NEXTAUTH_URL)
+  // console.log('env: ', process.env.NEXTAUTH_URL)
   return (
     <div className='bg-black overflow-hidden h-screen'>
       <main className='flex'>
@@ -13,7 +13,7 @@ const Home: NextPage = () => {
         <Sidebar />
         {/* Center */}
         <div className='flex-grow'>
-        <Center />
+        <Center/>
         </div>
       </main>
 
@@ -25,3 +25,12 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+
+// export async function getServerSideProps() {
+//   // const res = await fetch('http://localhost:3000/api/playlists');
+//   // const playlists = await res.json();
+//   return {
+//     props: { playlists: []  },
+//   }
+// }
