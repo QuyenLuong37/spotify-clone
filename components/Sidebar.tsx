@@ -1,9 +1,19 @@
-import Image from 'next/image'
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SearchIcon, LibraryIcon, HeartIcon, PlusCircleIcon, RssIcon } from '@heroicons/react/outline';
 import { HomeIcon } from '@heroicons/react/solid';
+import useSpotify from '../hook/useSpotify';
+import { useSession } from 'next-auth/react';
 
 function Sidebar() {
+  const { data: session, status } = useSession()
+  const spotifyApi = useSpotify();
+  useEffect(() => {
+    if (spotifyApi.getAccessToken()) {
+      spotifyApi.getUserPlaylists().then(res => {
+      })
+    }
+  }, [session, spotifyApi])
+  
   return (
     <div className='p-6 w-60 text-sm text-gray-500 font-medium'>
       <div className='text-white'>

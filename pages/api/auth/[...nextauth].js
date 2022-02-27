@@ -22,7 +22,6 @@ async function refreshAccessToken(token) {
     })
 
     const refreshedTokens = await response.json()
-    console.log('refreshedTokens: ', refreshedTokens)
     if (!response.ok) {
       throw refreshedTokens
     }
@@ -34,8 +33,6 @@ async function refreshAccessToken(token) {
       refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
     }
   } catch (error) {
-    console.log(error)
-
     return {
       ...token,
       error: 'RefreshAccessTokenError',
@@ -47,7 +44,7 @@ export default NextAuth({
   providers: [
     SpotifyProvider({
       authorization:
-        'https://accounts.spotify.com/authorize?scope=user-read-email,playlist-read-private&show_dialog=true',
+        'https://accounts.spotify.com/authorize?scope=user-read-email,playlist-read-private,streaming,user-read-private,user-read-currently-playing,user-read-recently-played,user-read-playback-state&show_dialog=true',
       clientId: process.env.SPOTIFY_CLIENT_ID,
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
     }),
@@ -59,41 +56,26 @@ export default NextAuth({
     async jwt({ token, user, account }) {
       // Initial sign in
       if (account && user) {
-        const accessTokenExpires = Date.now() + account.expires_in * 1000
-        console.log('accessTokenExpires: ', accessTokenExpires)
-        console.log('account: ', account)
         return {
           accessToken: account.access_token,
-          accessTokenExpires: Date.now() + 60000,
+          accessTokenExpires: account.expires_at * 1000,
           refreshToken: account.refresh_token,
           user,
         }
       }
       // Return previous token if the access token has not expired yet
       if (Date.now() < token.accessTokenExpires) {
-        // console.log('previous token: ', token)
         return token
       }
-      console.log('het han')
-      return {
-        accessToken: null,
-        refreshToken: null,
-        user: null,
-        error: null,
-      }
-      // console.log('refreshAccessToken');
       // // Access token has expired, try to update it
-      // return refreshAccessToken(token)
+      return refreshAccessToken(token)
     },
     async session({ session, token }) {
-      if (token.accessToken) {
-        session.user = token.user
-        session.accessToken = token.accessToken
-        session.refreshToken = token.refreshToken
-        session.error = token.error
-        return session
-      }
-      return {}
+      session.user = token.user
+      session.accessToken = token.accessToken
+      session.refreshToken = token.refreshToken
+      session.error = token.error
+      return session
     },
   },
 })

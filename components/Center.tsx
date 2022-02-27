@@ -3,18 +3,15 @@ import { getProviders, signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
+import WebPlayback from './WebPlayback';
 
 function Center() {
-    const {data: session, status} = useSession();
-    console.log('session: ', session);
-    console.log('status: ', status);
+    const {data: session, status}: any = useSession();
     
   return (
     <div className='text-white bg-gray-900 h-full '>
         <header className='sticky  top-0  w-full px-3 py-4'>
             <div className='flex justify-between items-center'>
-                <ArrowCircleLeftIcon className='h-7 text-gray-400 cursor-pointer' />
-
                 {session && <button onClick={() => signOut()} className='px-4  py-1 rounded cursor-pointer bg-gray-400'>Sign out</button>}
                 
                 {!session && <div>
@@ -25,6 +22,7 @@ function Center() {
                 </div>}
             </div>
         </header>
+        {session && <WebPlayback accessToken={session.accessToken} /> }
         <div className='p-3'>
             <div>
                 <h2 className='text-2xl font-semibold'>Good afternoon</h2>
