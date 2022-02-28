@@ -18,8 +18,7 @@ function Sidebar() {
   const [playlists, setPlaylists]: any = useState([])
 
   const [playlistIdSelected, setplaylistId] = useRecoilState(playlistIdState)
-  const [isSelectSavedTrack, setSavedTrack] = useRecoilState(savedTrackState)
-  console.log('isSelectSavedTrack: ', isSelectSavedTrack)
+  // const [isSelectSavedTrack, setSavedTrack] = useRecoilState(savedTrackState)
   const spotifyApi = useSpotify()
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
@@ -62,7 +61,7 @@ function Sidebar() {
         </div>
 
         <div
-          onClick={() => setSavedTrack(true)}
+         
           className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white "
         >
             <HeartIcon className="h-5 w-5" />
@@ -80,7 +79,7 @@ function Sidebar() {
         {playlists.map((item) => {
           return (
             <p
-              onClick={() => setplaylistId(item.id)}
+              onClick={() => {setplaylistId(item.id)}}
               key={item.id}
               className="cursor-pointer transition duration-200 hover:text-white "
             >

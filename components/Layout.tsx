@@ -8,11 +8,11 @@ function Layout({ children }) {
   const { data: session }: any = useSession()
   return (
     <>
-      <main className="flex  h-screen">
+      <main className="flex">
         {/* Sidebar */}
         <Sidebar />
         {/* Center */}
-        <div className="h-full flex-grow bg-gray-900  ">
+        <div className="flex-grow bg-gray-900  ">
           <header className="absolute top-0 right-0 cursor-pointer p-2 text-white">
             <div className="flex items-center space-x-2 rounded-full bg-gray-900 p-2">
               <img

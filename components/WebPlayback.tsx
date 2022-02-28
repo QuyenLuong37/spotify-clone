@@ -20,24 +20,6 @@ function WebPlayback({ accessToken }) {
   const [current_track, setTrack] = useState(track)
   const spotifyApi = useSpotify()
   useEffect(() => {
-    spotifyApi.getMyCurrentPlaybackState().then(
-      (data) => {
-        console.log('getMyCurrentPlaybackState: ', data)
-      },
-      (err) => {
-        console.log('Something went wrong!', err)
-      }
-    )
-    spotifyApi.getMyDevices().then(
-      (data) => {
-        let availableDevices = data.body.devices
-        console.log('availableDevices: ', availableDevices)
-      },
-      (err) => {
-        console.log('Something went wrong!', err)
-      }
-    )
-
     const script = document.createElement('script')
     script.src = 'https://sdk.scdn.co/spotify-player.js'
     script.async = true
