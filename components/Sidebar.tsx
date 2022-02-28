@@ -1,22 +1,38 @@
-import React, { useEffect } from 'react';
-import { SearchIcon, LibraryIcon, HeartIcon, PlusCircleIcon, RssIcon } from '@heroicons/react/outline';
-import { HomeIcon } from '@heroicons/react/solid';
-import useSpotify from '../hook/useSpotify';
-import { useSession } from 'next-auth/react';
+import React, { useEffect, useState } from 'react'
+import {
+  SearchIcon,
+  LibraryIcon,
+  HeartIcon,
+  PlusCircleIcon,
+  RssIcon,
+} from '@heroicons/react/outline'
+import { HomeIcon } from '@heroicons/react/solid'
+import useSpotify from '../hook/useSpotify'
+import { useSession } from 'next-auth/react'
+import { useRecoilState } from 'recoil'
+import { playlistIdState, savedTrackState } from '../recoil/playlistAtom'
+import Link from 'next/link'
 
 function Sidebar() {
   const { data: session, status } = useSession()
-  const spotifyApi = useSpotify();
+  const [playlists, setPlaylists]: any = useState([])
+
+  const [playlistIdSelected, setplaylistId] = useRecoilState(playlistIdState)
+  const [isSelectSavedTrack, setSavedTrack] = useRecoilState(savedTrackState)
+  console.log('isSelectSavedTrack: ', isSelectSavedTrack)
+  const spotifyApi = useSpotify()
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
-      spotifyApi.getUserPlaylists().then(res => {
+      spotifyApi.getUserPlaylists().then((res) => {
+        console.log('res: ', res)
+        setPlaylists(res.body.items)
       })
     }
   }, [session, spotifyApi])
-  
+
   return (
-    <div className='p-6 w-60 text-sm text-gray-500 font-medium'>
-      <div className='text-white'>
+    <div className="w-60 bg-black p-6 text-sm font-medium text-gray-400">
+      <div className="text-white">
         <svg viewBox="0 0 1134 340" className="h-10 w-full max-w-[131px]">
           <title>Spotify</title>
           <path
@@ -26,48 +42,53 @@ function Sidebar() {
         </svg>
       </div>
 
-      <div className='mt-8 space-y-5'>
-        <div className="flex hover:text-white transition duration-200 items-center space-x-3 cursor-pointer ">
-            <HomeIcon className='h-5 w-5' />
-            <span className=''>Home</span>
+      <div className="mt-8 space-y-5">
+        <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
+          <HomeIcon className="h-5 w-5" />
+          <span className="">Home</span>
         </div>
-        <div className="flex hover:text-white transition duration-200 items-center space-x-3 cursor-pointer ">
-            <SearchIcon className='h-5 w-5' />
-            <span className=''>Search</span>
+        <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
+          <SearchIcon className="h-5 w-5" />
+          <span className="">Search</span>
         </div>
-        <div className="flex hover:text-white transition duration-200 items-center space-x-3 cursor-pointer ">
-            <LibraryIcon className='h-5 w-5' />
-            <span className=''>Your library</span>
+        <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
+          <LibraryIcon className="h-5 w-5" />
+          <span className="">Your library</span>
         </div>
-        <hr className='my-3 border-t-[0.1px] border-gray-900' />
-        <div className="flex items-center hover:text-white transition duration-200 space-x-3 cursor-pointer ">
-                <PlusCircleIcon className='h-5 w-5' />
-                <span className=''>Create Playlist</span>
-            </div>
+        <hr className="my-3 border-t-[0.1px] border-gray-900" />
+        <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
+          <PlusCircleIcon className="h-5 w-5" />
+          <span className="">Create Playlist</span>
+        </div>
 
-            <div className="flex items-center hover:text-white transition duration-200 space-x-3 cursor-pointer ">
-                <HeartIcon className='h-5 w-5' />
-                <span className=''>Liked Songs</span>
-            </div>
+        <div
+          onClick={() => setSavedTrack(true)}
+          className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white "
+        >
+            <HeartIcon className="h-5 w-5" />
+          <Link href="/playlist">
+            <span className="">Liked Songs</span>
+          </Link>
+        </div>
 
-            <div className="flex items-center hover:text-white transition duration-200 space-x-3 cursor-pointer ">
-                <RssIcon className='h-5 w-5' />
-                <span className=''>Your Episodes</span>
-            </div>
-            <hr className='my-3 border-t-[0.1px] border-gray-900' />
+        <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
+          <RssIcon className="h-5 w-5" />
+          <span className="">Your Episodes</span>
+        </div>
+        <hr className="my-3 border-t-[0.1px] border-gray-900" />
         {/* Playlist */}
-            <p className='cursor-pointer hover:text-white transition duration-200 '>Playlist 1</p>
-            <p className='cursor-pointer hover:text-white transition duration-200 '> Playlist 2</p>
-            <p className='cursor-pointer hover:text-white transition duration-200 '> Playlist 3</p>
-            <p className='cursor-pointer hover:text-white transition duration-200 '> Playlist 4</p>
-            <p className='cursor-pointer hover:text-white transition duration-200 '> Playlist 5</p>
-            <p className='cursor-pointer hover:text-white transition duration-200 '> Playlist 5</p>
-            <p className='cursor-pointer hover:text-white transition duration-200 '> Playlist 5</p>
+        {playlists.map((item) => {
+          return (
+            <p
+              onClick={() => setplaylistId(item.id)}
+              key={item.id}
+              className="cursor-pointer transition duration-200 hover:text-white "
+            >
+              <Link href="/playlist">{item.name}</Link>
+            </p>
+          )
+        })}
       </div>
-       
-
-
-        
     </div>
   )
 }

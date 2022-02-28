@@ -13,6 +13,7 @@ export async function middleware(req: any) {
   if (pathname.includes('/api/auth') || token) {
       return NextResponse.next()
     }
+    console.log('???????????????');
   if (!token || pathname !== '/login') {
     const url = req.nextUrl.clone()
     url.pathname = '/login'

@@ -38,18 +38,14 @@ function WebPlayback({ accessToken }) {
       }
     )
 
-    // const script = document.createElement('script')
-    // script.src = 'https://sdk.scdn.co/spotify-player.js'
-    // script.async = true
+    const script = document.createElement('script')
+    script.src = 'https://sdk.scdn.co/spotify-player.js'
+    script.async = true
 
-    // document.body.appendChild(script)
-  }, [])
-
-  const spotifySdkOnload = () => {
-      console.log('spotifySdkOnload');
-    (window as any).onSpotifyWebPlaybackSDKReady = async () => {
+    document.body.appendChild(script)
+    ;(window as any).onSpotifyWebPlaybackSDKReady = async () => {
       const player = new (window as any).Spotify.Player({
-        name: 'Web Playback SDK',
+        name: 'May cua Quyen',
         getOAuthToken: (cb) => {
           cb(accessToken)
         },
@@ -112,22 +108,17 @@ function WebPlayback({ accessToken }) {
         }
       })
     }
-  }
+  }, [])
 
   return (
     <div>
-        <Script
-          src="https://sdk.scdn.co/spotify-player.js"
-          onLoad={() => spotifySdkOnload()}
-        />
       {!is_active && (
         <>
           <div className="container">
             <div className="main-wrapper">
               <b>
-                {' '}
                 Instance not active. Transfer your playback using your Spotify
-                app{' '}
+                app
               </b>
             </div>
           </div>

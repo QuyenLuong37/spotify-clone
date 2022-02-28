@@ -1,24 +1,13 @@
 import type { NextPage } from 'next'
-import Center from '../components/Center'
-import Sidebar from '../components/Sidebar'
+import HomePage from '../components/HomePage'
+import Layout from '../components/Layout'
 
 const Home: NextPage = () => {
   // console.log('env: ', process.env.NEXTAUTH_URL)
   return (
-    <div className='bg-black overflow-hidden h-screen'>
-      <main className='flex  h-screen'>
-        {/* Sidebar */}
-        <Sidebar />
-        {/* Center */}
-        <div className='flex-grow'>
-        <Center/>
-        </div>
-      </main>
-
-      <div>
-        {/* Player */}
-      </div>
-    </div>
+     <Layout >
+       <HomePage />
+     </Layout>
   )
 }
 
