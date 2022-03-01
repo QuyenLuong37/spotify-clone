@@ -12,7 +12,7 @@ function Layout({ children }) {
         {/* Sidebar */}
         <Sidebar />
         {/* Center */}
-        <div className="flex-grow bg-gray-900  ">
+        <div className="bg-gray-900" style={{width: "calc(100vw - 256px)"}}>
           <header className="absolute top-0 right-0 cursor-pointer p-2 text-white">
             <div className="flex items-center space-x-2 rounded-full bg-gray-900 p-2">
               <img

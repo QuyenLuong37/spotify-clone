@@ -19,8 +19,8 @@ function WebPlayback({ accessToken }) {
   const [is_paused, setPaused] = useState(false)
   const [is_active, setActive] = useState(false)
   const [player, setPlayer]: any = useState(null)
-  const [current_track, setTrack] = useState(track)
-  const [currentTrackIsPlaying, setCurrentTrackIsPlaying] = useRecoilState(currentTrackIsPlayingState)
+  // const [current_track, setTrack] = useState(track)
+  const [current_track, setCurrentTrackIsPlaying]: any = useRecoilState(currentTrackIsPlayingState)
   
   const spotifyApi = useSpotify()
   useEffect(() => {
@@ -80,11 +80,12 @@ function WebPlayback({ accessToken }) {
         if (!state) {
           return
         }
-        setTrack(state.track_window.current_track)
+        // setTrack(state.track_window.current_track)
         setCurrentTrackIsPlaying({...state.track_window.current_track, paused: state.paused});
         setPaused(state.paused)
 
         player.getCurrentState().then((a) => {
+          console.log('getCurrentState: ', a);
           !state ? setActive(false) : setActive(true)
         })
       })

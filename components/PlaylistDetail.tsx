@@ -5,8 +5,9 @@ import React, { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import useSpotify from '../hook/useSpotify'
 import { currentTrackIsPlayingState } from '../recoil/currentTrackAtom'
-import { playlistIdState } from '../recoil/playlistAtom'
+import { playerState, playlistIdState } from '../recoil/playlistAtom'
 import { format } from 'date-fns';
+import { millisToMinutesAndSeconds } from '../untils/duration-to-time'
 
 function PlaylistDetail() {
   const { data: session, status }: any = useSession()
@@ -16,6 +17,7 @@ function PlaylistDetail() {
   const [trackSelected, setTrackSelected]: any = useState(null)
   const [ownerPlaylist, setOwnerPlaylist]: any = useState(null)
   const currentTrackIsPlaying: any = useRecoilValue(currentTrackIsPlayingState);
+  const player: any = useRecoilValue(playerState);
   console.log('currentTrackIsPlaying: ', currentTrackIsPlaying);
   useEffect(() => {
     if (playlistId) {
@@ -107,7 +109,7 @@ function PlaylistDetail() {
                         <>
                           <MusicNoteIcon className={((item?.track?.id === currentTrackIsPlaying?.id  || item?.track?.id === currentTrackIsPlaying?.linked_from?.id) && trackSelected !== item?.track?.id) ? 'h-6 text-green-500 group-hover:hidden' : 'hidden'} />
 
-                          <PauseIcon onClick={() => pausePlayback()} className={trackSelected === item?.track?.id ? 'group-hover:block h-7' : 'hidden group-hover:block h-7'} />
+                          <PauseIcon onClick={() => player?.pause()} className={trackSelected === item?.track?.id ? 'group-hover:block h-7' : 'hidden group-hover:block h-7'} />
                         </>
                       )}
                       {((item?.track?.id !== currentTrackIsPlaying?.id && item?.track?.id !== currentTrackIsPlaying?.linked_from?.id) || currentTrackIsPlaying?.paused === true) && (
@@ -126,11 +128,11 @@ function PlaylistDetail() {
                       </div>
                     </div>
                     <div className='text-sm'>{item?.track?.album?.name}</div>
-                    <div className='text-sm'>{format(new Date(item?.added_at), 'MMM, dd yyyy')}</div>
+                    <div className='text-sm'>{format(new Date(item?.added_at), 'MMM dd, yyyy')}</div>
                     <div className='text-sm flex justify-center'>
                       <div className="flex items-center">
                         <HeartIcon  className={trackSelected === item?.track?.id ? 'h-5 cursor-pointer mr-4' : 'hidden group-hover:block h-5 cursor-pointer mr-4'} />
-                        <div>{item?.track?.duration_ms}</div>
+                        <div>{millisToMinutesAndSeconds(item?.track?.duration_ms)}</div>
                         <DotsHorizontalIcon  className={trackSelected === item?.track?.id ? 'h-5 cursor-pointer ml-4' : 'hidden group-hover:block h-5 cursor-pointer ml-4'} />
                       </div>
                     </div>

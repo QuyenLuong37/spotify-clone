@@ -10,7 +10,7 @@ import { HomeIcon } from '@heroicons/react/solid'
 import useSpotify from '../hook/useSpotify'
 import { useSession } from 'next-auth/react'
 import { useRecoilState } from 'recoil'
-import { playlistIdState, savedTrackState } from '../recoil/playlistAtom'
+import { playlistIdState } from '../recoil/playlistAtom'
 import Link from 'next/link'
 
 function Sidebar() {
