@@ -2,7 +2,9 @@ import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Script from 'next/script'
 import React, { useState, useEffect } from 'react'
+import { useRecoilState } from 'recoil'
 import useSpotify from '../hook/useSpotify'
+import { currentTrackIsPlayingState } from '../recoil/currentTrackAtom'
 
 const track = {
   name: '',
@@ -18,6 +20,8 @@ function WebPlayback({ accessToken }) {
   const [is_active, setActive] = useState(false)
   const [player, setPlayer]: any = useState(null)
   const [current_track, setTrack] = useState(track)
+  const [currentTrackIsPlaying, setCurrentTrackIsPlaying] = useRecoilState(currentTrackIsPlayingState)
+  
   const spotifyApi = useSpotify()
   useEffect(() => {
     const script = document.createElement('script')
@@ -72,11 +76,12 @@ function WebPlayback({ accessToken }) {
       })
 
       player.addListener('player_state_changed', (state) => {
+        console.log('current_track: ', state)
         if (!state) {
           return
         }
-        console.log('player state change: ', state)
         setTrack(state.track_window.current_track)
+        setCurrentTrackIsPlaying({...state.track_window.current_track, paused: state.paused});
         setPaused(state.paused)
 
         player.getCurrentState().then((a) => {
