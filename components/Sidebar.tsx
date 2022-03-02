@@ -30,7 +30,7 @@ function Sidebar() {
   }, [session, spotifyApi])
 
   return (
-    <div className="w-60 bg-black p-6 text-sm font-medium text-gray-400">
+    <div className="h-screen w-60 bg-black p-6 text-sm font-medium text-gray-400">
       <div className="text-white">
         <svg viewBox="0 0 1134 340" className="h-10 w-full max-w-[131px]">
           <title>Spotify</title>

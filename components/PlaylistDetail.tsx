@@ -17,8 +17,7 @@ function PlaylistDetail() {
   const [trackSelected, setTrackSelected]: any = useState(null)
   const [ownerPlaylist, setOwnerPlaylist]: any = useState(null)
   const currentTrackIsPlaying: any = useRecoilValue(currentTrackIsPlayingState);
-  const player: any = useRecoilValue(playerState);
-  console.log('currentTrackIsPlaying: ', currentTrackIsPlaying);
+  // console.log('currentTrackIsPlaying: ', currentTrackIsPlaying);
   useEffect(() => {
     if (playlistId) {
       spotifyApi.getPlaylist(playlistId).then((res) => {
@@ -109,7 +108,7 @@ function PlaylistDetail() {
                         <>
                           <MusicNoteIcon className={((item?.track?.id === currentTrackIsPlaying?.id  || item?.track?.id === currentTrackIsPlaying?.linked_from?.id) && trackSelected !== item?.track?.id) ? 'h-6 text-green-500 group-hover:hidden' : 'hidden'} />
 
-                          <PauseIcon onClick={() => player?.pause()} className={trackSelected === item?.track?.id ? 'group-hover:block h-7' : 'hidden group-hover:block h-7'} />
+                          <PauseIcon onClick={() => pausePlayback()} className={trackSelected === item?.track?.id ? 'group-hover:block h-7' : 'hidden group-hover:block h-7'} />
                         </>
                       )}
                       {((item?.track?.id !== currentTrackIsPlaying?.id && item?.track?.id !== currentTrackIsPlaying?.linked_from?.id) || currentTrackIsPlaying?.paused === true) && (
