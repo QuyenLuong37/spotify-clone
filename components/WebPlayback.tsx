@@ -16,7 +16,7 @@ function WebPlayback({ accessToken }) {
   const [is_active, setActive] = useState(false)
   const [repeat_mode, setRepeatMode] = useState(0)
   const volumeLocal = localStorage.getItem('volume');
-  const [volume, setVolume] = useState(volumeLocal ? +volumeLocal : 0)
+  const [volume, setVolume] = useState(volumeLocal ? +volumeLocal : 0.5)
   const [player, setPlayer]: any = useState(null)
   const [position, setPosition] = useState(0);
   // const [current_track, setTrack] = useState(track)
@@ -62,14 +62,13 @@ function WebPlayback({ accessToken }) {
         }
         // console.log('current_track: ', state)
         const volume = localStorage.getItem('volume');
-        console.log('volume: ', volume);
         player.setVolume(volume ? +volume : .5).then(volume => {
-          console.log('volume acscas: ', volume);
         })
         setCurrentTrackIsPlaying({...state.track_window.current_track, paused: state.paused, duration: state.duration});
         setPaused(state.paused)
         setShuffle(state.shuffle);
         setRepeatMode(state.repeat_mode);
+        // player.seek(Math.floor(state.position / 1000))
         setPosition(state.position)
 
         player.getCurrentState().then((a) => {
@@ -85,17 +84,26 @@ function WebPlayback({ accessToken }) {
       })
     }
   }, [])
+
+  // useEffect(() => {
+  //   console.log('user effect position: ', position);
+  //   if (position && position <= current_track?.duration) {
+  //     player.seek(position)
+  //     console.log('new position: ', (Math.floor(position / 1000) + 1) * 1000);
+  //     // setPosition((Math.floor(position / 1000) + 1) * 1000)
+  //   }
+  // })
   
   let repeatIcon, volumeTmp;
   if (volume) {
     volumeTmp = <div className="flex items-center justify-end">
       <VolumeUpIcon className="h-5 mr-3 cursor-pointer" onClick={() => toggleVolume('off')} />
-      <Slider step={0.01}  value={volume} min={0} max={1} onChange={(e) => adjustVolume(e)} className="flex-grow w-36" />
+      <Slider tooltipVisible={false} step={0.01}  value={volume} min={0} max={1} onChange={(e) => adjustVolume(e)} className="flex-grow w-36" />
     </div>
   } else {
     volumeTmp = <div className="flex items-center justify-end">
       <VolumeOffIcon className="h-5 mr-3 cursor-pointer" onClick={() => toggleVolume('on')} />
-      <Slider step={0.01} value={volume} min={0} max={1} onChange={(e) => adjustVolume(e)} className="flex-grow w-36" />
+      <Slider tooltipVisible={false} step={0.01} value={volume} min={0} max={1} onChange={(e) => adjustVolume(e)} className="flex-grow w-36" />
     </div>
   }
 
@@ -109,6 +117,17 @@ function WebPlayback({ accessToken }) {
     repeatIcon = <RefreshIcon onClick={() => changeRepeatMode('context')} className="h-5 cursor-pointer" />
   }
 
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     setPosition(position + 1);
+  //   }, 1000);
+
+  //   if (position >= current_track?.duration) {
+  //     clearInterval();
+  //   }
+  // }, [position])
+
+
   const changeRepeatMode = (type: RepeatState) => {
     spotifyApi.setRepeat(type).then(res => {
       console.log('changeRepeatMode: ', res);
@@ -121,7 +140,7 @@ function WebPlayback({ accessToken }) {
   }
 
   const adjustVolume = (e) => {
-    console.log('set volume: ', e);
+    console.log('set : ', e);
     setVolume(e);
     localStorage.setItem('volume', e);
     player.setVolume(e);
@@ -129,27 +148,24 @@ function WebPlayback({ accessToken }) {
 
   const toggleVolume = (type: 'on' | 'off') => {
     if (type === 'on') {
-      localStorage.setItem('volume', "0.5");
       player.getVolume().then(volume => {
-        console.log('get volume: ', volume);
-        setVolume(0.5);
-        player.setVolume(.5);
+        setVolume(.4);
+        player.setVolume(.4);
+        localStorage.setItem('volume', '0.4');
       })
     } else {
-      localStorage.setItem('volume', "0");
       player.setVolume(0).then(res => {
-        console.log('setVolume: ', res);
         setVolume(0);
+        localStorage.setItem('volume', "0");
       })
     }
   }
 
   const setPositionPlayMusic = (position: number) => {
-    console.log('sdcdscdS: ', position)
     const duration = Math.floor(current_track.duration / 1000);
     if (position <= duration) {
-      setPosition(position + 1)
-      player.seek((position + 1) * 1000);
+      setPosition(position * 1000)
+      player.seek((position) * 1000);
     }
   }
 
