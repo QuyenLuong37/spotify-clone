@@ -3,7 +3,7 @@ export const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 export const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
 export const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
 export const PLAYLISTS_ENDPOINT = 'https://api.spotify.com/v1/me/playlists';
-import SpotifyWebApi  from 'spotify-web-api-node';
+export const MY_EPISODES_ENDPOINT = 'https://api.spotify.com/v1/me/episodes';
 
 
 const getAccessToken = async (refresh_token: string) => {
@@ -19,6 +19,15 @@ const getAccessToken = async (refresh_token: string) => {
       }),
     });
     return response.json();
+  };
+
+  export const getMySavedEpisodes = async (token: string) => {
+    // const {access_token} = await getAccessToken(refresh_token);
+    return fetch(MY_EPISODES_ENDPOINT, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   };
 
   export const getUsersPlaylists = async (refresh_token: string) => {
