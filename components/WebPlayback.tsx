@@ -19,7 +19,7 @@ function WebPlayback({ accessToken }) {
   const [volume, setVolume] = useState(volumeLocal ? +volumeLocal : 0.5)
   const [player, setPlayer]: any = useState(null)
   const [position, setPosition] = useState(0);
-  // const [current_track, setTrack] = useState(track)
+  // const [isSlideMoving, setIsSlideMoving] = useState(false)
   const [current_track, setCurrentTrackIsPlaying]: any = useRecoilState(currentTrackIsPlayingState)
   
   const spotifyApi = useSpotify()
@@ -85,14 +85,24 @@ function WebPlayback({ accessToken }) {
     }
   }, [])
 
-  // useEffect(() => {
-  //   console.log('user effect position: ', position);
-  //   if (position && position <= current_track?.duration) {
-  //     player.seek(position)
-  //     console.log('new position: ', (Math.floor(position / 1000) + 1) * 1000);
-  //     // setPosition((Math.floor(position / 1000) + 1) * 1000)
-  //   }
-  // })
+  useEffect(() => {
+    // exit early when we reach 0
+    if (current_track && current_track.paused ) {
+      setPosition(position);
+      return
+    };
+
+    // save intervalId to clear the interval when the
+    // component re-renders
+    const intervalId = setInterval(() => {
+      setPosition(position + 1000);
+    }, 1000);
+
+    // clear interval on re-render to avoid memory leaks
+    return () => clearInterval(intervalId);
+    // add timeLeft as a dependency to re-rerun the effect
+    // when we update it
+  }, [position]);
   
   let repeatIcon, volumeTmp;
   if (volume) {
@@ -160,12 +170,17 @@ function WebPlayback({ accessToken }) {
       })
     }
   }
-
+  
   const setPositionPlayMusic = (position: number) => {
-    const duration = Math.floor(current_track.duration / 1000);
+    setPosition(position)
+    console.log('setPositionPlayMusic: ', position);
+  }
+
+  const onAfterChangeSlider = (e) => {
+    console.log('onAfterChangeSlider: ', e);
+    const duration = current_track.duration;
     if (position <= duration) {
-      setPosition(position * 1000)
-      player.seek((position) * 1000);
+      player.seek(position);
     }
   }
 
@@ -214,7 +229,7 @@ function WebPlayback({ accessToken }) {
 
                 <div className="flex items-center space-x-2 mt-2">
                   <div>{millisToMinutesAndSeconds(position)}</div>
-                  <Slider value={Math.floor(position / 1000)} tooltipVisible={true} min={0} max={Math.floor(current_track?.duration / 1000) } className="flex-grow" defaultValue={30} onChange={(e) => setPositionPlayMusic(e)} />
+                  <Slider value={Math.round(position)} tooltipVisible={false} step={1000} min={0} max={Math.round(current_track?.duration) } className="flex-grow" defaultValue={0} onChange={(e) => setPositionPlayMusic(e)} onAfterChange={(e) => onAfterChangeSlider(e)} />
                   <div className="justify-self-end">{millisToMinutesAndSeconds(current_track?.duration)}</div>
                 </div>
               </div>
