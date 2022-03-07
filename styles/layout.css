@@ -1,0 +1,15 @@
+
+.nav-bar {
+    grid-area: nav-bar;
+}
+.main-view {
+    grid-area: main-view;
+}
+.now-playing-bar {
+    grid-area: now-playing-bar;
+}
+.layout {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr auto;
+    grid-template-areas: 'nav-bar main-view' 'now-playing-bar now-playing-bar';
+}

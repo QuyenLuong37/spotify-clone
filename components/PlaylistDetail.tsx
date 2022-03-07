@@ -8,6 +8,7 @@ import { currentTrackIsPlayingState } from '../recoil/currentTrackAtom'
 import { playerState, playlistIdState } from '../recoil/playlistAtom'
 import { format } from 'date-fns';
 import { millisToMinutesAndSeconds } from '../untils/duration-to-time'
+import Image from 'next/image'
 
 function PlaylistDetail() {
   const { data: session, status }: any = useSession()
@@ -70,6 +71,9 @@ function PlaylistDetail() {
               className="h-6 rounded-full"
               alt=""
             />
+            <div className='relative'>
+              {ownerPlaylist?.images?.[0]?.url && <Image src={ownerPlaylist?.images?.[0]?.url} layout="fill" className="rounded-full h-6" />} 
+              </div>
             <div className="flex items-center space-x-2 text-xs sm:text-sm">
               <span className="font-semibold text-white">
                 {playlist?.owner?.display_name}

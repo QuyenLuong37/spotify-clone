@@ -15,22 +15,21 @@ import Link from 'next/link'
 
 function Sidebar() {
   const { data: session, status } = useSession()
+  const spotifyApi = useSpotify()
   const [playlists, setPlaylists]: any = useState([])
 
   const [playlistIdSelected, setplaylistId] = useRecoilState(playlistIdState)
   // const [isSelectSavedTrack, setSavedTrack] = useRecoilState(savedTrackState)
-  const spotifyApi = useSpotify()
   useEffect(() => {
-    if (spotifyApi.getAccessToken()) {
+    if (session) {
       spotifyApi.getUserPlaylists().then((res) => {
-        console.log('res: ', res)
         setPlaylists(res.body.items)
       })
     }
   }, [session, spotifyApi])
 
   return (
-    <div className="h-screen w-60 bg-black p-6 text-sm font-medium text-gray-400">
+    <div className="w-60 bg-black p-6 text-sm font-medium text-gray-400">
       <div className="text-white">
         <svg viewBox="0 0 1134 340" className="h-10 w-full max-w-[131px]">
           <title>Spotify</title>

@@ -185,7 +185,7 @@ function WebPlayback({ accessToken }) {
   }
 
   return (
-    <div className="fixed bottom-0 right-0 left-0 text-gray-300 bg-gray-800">
+    <div className="text-gray-300 bg-gray-800">
           <div className="px-4 py-6">
             <div className="grid grid-cols-3 items-center">
               <div className="">
@@ -198,7 +198,7 @@ function WebPlayback({ accessToken }) {
 
                   <div className="">
                     <div>{current_track?.name}</div>
-                    <div className="text-gray-500 text-sm">
+                    <div className="text-gray-500 text-xs">
                       {current_track?.artists?.[0]?.name}
                     </div>
                   </div>

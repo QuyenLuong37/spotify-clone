@@ -1,3 +1,4 @@
+import { getSession } from 'next-auth/react';
 import React from 'react'
 
 function about() {
@@ -8,3 +9,15 @@ function about() {
 }
 
 export default about
+
+
+
+export async function getServerSideProps() {
+  const accessToken = await getSession();
+  console.log('accessToken: ', accessToken);
+  // const res = await getMySavedEpisodes();
+  // const playlists = await res.json();
+  return {
+    props: { playlists: []  },
+  }
+}

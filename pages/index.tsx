@@ -1,34 +1,16 @@
-import type { NextPage } from 'next'
-import { getSession } from 'next-auth/react'
+import type { NextPage, NextPageContext } from 'next'
+import { getSession, useSession } from 'next-auth/react'
 import HomePage from '../components/HomePage'
 import Layout from '../components/Layout'
+import { getMySavedEpisodes } from '../lib/spotify'
 
-const Home: NextPage = ({data}: any) => {
-  console.log('data: ', data)
-  return (
-     <Layout >
+const Home: NextPage = () => {
+  const { data: session, status } = useSession()
+  return <>
+    {session && <Layout >
        <HomePage />
-     </Layout>
-  )
+     </Layout>}
+  </>
 }
 
 export default Home
-
-
-export async function getStaticProps() {
-  const sesstion = await getSession();
-  console.log('sesstion: ', sesstion);
-  return {
-      props: {
-          data: []
-      }
-  }
-}
-
-// export async function getServerSideProps() {
-//   // const res = await fetch('http://localhost:3000/api/playlists');
-//   // const playlists = await res.json();
-//   return {
-//     props: { playlists: []  },
-//   }
-// }
