@@ -39,7 +39,7 @@ function PlaylistDetail() {
 
   const playTrackInPlaylist = (e, track, index) => {
     e.stopPropagation();
-    spotifyApi.play({context_uri: playlist?.uri, offset: {position: index}, position_ms: 10000}).then(res => {
+    spotifyApi.play({context_uri: playlist?.uri, offset: {position: index}, position_ms: 0}).then(res => {
       console.log('res: ', res);
     })
   }
@@ -71,9 +71,9 @@ function PlaylistDetail() {
               className="h-6 rounded-full"
               alt=""
             />
-            <div className='relative'>
+            {/* <div className='relative'>
               {ownerPlaylist?.images?.[0]?.url && <Image src={ownerPlaylist?.images?.[0]?.url} layout="fill" className="rounded-full h-6" />} 
-              </div>
+              </div> */}
             <div className="flex items-center space-x-2 text-xs sm:text-sm">
               <span className="font-semibold text-white">
                 {playlist?.owner?.display_name}

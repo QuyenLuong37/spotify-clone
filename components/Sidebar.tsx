@@ -17,10 +17,10 @@ function Sidebar() {
   const { data: session, status } = useSession()
   const spotifyApi = useSpotify()
   const [playlists, setPlaylists]: any = useState([])
-
   const [playlistIdSelected, setplaylistId] = useRecoilState(playlistIdState)
   // const [isSelectSavedTrack, setSavedTrack] = useRecoilState(savedTrackState)
   useEffect(() => {
+    console.log('Sidebar runn')
     if (session) {
       spotifyApi.getUserPlaylists().then((res) => {
         setPlaylists(res.body.items)
@@ -75,17 +75,19 @@ function Sidebar() {
         </div>
         <hr className="my-3 border-t-[0.1px] border-gray-900" />
         {/* Playlist */}
-        {playlists.map((item) => {
-          return (
-            <p
-              onClick={() => {setplaylistId(item.id)}}
-              key={item.id}
-              className="cursor-pointer transition duration-200 hover:text-white "
-            >
-              <Link href="/playlist">{item.name}</Link>
-            </p>
-          )
-        })}
+        <div className='overflow-auto space-y-5 h-[140px]'>
+          {playlists.map((item) => {
+            return (
+              <p
+                onClick={() => {setplaylistId(item.id)}}
+                key={item.id}
+                className="cursor-pointer transition duration-200 hover:text-white "
+              >
+                <Link href="/playlist">{item.name}</Link>
+              </p>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
