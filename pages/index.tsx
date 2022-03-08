@@ -5,12 +5,23 @@ import Layout from '../components/Layout'
 import { getMySavedEpisodes } from '../lib/spotify'
 
 const Home: NextPage = () => {
-  const { data: session, status } = useSession()
   return <>
-    {session && <Layout >
+    <Layout >
        <HomePage />
-     </Layout>}
+     </Layout>
   </>
 }
 
 export default Home
+
+
+// export const getServerSideProps = async (context) => {
+//   const sesstion: any = await getSession();
+//   const res = await getMySavedEpisodes(sesstion.accessToken);
+//   const data = await res.json();
+//   console.log('data: ', data);
+//   return {
+//     props: {}
+//   }
+// }
+

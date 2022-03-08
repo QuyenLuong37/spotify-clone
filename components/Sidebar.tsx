@@ -29,7 +29,7 @@ function Sidebar() {
   }, [session, spotifyApi])
 
   return (
-    <div className="w-60 bg-black p-6 text-sm font-medium text-gray-400">
+    <div className="w-60 h-screen bg-black p-6 text-sm font-medium text-gray-400 flex flex-col min-h-0">
       <div className="text-white">
         <svg viewBox="0 0 1134 340" className="h-10 w-full max-w-[131px]">
           <title>Spotify</title>
@@ -43,7 +43,7 @@ function Sidebar() {
       <div className="mt-8 space-y-5">
         <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
           <HomeIcon className="h-5 w-5" />
-          <span className="">Home</span>
+          <Link href="/">Home</Link>
         </div>
         <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
           <SearchIcon className="h-5 w-5" />
@@ -74,8 +74,12 @@ function Sidebar() {
           <span className="">Your Episodes</span>
         </div>
         <hr className="my-3 border-t-[0.1px] border-gray-900" />
+      </div>
+
+      
         {/* Playlist */}
-        <div className='overflow-auto space-y-5 h-[140px]'>
+        <div className='overflow-auto flex flex-col'>
+          <div className=" space-y-5">
           {playlists.map((item) => {
             return (
               <p
@@ -87,8 +91,8 @@ function Sidebar() {
               </p>
             )
           })}
+          </div>
         </div>
-      </div>
     </div>
   )
 }

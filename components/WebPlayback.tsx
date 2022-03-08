@@ -185,7 +185,7 @@ function WebPlayback({ accessToken }) {
   }
 
   return (
-            <div className="grid grid-cols-3 items-center text-white h-[90px] bg-[#181818] px-6">
+            <div className="grid grid-cols-3 gap-6 items-center text-white h-[90px] bg-[#181818] px-6">
                 <div className="flex items-center space-x-4">
                   <img
                       src={current_track?.album?.images?.[0]?.url}
@@ -194,12 +194,12 @@ function WebPlayback({ accessToken }) {
                     />
 
                   <div className="">
-                    <div>{current_track?.name}</div>
+                    <div className=''>{current_track?.name}</div>
                     <div className="text-gray-500 text-xs">
                       {current_track?.artists?.[0]?.name}
                     </div>
                   </div>
-                  <HeartIcon className="h-5" />
+                  <HeartIcon className="h-8" />
                 </div>
 
               <div className="">
