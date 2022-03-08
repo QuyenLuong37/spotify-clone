@@ -41,7 +41,7 @@ function HomePage() {
       )
   }
   const getFeaturedPlaylists = () => {
-    spotifyApi.getFeaturedPlaylists({ country: 'US', limit: 10 }).then(
+    spotifyApi.getFeaturedPlaylists({ country: 'VN', limit: 10 }).then(
       (data: any) => {
         setFeaturePlaylist(data?.body ?? {})
       },

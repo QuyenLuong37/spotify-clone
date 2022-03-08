@@ -87,16 +87,21 @@ function WebPlayback({ accessToken }) {
 
   useEffect(() => {
     // exit early when we reach 0
-    if (current_track && current_track.paused ) {
-      setPosition(position);
-      return
+    let intervalId;
+    if (current_track  ) {
+      if (current_track.paused) {
+        setPosition(position);
+        return
+      } else {
+        // save intervalId to clear the interval when the
+        // component re-renders
+        intervalId = setInterval(() => {
+          setPosition(position + 1000);
+        }, 1000);
+      }
     };
 
-    // save intervalId to clear the interval when the
-    // component re-renders
-    const intervalId = setInterval(() => {
-      setPosition(position + 1000);
-    }, 1000);
+    
 
     // clear interval on re-render to avoid memory leaks
     return () => clearInterval(intervalId);
@@ -194,12 +199,14 @@ function WebPlayback({ accessToken }) {
                     />
 
                   <div className="">
-                    <div className=''>{current_track?.name}</div>
+                    <div className='line-clamp-1'>{current_track?.name}</div>
                     <div className="text-gray-500 text-xs">
                       {current_track?.artists?.[0]?.name}
                     </div>
                   </div>
-                  <HeartIcon className="h-8" />
+                  <div>
+                  <HeartIcon className="h-5" />
+                  </div>
                 </div>
 
               <div className="">
@@ -226,7 +233,7 @@ function WebPlayback({ accessToken }) {
                 <div className="flex items-center space-x-2 mt-2">
                   <div>{millisToMinutesAndSeconds(position)}</div>
                   <Slider value={Math.round(position)} tooltipVisible={false} step={1000} min={0} max={Math.round(current_track?.duration) } className="flex-grow" defaultValue={0} onChange={(e) => setPositionPlayMusic(e)} onAfterChange={(e) => onAfterChangeSlider(e)} />
-                  <div className="justify-self-end">{millisToMinutesAndSeconds(current_track?.duration)}</div>
+                  <div className="justify-self-end">{current_track?.duration ? millisToMinutesAndSeconds(current_track?.duration) : ''}</div>
                 </div>
               </div>
 

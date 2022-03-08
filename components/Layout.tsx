@@ -1,12 +1,81 @@
 import { signOut, useSession } from 'next-auth/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import Sidebar from './Sidebar'
 import WebPlayback from './WebPlayback'
 import { Popover } from 'antd'
+import useSpotify from '../hook/useSpotify'
 
 function Layout({ children }) {
   const { data: session }: any = useSession()
+  const spotifyApi = useSpotify()
+
+  // useEffect(() => {
+  //   if (session) {
+
+  //     const script = document.createElement('script')
+  //     script.src = 'https://sdk.scdn.co/spotify-player.js'
+  //     script.async = true
+  
+  //     document.body.appendChild(script)
+  //     ;(window as any).onSpotifyWebPlaybackSDKReady = async () => {
+  //       const player = new (window as any).Spotify.Player({
+  //         name: 'May cua Quyen',
+  //         getOAuthToken: (cb) => {
+  //           cb(session.accessToken)
+  //         },
+  //         // volume: 0.5,
+  //       })
+  //       // setPlayer(player)
+  
+  //       player.addListener('ready', ({ device_id }) => {
+  //         console.log('Ready with Device ID', device_id)
+  //         spotifyApi.transferMyPlayback([device_id]).then(
+  //           (res) => {
+  //             console.log('transferMyPlayback: ', res)
+  //           },
+  //           (err) => {
+  //             //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
+  //             console.log('Something went wrong!', err)
+  //           }
+  //         )
+  //       })
+  
+  //       player.addListener('not_ready', ({ device_id }) => {
+  //         console.log('Device ID has gone offline', device_id)
+  //       })
+  
+  //       player.addListener('player_state_changed', (state) => {
+  //         if (!state) {
+  //           return
+  //         }
+  //         // console.log('current_track: ', state)
+  //         const volume = localStorage.getItem('volume');
+  //         player.setVolume(volume ? +volume : .5).then(volume => {
+  //         })
+  //         // setCurrentTrackIsPlaying({...state.track_window.current_track, paused: state.paused, duration: state.duration});
+  //         // setPaused(state.paused)
+  //         // setShuffle(state.shuffle);
+  //         // setRepeatMode(state.repeat_mode);
+  //         // // player.seek(Math.floor(state.position / 1000))
+  //         // setPosition(state.position)
+  
+  //         // player.getCurrentState().then((a) => {
+  //         //   !state ? setActive(false) : setActive(true)
+  //         // })
+  //       })
+  
+  
+  //       player.connect().then((success) => {
+  //         if (success) {
+  //           console.log('The Web Playback SDK successfully connected to Spotify!')
+  //         }
+  //       })
+  //     }
+  //   }
+  // }, [session])
+
+
   const profile = (
     <div>
       <p>Profile</p>
@@ -29,7 +98,7 @@ function Layout({ children }) {
           </div> */}
 
         <div className="main-view overflow-auto h-[calc(100vh-90px)] bg-gradient-to-r to-[#2e2e2e] from-[#121212]">
-          <header className="sticky top-0 cursor-pointer p-2 text-white bg-[#313131] flex justify-end">
+          <header className="sticky top-0 cursor-pointer p-2 text-white bg-[#313131] flex justify-end z-10">
           <Popover content={profile} title={null} trigger="click">
             <div className="flex items-center space-x-2 rounded-full  p-2 bg-[#545454]">
               <img

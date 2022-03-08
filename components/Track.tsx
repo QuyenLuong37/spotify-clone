@@ -12,6 +12,7 @@ function Track({ name, images, artist }) {
             layout="fill"
             className="rounded"
             objectFit="cover"
+            priority
           />
         </div>
         {/* <div className='absolute bottom-6 right-2 h-6'>
