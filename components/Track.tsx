@@ -4,8 +4,8 @@ import React from 'react'
 
 function Track({ name, images, artist }) {
   return (
-    <div className="cursor-pointer rounded bg-[#3b3b3b] p-4 shadow-lg transition duration-200 hover:bg-[#535353]">
-      <div className="group relative">
+    <div className="group  cursor-pointer rounded bg-[#3b3b3b] p-4 shadow-lg transition duration-200 hover:bg-[#535353]">
+      <div className="relative">
         <div className="relative mb-3 h-40 w-full">
           <Image
             src={images?.[0]?.url}
@@ -37,7 +37,7 @@ function Track({ name, images, artist }) {
       <Tooltip placement="top" title={name}>
         <div className="font-bold line-clamp-1">{name}</div>
       </Tooltip>
-      <div className="text-gray-400 line-clamp-2">{artist}</div>
+      <div className="text-gray-400 line-clamp-2 text-xs">{artist}</div>
     </div>
   )
 }

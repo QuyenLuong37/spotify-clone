@@ -5,10 +5,10 @@ import React, { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import useSpotify from '../hook/useSpotify'
 import { currentTrackIsPlayingState } from '../recoil/currentTrackAtom'
-import { playerState, playlistIdState } from '../recoil/playlistAtom'
+import { playlistIdState } from '../recoil/playlistAtom'
 import { format } from 'date-fns';
 import { millisToMinutesAndSeconds } from '../untils/duration-to-time'
-import Image from 'next/image'
+import MediaSummary from './MediaSummary'
 
 function PlaylistDetail() {
   const { data: session, status }: any = useSession()
@@ -56,7 +56,7 @@ function PlaylistDetail() {
   }
   return (
     <div className="text-white">
-      <section className="flex h-80 items-end space-x-4 bg-gradient-to-b from-red-500 to-black p-4">
+      {/* <section className="flex h-80 items-end space-x-4 bg-gradient-to-b from-red-500 to-black p-4">
         <img className="h-56" src={playlist?.images?.[0]?.url} alt="" />
         <div className="space-y-2">
           <div className="font-medium">Playlist</div>
@@ -71,9 +71,6 @@ function PlaylistDetail() {
               className="h-6 rounded-full"
               alt=""
             />
-            {/* <div className='relative'>
-              {ownerPlaylist?.images?.[0]?.url && <Image src={ownerPlaylist?.images?.[0]?.url} layout="fill" className="rounded-full h-6" />} 
-              </div> */}
             <div className="flex items-center space-x-2 text-xs sm:text-sm">
               <span className="font-semibold text-white">
                 {playlist?.owner?.display_name}
@@ -85,9 +82,9 @@ function PlaylistDetail() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <div className="">
+      <MediaSummary description={playlist?.description} followerCount={playlist?.followers?.total} name={playlist?.name} ownerImg={ownerPlaylist?.images?.[0]?.url} ownerName={playlist?.owner?.display_name} playlistImg={playlist?.images?.[0]?.url} trackCount={playlist?.tracks?.items?.length} fromColor={'#066552'} toColor={'#1f2937'} />      <div className="">
         <div className="px-8 py-6">
           <div onClick={() => playPlayList()} className="cursor-pointer w-12 h-12 p-3 transition duration-150 transform hover:scale-110 text-white rounded-full bg-green-400 flex items-center justify-center">
             <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M4.018 14L14.41 8 4.018 2z"></path></svg>

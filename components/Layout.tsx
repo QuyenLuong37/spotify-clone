@@ -1,5 +1,5 @@
 import { signOut, useSession } from 'next-auth/react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import Sidebar from './Sidebar'
 import WebPlayback from './WebPlayback'
@@ -9,6 +9,30 @@ import useSpotify from '../hook/useSpotify'
 function Layout({ children }) {
   const { data: session }: any = useSession()
   const spotifyApi = useSpotify()
+
+  const prevScrollY = useRef(0);
+
+  const [goingUp, setGoingUp] = useState(false);
+  
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (prevScrollY.current < currentScrollY && goingUp) {
+        setGoingUp(false);
+      }
+      if (prevScrollY.current > currentScrollY && !goingUp) {
+        setGoingUp(true);
+      }
+
+      prevScrollY.current = currentScrollY;
+      console.log(goingUp, currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [goingUp]);
 
   // useEffect(() => {
   //   if (session) {
@@ -97,8 +121,8 @@ function Layout({ children }) {
           
           </div> */}
 
-        <div className="main-view overflow-auto h-[calc(100vh-90px)] bg-gradient-to-r to-[#2e2e2e] from-[#121212]">
-          <header className="sticky top-0 cursor-pointer p-2 text-white bg-[#313131] flex justify-end z-10">
+        <div className="main-view overflow-auto h-[calc(100vh-90px)] bg-gradient-to-r to-[#2e2e2e] from-[#2e2e2e]">
+          <header className="sticky top-0 cursor-pointer p-2 text-white bg-[#2e2e2e] flex justify-end z-10 shadow-sm">
           <Popover content={profile} title={null} trigger="click">
             <div className="flex items-center space-x-2 rounded-full  p-2 bg-[#545454]">
               <img

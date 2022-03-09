@@ -13,6 +13,11 @@ function HomePage() {
   const [featurePlaylist, setFeaturePlaylist] = useState({})
   const [newRelease, setNewRelease] = useState({})
   const [savedShows, setSavedShows] = useState([])
+  // const [categories, setCategories] = useState([])
+
+  // const getCategories = () => {
+
+  // }
 
   const getMyShows = () => {
     spotifyApi.getMySavedShows({ limit: 6 }).then(
