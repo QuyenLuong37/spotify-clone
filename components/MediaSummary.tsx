@@ -16,7 +16,7 @@ function MediaSummary({
   if (trackCount || trackCount === 0) {
     trackCountUI = <>
       <span> - </span>
-      <span>{trackCount} likes</span>
+      <span>{trackCount === 1 ? trackCount + ' song' : trackCount + ' songs'}</span>
     </>
   } else {
     trackCountUI = null;
