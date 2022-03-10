@@ -24,7 +24,7 @@ function MediaSummary({
   if (followerCount || followerCount === 0) {
     followerCountUI = <>
       <span> - </span>
-      <span>{followerCount} likes</span>
+      <span>{followerCount === 1 ? followerCount + ' like' : followerCount + ' likes'} </span>
     </>
   } else {
     followerCountUI = null;
