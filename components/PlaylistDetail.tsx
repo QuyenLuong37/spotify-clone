@@ -84,7 +84,7 @@ function PlaylistDetail() {
         </div>
       </section> */}
 
-      <MediaSummary description={playlist?.description} followerCount={playlist?.followers?.total} name={playlist?.name} ownerImg={ownerPlaylist?.images?.[0]?.url} ownerName={playlist?.owner?.display_name} playlistImg={playlist?.images?.[0]?.url} trackCount={playlist?.tracks?.items?.length} fromColor={'#066552'} toColor={'#1f2937'} />      <div className="">
+      <MediaSummary description={playlist?.description} followerCount={playlist?.followers?.total} name={playlist?.name} ownerImg={ownerPlaylist?.images?.[0]?.url} ownerName={playlist?.owner?.display_name} playlistImg={playlist?.images?.[0]?.url} trackCount={playlist?.tracks?.items?.length} fromColor={'#066552'} toColor={'#1f2937'} type={'liked'} />      <div className="">
         <div className="px-8 py-6">
           <div onClick={() => playPlayList()} className="cursor-pointer w-12 h-12 p-3 transition duration-150 transform hover:scale-110 text-white rounded-full bg-green-400 flex items-center justify-center">
             <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M4.018 14L14.41 8 4.018 2z"></path></svg>
@@ -144,7 +144,7 @@ function PlaylistDetail() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between">
+      {/* <div className="flex items-center justify-between">
         {session && (
           <button
             onClick={() => signOut()}
@@ -164,7 +164,7 @@ function PlaylistDetail() {
             </button>
           </div>
         )}
-      </div>
+      </div> */}
 {/*       
       <div className="p-3">
         <div>
