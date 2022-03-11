@@ -33,14 +33,18 @@ function search() {
     }
   return (
     <Layout>
-        <div className='text-white p-6'>
+        <div className='flex flex-col space-y-5 text-white p-6'>
             <Input value={search} onChange={(e) => handleSearch(e.target.value)} placeholder='Type your search....' />
-            <div className="grid grid-cols-4 md:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6">
-                {categories && categories.length && categories.map((item: any, index: number) => {
-                    return (
-                        <Genres name={item?.name} image={item?.icons?.[0]?.url} key={index} />
-                    )
-                })}
+            <div>
+                <h3 className='text-xl font-bold text-white mb-2'>Browse All</h3>
+                <div className="grid grid-cols-4 md:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6">
+                    {categories && categories.length && categories.map((item: any, index: number) => {
+                        return (
+                            <Genres name={item?.name} image={item?.icons?.[0]?.url} key={index} />
+                        )
+                    })}
+                </div>
+
             </div>
         </div>
     </Layout>
