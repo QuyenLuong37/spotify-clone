@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React from 'react'
+import React, { useRef } from 'react'
 
 function MediaSummary({
   playlistImg,
@@ -22,9 +22,9 @@ function MediaSummary({
       playlistImgUI = <img className="" src={playlistImg} alt="" />
       break;
     case 'episode':
-      playlistImgUI = `<div className="p-10 bg-[#066552] h-[232px] shadow-lg rounded">
+      playlistImgUI = <div className="p-[4.5rem] w-full bg-[#066552] h-[232px] shadow-lg rounded">
       <div className='h-full bg-cover bg-no-repeat bg-[url("/episode.svg")]'></div>
-    </div>`
+    </div>
       break;
     case 'liked':
       playlistImgUI = <div className='relative h-[232px]'>
@@ -32,7 +32,7 @@ function MediaSummary({
       </div>
       break;
     default:
-      playlistImgUI = <div className="p-[4.5rem] bg-[#282828] h-[232px] shadow-lg rounded">
+      playlistImgUI = <div className="p-[4.5rem] w-full bg-[#282828] h-[232px] shadow-lg rounded">
       <div className='h-full bg-cover bg-no-repeat bg-[url("/default.svg")]'></div>
     </div>
       break;
@@ -56,18 +56,13 @@ function MediaSummary({
   }
 
   return (
-      <div className="grid grid-cols-[minmax(200px,232px)_1fr] gap-x-4 h-80 items-end space-x-4 bg-gradient-to-b from-[#066552] to-gray-800 p-4">
-        <div>
+      <div className="grid grid-cols-[minmax(200px,232px)_1fr] gap-x-4 h-80 items-end space-x-4 bg-gradient-to-b from-[#066552] to-gray-800 p-6">
+        <div className='rounded'>
           {playlistImgUI}
-          {/* <img className="" src={playlistImg} alt="" /> */}
-
-          {/* <div className="p-10 bg-[#066552] h-[232px] shadow-lg rounded">
-            <div className='h-full bg-cover bg-no-repeat bg-[url("/episode.svg")]'></div>
-          </div> */}
         </div>
         <div className="space-y-4">
           <div className="font-medium uppercase">Playlist</div>
-          <div className="text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
+          <div className="text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
             {name}
           </div>
           <div className="flex flex-col">

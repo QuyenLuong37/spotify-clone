@@ -3,36 +3,35 @@ import React, { useEffect, useRef, useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import Sidebar from './Sidebar'
 import WebPlayback from './WebPlayback'
-import { Popover } from 'antd'
+import { Dropdown, Menu, Popover } from 'antd'
 import useSpotify from '../hook/useSpotify'
 
 function Layout({ children }) {
   const { data: session }: any = useSession()
   const spotifyApi = useSpotify()
 
-  const prevScrollY = useRef(0);
+  const prevScrollY = useRef(0)
 
-  const [goingUp, setGoingUp] = useState(false);
-  
+  const [goingUp, setGoingUp] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+      const currentScrollY = window.scrollY
       if (prevScrollY.current < currentScrollY && goingUp) {
-        setGoingUp(false);
+        setGoingUp(false)
       }
       if (prevScrollY.current > currentScrollY && !goingUp) {
-        setGoingUp(true);
+        setGoingUp(true)
       }
 
-      prevScrollY.current = currentScrollY;
-      console.log(goingUp, currentScrollY);
-    };
+      prevScrollY.current = currentScrollY
+      console.log(goingUp, currentScrollY)
+    }
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [goingUp]);
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [goingUp])
 
   // useEffect(() => {
   //   if (session) {
@@ -40,7 +39,7 @@ function Layout({ children }) {
   //     const script = document.createElement('script')
   //     script.src = 'https://sdk.scdn.co/spotify-player.js'
   //     script.async = true
-  
+
   //     document.body.appendChild(script)
   //     ;(window as any).onSpotifyWebPlaybackSDKReady = async () => {
   //       const player = new (window as any).Spotify.Player({
@@ -51,7 +50,7 @@ function Layout({ children }) {
   //         // volume: 0.5,
   //       })
   //       // setPlayer(player)
-  
+
   //       player.addListener('ready', ({ device_id }) => {
   //         console.log('Ready with Device ID', device_id)
   //         spotifyApi.transferMyPlayback([device_id]).then(
@@ -64,11 +63,11 @@ function Layout({ children }) {
   //           }
   //         )
   //       })
-  
+
   //       player.addListener('not_ready', ({ device_id }) => {
   //         console.log('Device ID has gone offline', device_id)
   //       })
-  
+
   //       player.addListener('player_state_changed', (state) => {
   //         if (!state) {
   //           return
@@ -83,13 +82,12 @@ function Layout({ children }) {
   //         // setRepeatMode(state.repeat_mode);
   //         // // player.seek(Math.floor(state.position / 1000))
   //         // setPosition(state.position)
-  
+
   //         // player.getCurrentState().then((a) => {
   //         //   !state ? setActive(false) : setActive(true)
   //         // })
   //       })
-  
-  
+
   //       player.connect().then((success) => {
   //         if (success) {
   //           console.log('The Web Playback SDK successfully connected to Spotify!')
@@ -99,16 +97,25 @@ function Layout({ children }) {
   //   }
   // }, [session])
 
-
   const profile = (
     <div>
       <p>Profile</p>
       <p onClick={() => signOut()}>Sign out</p>
     </div>
-  );
+  )
   if (!session) {
     return null
   }
+  const menu = (
+    <Menu>
+      <Menu.Item key="0">
+        <p >Profile</p>
+      </Menu.Item>
+      <Menu.Item key="1">
+      <p onClick={() => signOut()}>Sign out</p>
+      </Menu.Item>
+    </Menu>
+  );
   return (
     <>
       <div className="layout grid">
@@ -121,23 +128,22 @@ function Layout({ children }) {
           
           </div> */}
 
-        <div className="main-view overflow-auto h-[calc(100vh-90px)] bg-gradient-to-r to-[#2e2e2e] from-[#2e2e2e]">
-          <header className="sticky top-0 cursor-pointer p-2 text-white bg-[#2e2e2e] flex justify-end z-10 shadow-sm">
-          <Popover content={profile} title={null} trigger="click">
-            <div className="flex items-center space-x-2 rounded-full  p-2 bg-[#545454]">
-              <img
-                src={session?.user?.image}
-                className="h-7 rounded-full"
-                alt=""
-              />
-              <span className="text-sm font-bold">{session?.user?.name}</span>
-              <ChevronDownIcon className="h-6" />
-            </div>
-          </Popover>
+        <div className="main-view h-[calc(100vh-90px)] overflow-auto bg-gradient-to-r from-[#2e2e2e] to-[#2e2e2e]">
+          <header className="sticky top-0 z-10 flex cursor-pointer justify-end bg-[#2e2e2e] p-4 text-white shadow-sm">
+            <Dropdown overlay={menu} trigger={['click']}>
+              <div className="flex items-center space-x-2 rounded-3xl  bg-[#545454] h-10 px-2">
+                <img
+                  src={session?.user?.image}
+                  className="h-7 rounded-full"
+                  alt=""
+                />
+                <span className="text-sm font-bold">{session?.user?.name}</span>
+                <ChevronDownIcon className="h-6" />
+              </div>
+            </Dropdown>
+            
           </header>
-          <div className='p-6'>
-          {{ ...children }}
-            </div>
+          <div className="">{{ ...children }}</div>
         </div>
 
         <div className="now-playing-bar sticky bottom-0 left-0 right-0">

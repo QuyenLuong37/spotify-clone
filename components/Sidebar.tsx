@@ -29,7 +29,7 @@ function Sidebar() {
   }, [session, spotifyApi])
 
   return (
-    <div className="w-60 h-screen bg-black p-6 text-sm font-medium text-gray-400 flex flex-col min-h-0">
+    <div className="flex h-screen min-h-0 w-60 flex-col bg-black p-6 text-sm font-medium text-gray-400">
       <div className="text-white">
         <svg viewBox="0 0 1134 340" className="h-10 w-full max-w-[131px]">
           <title>Spotify</title>
@@ -42,8 +42,12 @@ function Sidebar() {
 
       <div className="mt-8 space-y-5">
         <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
-          <HomeIcon className="h-5 w-5" />
-          <Link href="/">Home</Link>
+          <Link href="/">
+            <div className="flex items-center space-x-3">
+              <HomeIcon className="h-5 w-5" />
+              <span className="">Home</span>
+            </div>
+          </Link>
         </div>
         <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
           <SearchIcon className="h-5 w-5" />
@@ -55,44 +59,54 @@ function Sidebar() {
         </div>
         <hr className="my-3 border-t-[0.1px] border-gray-900" />
         <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
-          <PlusCircleIcon className="h-5 w-5" />
-          <span className="">Create Playlist</span>
-        </div>
-
-        <div
-         
-          className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white "
-        >
-            <HeartIcon className="h-5 w-5" />
           <Link href="/playlist">
-            <span className="">Liked Songs</span>
+            <div className="flex items-center space-x-3">
+              <PlusCircleIcon className="h-5 w-5" />
+              <span className="">Create Playlist</span>
+            </div>
           </Link>
         </div>
 
         <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
-          <RssIcon className="h-5 w-5" />
-          <span className="">Your Episodes</span>
+          <Link href="/collection/tracks">
+            <div className="flex items-center space-x-3">
+              <HeartIcon className="h-5 w-5" />
+              <span className="">Liked Songs</span>
+            </div>
+          </Link>
+        </div>
+
+        <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
+          <Link href="/episodes">
+            <div className="flex items-center space-x-3">
+              <RssIcon className="h-5 w-5" />
+              <span className="">Your Episodes</span>
+            </div>
+          </Link>
         </div>
         <hr className="my-3 border-t-[0.1px] border-gray-900" />
       </div>
 
-      
-        {/* Playlist */}
-        <div className='overflow-auto flex flex-col'>
-          <div className=" space-y-5">
+      {/* Playlist */}
+      <div className="flex flex-col overflow-auto mt-5">
+        <div className=" space-y-5">
           {playlists.map((item) => {
             return (
-              <p
-                onClick={() => {setplaylistId(item.id)}}
+              <div
+                onClick={() => {
+                  setplaylistId(item.id)
+                }}
                 key={item.id}
                 className="cursor-pointer transition duration-200 hover:text-white "
               >
-                <Link href="/playlist">{item.name}</Link>
-              </p>
+                <Link href="/playlist">
+                  <span>{item.name}</span>  
+                </Link>
+              </div>
             )
           })}
-          </div>
         </div>
+      </div>
     </div>
   )
 }
