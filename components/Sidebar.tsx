@@ -50,8 +50,12 @@ function Sidebar() {
           </Link>
         </div>
         <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
-          <SearchIcon className="h-5 w-5" />
-          <span className="">Search</span>
+        <Link href="/search">
+            <div className="flex items-center space-x-3">
+              <SearchIcon className="h-5 w-5" />
+              <span className="">Search</span>
+            </div>
+          </Link>
         </div>
         <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
           <LibraryIcon className="h-5 w-5" />

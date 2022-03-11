@@ -3,8 +3,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import Sidebar from './Sidebar'
 import WebPlayback from './WebPlayback'
-import { Dropdown, Menu, Popover } from 'antd'
+import { Button, Dropdown, Menu, Popover } from 'antd'
 import useSpotify from '../hook/useSpotify'
+import { LeftOutlined } from '@ant-design/icons';
+import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/outline'
 
 function Layout({ children }) {
   const { data: session }: any = useSession()
@@ -129,7 +131,18 @@ function Layout({ children }) {
           </div> */}
 
         <div className="main-view h-[calc(100vh-90px)] overflow-auto bg-gradient-to-r from-[#2e2e2e] to-[#2e2e2e]">
-          <header className="sticky top-0 z-10 flex cursor-pointer justify-end bg-[#2e2e2e] p-4 text-white shadow-sm">
+          <header className="sticky top-0 z-10 flex cursor-pointer justify-between bg-[#2e2e2e] p-4 text-white shadow-sm">
+
+            <div className="flex  space-x-3">
+              <div onClick={() => window.history.back()} className="h-8 w-8 rounded-full flex justify-center items-center bg-gray-900 transition duration-200 hover:bg-black">
+                <ChevronLeftIcon className='h-5' />
+              </div>
+
+              <div onClick={() => window.history.forward()} className="h-8 w-8 rounded-full flex justify-center items-center bg-gray-900 transition duration-200 hover:bg-black">
+                <ChevronRightIcon className='h-5' />
+              </div>
+            </div>
+
             <Dropdown overlay={menu} trigger={['click']}>
               <div className="flex items-center space-x-2 rounded-3xl  bg-[#545454] h-10 px-2">
                 <img
@@ -146,17 +159,10 @@ function Layout({ children }) {
           <div className="">{{ ...children }}</div>
         </div>
 
-        <div className="now-playing-bar sticky bottom-0 left-0 right-0">
-          <WebPlayback accessToken={session.accessToken} />
-        </div>
-
-        {/* <div className="bg-gray-900" style={{width: "calc(100vw - 241px)"}}>
-
+        {/* <div className="now-playing-bar sticky bottom-0 left-0 right-0">
           <WebPlayback accessToken={session.accessToken} />
         </div> */}
       </div>
-
-      <div>{/* Player */}</div>
     </>
   )
 }
