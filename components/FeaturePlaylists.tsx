@@ -9,7 +9,7 @@ function FeaturePlaylists({featurePlaylist}) {
             <div className='grid grid-cols-4 md:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
                     {featurePlaylist?.playlists?.items?.map((item, index) => {
                         return (
-                            <Track key={index} name={item?.name} images={item?.images} artist={item?.description} />
+                            <Track key={index} id={item?.id} name={item?.name} images={item?.images} artist={item?.description}  type={item?.type} />
                         )
                     })}
                 </div>

@@ -10,7 +10,7 @@ function NewRelease({newRelease}) {
                 <div className='grid grid-cols-4 md:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
                     {newRelease?.map((item, index) => {
                         return (
-                            <Track key={index} name={item?.name} images={item?.images} artist={item?.artists?.[0]?.name} />
+                            <Track key={index} id={item?.id} name={item?.name} images={item?.images} artist={item?.artists?.[0]?.name} type={item?.type} />
                         )
                     })}
                 </div>

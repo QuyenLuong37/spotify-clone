@@ -156,7 +156,7 @@ function Layout({ children }) {
             </Dropdown>
             
           </header>
-          <div className="">{{ ...children }}</div>
+          <div className="pb-6">{{ ...children }}</div>
         </div>
 
         {/* <div className="now-playing-bar sticky bottom-0 left-0 right-0">

@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { useSession } from 'next-auth/react';
 import Genres from '../components/Genres';
 import Track from '../components/Track';
+import { useRouter } from 'next/router';
 function search() {
     const spotifyApi = useSpotify();
     const { data: session } = useSession();
@@ -13,26 +14,37 @@ function search() {
     const [searchResult, setSearchResult] = useState({});
     const [genres, setGenres] = useState([]);
     const [categories, setCategories] = useState([]);
-    console.log('categories: ', categories);
+    const router = useRouter()
+    
+    console.log('queyry params: ', router.query);
+    useEffect(() => {
+        const {query} = router.query;
+        if (query) {
+            setSearchInput(query as string);
+            debounceDropDown(query);
+        }
+    }, [router.query])
     
     useEffect(() => {
         if (session) {
             spotifyApi.getCategories({limit: 50, country: 'VN'}).then((res: any) => {
                 setCategories(res?.body?.categories?.items ?? []);
-                console.log('categories: ', res?.body?.categories?.items);
             })
         }
     }, [session])
     const debounceDropDown = useCallback(_.debounce((val) => {
         spotifyApi.search(val, ['track', 'album', 'episode', 'show', 'artist', 'playlist'], {market: 'VN', include_external: 'audio', limit: 10}).then(res => {
-            console.log('search res: ', res);
+            console.log('resss: ', res);
             setSearchResult(res.body);
         })
     }, 1000), [])
     
     const handleSearch = (value) => {
+        router.push('/search', {query: {query: encodeURI(value)}, })
         setSearchInput(value);
-        debounceDropDown(value);
+        if (value) {
+            debounceDropDown(value);
+        }
     }
   return (
     <Layout>
@@ -61,9 +73,9 @@ function search() {
                             <div className='grid grid-cols-4 md:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
                                 {searchResult?.[key]?.items?.map((item, i) => {
                                     if (key === 'tracks') {
-                                        return  <Track key={i} name={item?.name} images={item?.album?.images} artist={item?.artists?.[0]?.name} />
+                                        return  <Track key={i} id={item?.id} name={item?.name} images={item?.album?.images} artist={item?.artists?.[0]?.name} type={item?.type} />
                                     }
-                                    return  <Track key={i} name={item?.name} images={item?.images} artist={item?.artists?.[0]?.name} />
+                                    return  <Track key={i} id={item?.id} name={item?.name} images={item?.images} artist={item?.artists?.[0]?.name} type={item?.type} />
                                 })}
                             </div>
 
@@ -77,3 +89,4 @@ function search() {
 }
 
 export default search
+

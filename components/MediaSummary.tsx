@@ -18,6 +18,7 @@ function MediaSummary({
   let playlistImgUI;
   
   switch (type) {
+    case 'album':
     case 'playlist':
       playlistImgUI = <img className="" src={playlistImg} alt="" />
       break;
@@ -60,13 +61,13 @@ function MediaSummary({
         <div className='rounded'>
           {playlistImgUI}
         </div>
-        <div className="space-y-4">
-          <div className="font-medium uppercase">Playlist</div>
+        <div className="space-y-3">
+          <div className="font-medium uppercase">{type}</div>
           <div className="text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
             {name}
           </div>
-          <div className="flex flex-col">
-            <div className="text-sm text-gray-400">{description} </div>
+          <div className="flex flex-col space-y-3">
+            <div className="text-sm font-medium text-gray-400">{description} </div>
             <div className="flex space-x-2 text-gray- mb-1">
               {ownerImg && (
                 <img src={ownerImg} className="h-6 rounded-full" alt="" />

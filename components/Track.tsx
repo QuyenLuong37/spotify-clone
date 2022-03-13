@@ -1,44 +1,58 @@
 import { Button, Tooltip } from 'antd'
 import Image from 'next/image'
+import Link from 'next/link';
 import React from 'react'
 
-function Track({ name, images, artist }) {
-  return (
-    <div className="group  cursor-pointer rounded bg-[#3b3b3b] p-4 shadow-lg transition duration-200 hover:bg-[#535353]">
-      <div className="relative">
-        <div className="relative mb-3 h-40 w-full">
-          <Image
-            src={images?.[0]?.url}
-            layout="fill"
-            className="rounded"
-            objectFit="cover"
-            priority
-          />
-        </div>
-        {/* <div className='absolute bottom-6 right-2 h-6'>
-                <Button className='p-2 w-10 h-10'  shape="circle" icon={ <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M4.018 14L14.41 8 4.018 2z"></path>
-                    </svg>} />
-
-            </div> */}
-        <button className="absolute bottom-2 right-2 hidden h-11 w-11 transform rounded-full bg-green-500 p-2 shadow-sm transition duration-200 hover:scale-105 group-hover:block">
-          <svg
-            viewBox="0 0 16 16"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="#fff"
-            height="100%"
-            width="100%"
-            preserveAspectRatio="xMidYMid meet"
-            focusable="false"
-          >
-            <path d="M4.018 14L14.41 8 4.018 2z"></path>
-          </svg>
-        </button>
-      </div>
-      <Tooltip placement="top" title={name}>
-        <div className="font-bold line-clamp-1">{name}</div>
-      </Tooltip>
-      <div className="text-gray-400 line-clamp-2 text-xs">{artist}</div>
+function Track({ name, images, artist, type, id }) {
+  let img;
+  if (images?.[0]?.url) {
+    img = <Image
+      src={images?.[0]?.url}
+      layout="fill"
+      className="rounded"
+      objectFit="cover"
+      priority
+      objectPosition='center'
+    />
+  } else {
+    img = <div className="h-full p-8">
+      <div className='h-full bg-cover bg-center bg-no-repeat bg-[url("/default.svg")]'></div>
     </div>
+  }
+  return (
+    <Link href={`/${type}/${id}`}>
+      <div className="group  cursor-pointer rounded bg-[#3b3b3b] p-4 pb-8 shadow-lg transition duration-200 hover:bg-[#535353]">
+        <div className="relative">
+          <div className="relative mb-3 w-full h-40">
+            {/* <Image
+              src={images?.[0]?.url}
+              layout="fill"
+              className="rounded"
+              objectFit="cover"
+              priority
+            /> */}
+            {img}
+          </div>
+          <button className="absolute bottom-2 right-2 hidden h-11 w-11 transform rounded-full bg-green-500 p-2 shadow-sm transition duration-200 hover:scale-105 group-hover:block">
+            <svg
+              viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="#fff"
+              height="100%"
+              width="100%"
+              preserveAspectRatio="xMidYMid meet"
+              focusable="false"
+            >
+              <path d="M4.018 14L14.41 8 4.018 2z"></path>
+            </svg>
+          </button>
+        </div>
+        <Tooltip placement="top" title={name}>
+          <div className="font-bold line-clamp-1">{name}</div>
+        </Tooltip>
+        <div className="text-gray-400 line-clamp-2 text-xs">{artist}</div>
+      </div>
+    </Link>
   )
 }
 
