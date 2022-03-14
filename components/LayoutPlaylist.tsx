@@ -20,19 +20,23 @@ function LayoutPlaylist({description, name,followerCount,ownerImg, type, playlis
                 type={type}
                 owner={owner}
             />
-            <MediaPlayButton uri={uri} />
-            <MediaTableHeader colsVisible={colsVisible} />
-            {tracks?.map((item, index) => {
-                return (
-                    <MediaTableRow
-                        index={index}
-                        uri={uri}
-                        key={index}
-                        track={item}
-                        colsVisible={colsVisible}
-                    />
-                )
-            })}
+            <div className="px-6 py-6">
+                <MediaPlayButton uri={uri} />
+            </div>
+            <div className="px-6">
+                <MediaTableHeader colsVisible={colsVisible} />
+                {tracks?.map((item, index) => {
+                    return (
+                        <MediaTableRow
+                            index={index}
+                            uri={uri}
+                            key={index}
+                            track={item}
+                            colsVisible={colsVisible}
+                        />
+                    )
+                })}
+            </div>
         </div>
     )
 }

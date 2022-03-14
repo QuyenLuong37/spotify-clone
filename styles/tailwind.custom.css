@@ -1,19 +1,22 @@
 .media-table-cols-5 {
-    @apply grid grid-cols-[[index]_40px_[first]_6fr_[var1]_4fr_[var2]_3fr_[last]_minmax(120px,1fr)] gap-4 items-center h-14 cursor-pointer transition duration-300 hover:bg-gray-800 hover:text-white  rounded px-4 border border-transparent;
+    @apply grid grid-cols-[[index]_24px_[first]_6fr_[var1]_4fr_[var2]_3fr_[last]_minmax(120px,1fr)] gap-4 items-center h-14 cursor-pointer transition duration-300 hover:bg-gray-800 hover:text-white  rounded px-4 border border-transparent;
 }
 
 .media-table-header-cols-5 {
-    @apply uppercase text-sm font-medium grid grid-cols-[[index]_40px_[first]_6fr_[var1]_4fr_[var2]_3fr_[last]_minmax(120px,1fr)] gap-4 items-center px-4 border-b border-gray-700 pb-4;
+    @apply uppercase text-sm font-medium grid grid-cols-[[index]_24px_[first]_6fr_[var1]_4fr_[var2]_3fr_[last]_minmax(120px,1fr)] gap-4 items-center px-4 border-b border-gray-700 pb-4;
 }
 
 .media-table-cols-3 {
-    @apply grid grid-cols-[[index]_40px_[first]_13fr_[last]_minmax(120px,1fr)] gap-4 items-center h-14 cursor-pointer transition duration-300 hover:bg-gray-800 hover:text-white  rounded px-4 border border-transparent;
+    @apply grid grid-cols-[[index]_24px_[first]_13fr_[last]_minmax(120px,1fr)] gap-4 items-center h-14 cursor-pointer transition duration-300 hover:bg-gray-800 hover:text-white  rounded px-4 border border-transparent;
 }
 
 .media-table-header-cols-3 {
-    @apply uppercase text-sm font-medium grid grid-cols-[[index]_40px_[first]_13fr_[last]_minmax(120px,1fr)] gap-4 items-center px-4 border-b border-gray-700 pb-4;
+    @apply uppercase text-sm font-medium grid grid-cols-[[index]_24px_[first]_13fr_[last]_minmax(120px,1fr)] gap-4 items-center px-4 border-b border-gray-700 pb-4;
 }
 
 .text-heading {
     @apply font-bold text-white text-lg
+}
+.text-heading-2xl {
+    @apply font-bold text-white text-2xl
 }

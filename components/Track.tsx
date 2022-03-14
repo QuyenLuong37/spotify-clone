@@ -27,16 +27,9 @@ function Track({ name, images, artist, type, id }) {
   }
   return (
     <Link href={`/${type}/${id}`}>
-      <div className="group  cursor-pointer rounded bg-[#3b3b3b] p-4 pb-8 shadow-lg transition duration-200 hover:bg-[#535353]">
+      <div className="group  cursor-pointer rounded bg-[#3b3b3b] p-4 pb-6 shadow-xl transition duration-200 hover:bg-[#535353]">
         <div className="relative">
           <div className="relative mb-3 w-full h-40">
-            {/* <Image
-              src={images?.[0]?.url}
-              layout="fill"
-              className="rounded"
-              objectFit="cover"
-              priority
-            /> */}
             {img}
           </div>
           <button className="absolute bottom-2 right-2 hidden h-11 w-11 transform rounded-full bg-green-500 p-2 shadow-sm transition duration-200 hover:scale-105 group-hover:block">
@@ -53,10 +46,10 @@ function Track({ name, images, artist, type, id }) {
             </svg>
           </button>
         </div>
-        <Tooltip placement="top" title={name}>
+        {name && <Tooltip placement="top" title={name}>
           <div className="font-bold line-clamp-1">{name}</div>
-        </Tooltip>
-        <div className="text-gray-400 line-clamp-2 text-xs">{artist}</div>
+        </Tooltip>}
+        {artist && <div className="text-gray-400 line-clamp-2 text-xs">{artist}</div>}
         {type === 'artist' && <div className="text-gray-400">Artist</div>}
       </div>
     </Link>

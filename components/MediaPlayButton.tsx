@@ -7,7 +7,7 @@ function MediaPlayButton({uri}) {
         spotifyApi.play({ context_uri: uri }).then((res) => {})
     }
   return (
-    <div className="px-8 py-6">
+    <div >
         <div
             onClick={() => play()}
             className="flex h-12 w-12 transform cursor-pointer items-center justify-center rounded-full bg-green-400 p-3 text-white transition duration-150 hover:scale-110"
