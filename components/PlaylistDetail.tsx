@@ -11,10 +11,10 @@ function PlaylistDetail() {
   const playlistId = useRecoilValue(playlistIdState)
   const [playlist, setPlaylist]: any = useState(null)
   useEffect(() => {
-    if (playlistId) {
+    if (session && playlistId) {
       spotifyApi.getPlaylist(playlistId).then((res) => {
         console.log('play list: ', res.body)
-        const playlist = {
+        const playlistRes = {
           ...res.body,
           tracks: {
             items: res.body.tracks.items.map(item => {
@@ -23,23 +23,27 @@ function PlaylistDetail() {
                 ...item.track
               }
             })
+          },
+          owner: {
+            ...res.body.owner,
+            name: res.body.owner.display_name
           }
         }
-        if (playlist.owner.id) {
-          if (playlist.owner.id === session?.user?.id) {
+        if (playlistRes.owner.id) {
+          if (playlistRes.owner.id === session?.user?.id) {
             setPlaylist({
-              ...playlist,
+              ...playlistRes,
               ownerImg: [{ url: session?.user?.image }],
             })
           } else {
-            spotifyApi.getUser(playlist.owner.id).then((user) => {
-              setPlaylist({ ...playlist, ownerImg: user.body.images })
+            spotifyApi.getUser(playlistRes.owner.id).then((user) => {
+              setPlaylist({ ...playlistRes, ownerImg: user.body.images })
             })
           }
         }
       })
     }
-  }, [playlistId])
+  }, [session, playlistId])
 
   return (
     <LayoutPlaylist
@@ -47,11 +51,13 @@ function PlaylistDetail() {
       followerCount={playlist?.followers?.total}
       name={playlist?.name}
       ownerImg={playlist?.ownerImg?.[0]?.url}
-      ownerName={playlist?.owner?.display_name}
+      // ownerName={playlist?.owner?.display_name}
       playlistImg={playlist?.images?.[0]?.url}
       tracks={playlist?.tracks?.items}
       type="playlist"
       uri={playlist?.uri}
+      owner={playlist?.owner ? [playlist?.owner] : []}
+      colsVisible={['title', 'album', 'added_at', 'duration']}
     />
   )
 }

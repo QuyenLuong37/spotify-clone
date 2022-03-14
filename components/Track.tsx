@@ -9,15 +9,21 @@ function Track({ name, images, artist, type, id }) {
     img = <Image
       src={images?.[0]?.url}
       layout="fill"
-      className="rounded"
+      className={type === 'artist' ? 'rounded-full' : 'rounded'}
       objectFit="cover"
       priority
       objectPosition='center'
     />
   } else {
-    img = <div className="h-full p-8">
-      <div className='h-full bg-cover bg-center bg-no-repeat bg-[url("/default.svg")]'></div>
-    </div>
+    if (type === 'artist') {
+      img = <div className="h-full p-8 rounded-full bg-[#313131]">
+        <div className='h-full bg-cover bg-center bg-no-repeat bg-[url("/artist-default.svg")]'></div>
+      </div>
+    } else {
+      img = <div className="h-full p-8 rounded-full">
+        <div className='h-full bg-cover bg-center bg-no-repeat bg-[url("/default.svg")]'></div>
+      </div>
+    }
   }
   return (
     <Link href={`/${type}/${id}`}>
@@ -51,6 +57,7 @@ function Track({ name, images, artist, type, id }) {
           <div className="font-bold line-clamp-1">{name}</div>
         </Tooltip>
         <div className="text-gray-400 line-clamp-2 text-xs">{artist}</div>
+        {type === 'artist' && <div className="text-gray-400">Artist</div>}
       </div>
     </Link>
   )

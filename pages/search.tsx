@@ -16,7 +16,6 @@ function search() {
     const [categories, setCategories] = useState([]);
     const router = useRouter()
     
-    console.log('queyry params: ', router.query);
     useEffect(() => {
         const {query} = router.query;
         if (query) {

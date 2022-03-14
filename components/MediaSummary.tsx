@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useRef } from 'react'
 
 function MediaSummary({
@@ -6,12 +7,13 @@ function MediaSummary({
   name,
   description,
   ownerImg,
-  ownerName,
   followerCount,
   trackCount,
   type,
+  owner,
   fromColor = '',
-  toColor = ''
+  toColor = '',
+  navigateFunc = () => {}
 }) {
   let trackCountUI;
   let followerCountUI;
@@ -19,6 +21,7 @@ function MediaSummary({
   
   switch (type) {
     case 'album':
+    case 'artist':
     case 'playlist':
       playlistImgUI = <img className="" src={playlistImg} alt="" />
       break;
@@ -73,7 +76,16 @@ function MediaSummary({
                 <img src={ownerImg} className="h-6 rounded-full" alt="" />
               )}
               <div className="flex items-center space-x-2 text-xs sm:text-sm">
-                <span className="font-semibold text-white">{ownerName}</span>
+                {owner?.map((item, index) => {
+                  return (
+                    <Link key={index} href={`/${item.type}/${item.id}`} >
+                      <div className=''>
+                        <span className="font-semibold text-white cursor-pointer transition duration-200 hover:underline">{item.name}</span> {owner.length - 1 !== index && <span>, </span>}
+                      </div>
+                    </Link>
+                  )
+                })}
+                {/* <span onClick={() => handleNavigateCallback()} className="font-semibold text-white cursor-pointer transition duration-200 hover:underline">{owner?.map(item => item?.name)?.join(', ')}</span> */}
                 {followerCountUI}
                 {trackCountUI}
                 

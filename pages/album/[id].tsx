@@ -3,8 +3,6 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
 import LayoutPlaylist from '../../components/LayoutPlaylist';
-import MediaSummary from '../../components/MediaSummary';
-import MediaTableHeader from '../../components/MediaTableHeader'
 import Track from '../../components/Track';
 import useSpotify from '../../hook/useSpotify';
 
@@ -40,6 +38,9 @@ function Album() {
       }
     }, [session, router.query])
     
+  const navigateToArtistById = (id) => {
+    router.push(`/artist/${id}`)
+  }
   return (
     <Layout>
         <div>
@@ -48,11 +49,13 @@ function Album() {
                 followerCount={album?.followers?.total}
                 name={album?.name}
                 ownerImg={album?.ownerImg?.[0]?.url}
-                ownerName={album?.ownerName}
+                // ownerName={album?.ownerName}
                 playlistImg={album?.images?.[0]?.url}
                 tracks={album?.tracks?.items}
                 type="album"
                 uri={album?.uri}
+                owner={album.artists}
+                colsVisible={['title', 'duration']}
             />
            <div className="px-6 mt-8">
                 <div className='text-heading text-2xl mb-3'>More by {album?.ownerName}</div>

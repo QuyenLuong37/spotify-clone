@@ -6,7 +6,7 @@ import useSpotify from '../hook/useSpotify';
 import { currentTrackIsPlayingState } from '../recoil/currentTrackAtom';
 import { millisToMinutesAndSeconds } from '../untils/duration-to-time';
 
-function MediaTableRow({track, uri, index, cols}) {
+function MediaTableRow({track, uri, index, colsVisible}) {
     const [trackSelected, setTrackSelected]: any = useState(null)
     const spotifyApi = useSpotify();
     const currentTrackIsPlaying: any = useRecoilValue(currentTrackIsPlayingState);
@@ -25,7 +25,7 @@ function MediaTableRow({track, uri, index, cols}) {
     }
   return (
     <div onClick={() => setTrackSelected(track?.id)} className={trackSelected === track?.id ? 'bg-gray-800 text-white' : 'bg-transparent'}>
-        <div  className={cols === 5 ? "media-table-cols-5 group" : "media-table-cols-3 group"}  >
+        <div  className="media-table-cols-5 group">
             <div className="flex justify-center">
                 {((track?.id === currentTrackIsPlaying?.id  || track?.id === currentTrackIsPlaying?.linked_from?.id) && currentTrackIsPlaying?.paused === false) && (
                 <>
@@ -40,7 +40,7 @@ function MediaTableRow({track, uri, index, cols}) {
                 <span className={trackSelected === track?.id ? 'hidden' : ((track?.id === currentTrackIsPlaying?.id  || track?.id === currentTrackIsPlaying?.linked_from?.id) ) ? 'group-hover:hidden text-green-500' : 'group-hover:hidden'}>{index + 1}</span></>
                 )}
             </div>
-            <div>
+            <div className={colsVisible.includes('title') ? 'visible' : 'invisible'}>
                 <div className="flex items-center space-x-3">
                 {track?.album?.images[0]?.url && <img src={track?.album?.images[0]?.url} className="w-10 h-10" alt="" />}
                 <div>
@@ -49,13 +49,21 @@ function MediaTableRow({track, uri, index, cols}) {
                 </div>
                 </div>
             </div>
-            {track?.album?.name && <div className='text-sm'>{track?.album?.name}</div>}
-            {track?.added_at && <div className='text-sm'>{format(new Date(track?.added_at), 'MMM dd, yyyy')}</div>}
-            <div className='text-sm flex justify-center'>
-                <div className="flex items-center">
-                <HeartIcon  className={trackSelected === track?.id ? 'h-5 cursor-pointer mr-4' : 'hidden group-hover:block h-5 cursor-pointer mr-4'} />
-                <div>{millisToMinutesAndSeconds(track?.duration_ms)}</div>
-                <DotsHorizontalIcon  className={trackSelected === track?.id ? 'h-5 cursor-pointer ml-4' : 'hidden group-hover:block h-5 cursor-pointer ml-4'} />
+            <div className={colsVisible.includes('album') ? 'visible' : 'invisible'}>
+                <div className='text-sm '>{track?.album?.name}</div>
+            </div>
+            <div className={colsVisible.includes('added_at') ? 'visible' : 'invisible'}>
+                <div className='text-sm'>{track?.added_at ? format(new Date(track?.added_at), 'MMM dd, yyyy') : ''}</div>
+            </div>
+            {/* {track?.album?.name && <div className='text-sm '>{track?.album?.name}</div>}
+            {track?.added_at && <div className='text-sm'>{format(new Date(track?.added_at), 'MMM dd, yyyy')}</div>} */}
+            <div className={colsVisible.includes('duration') ? 'visible' : 'invisible'}>
+                <div className='text-sm flex justify-center'>
+                    <div className="flex items-center">
+                        <HeartIcon  className={trackSelected === track?.id ? 'h-5 cursor-pointer mr-4' : 'hidden group-hover:block h-5 cursor-pointer mr-4'} />
+                        <div>{millisToMinutesAndSeconds(track?.duration_ms)}</div>
+                        <DotsHorizontalIcon  className={trackSelected === track?.id ? 'h-5 cursor-pointer ml-4' : 'hidden group-hover:block h-5 cursor-pointer ml-4'} />
+                    </div>
                 </div>
             </div>
         </div>
