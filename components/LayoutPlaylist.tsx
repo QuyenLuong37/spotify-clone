@@ -19,6 +19,7 @@ function LayoutPlaylist({description, name,followerCount,ownerImg, type, playlis
                 toColor={'#1f2937'}
                 type={type}
                 owner={owner}
+                totalSuffix={'song'}
             />
             <div className="px-6 py-6">
                 <MediaPlayButton uri={uri} />

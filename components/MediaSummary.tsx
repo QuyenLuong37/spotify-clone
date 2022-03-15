@@ -11,9 +11,9 @@ function MediaSummary({
   trackTotal,
   type,
   owner,
+  totalSuffix,
   fromColor = '',
-  toColor = '',
-  navigateFunc = () => {}
+  toColor = ''
 }) {
   let trackTotalUI;
   let followerCountUI;
@@ -45,7 +45,7 @@ function MediaSummary({
   if (trackTotal || trackTotal === 0) {
     trackTotalUI = <>
       <span> - </span>
-      <span>{trackTotal === 1 ? trackTotal + ' song' : trackTotal + ' songs'}</span>
+      <span>{trackTotal === 1 ? `${trackTotal} ${totalSuffix}` : `${trackTotal} ${totalSuffix}s`}</span>
     </>
   } else {
     trackTotalUI = null;
@@ -65,7 +65,7 @@ function MediaSummary({
           {playlistImgUI}
         </div>
         <div className="space-y-3">
-          <div className="font-medium uppercase">{type === 'liked' ? 'Playlist' : type}</div>
+          <div className="font-medium uppercase">{type === 'liked' || type === 'episode' || type === 'playlist' ? 'Playlist' : type}</div>
           <div className="text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
             {name}
           </div>

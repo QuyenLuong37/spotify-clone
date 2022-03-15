@@ -58,6 +58,7 @@ function PlaylistDetail() {
       uri={playlist?.uri}
       owner={playlist?.owner ? [playlist?.owner] : []}
       colsVisible={['title', 'album', 'added_at', 'duration']}
+      trackTotal={'song'}
     />
   )
 }

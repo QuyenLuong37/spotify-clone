@@ -22,7 +22,6 @@ const getAccessToken = async (refresh_token: string) => {
   };
 
   export const getMySavedEpisodes = async (token: string) => {
-    // const {access_token} = await getAccessToken(refresh_token);
     return fetch(MY_EPISODES_ENDPOINT, {
       headers: {
         Authorization: `Bearer ${token}`,
