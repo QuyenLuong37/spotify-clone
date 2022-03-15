@@ -28,8 +28,8 @@ function Track({ name, images, artist, type, id }) {
   return (
     <Link href={`/${type}/${id}`}>
       <div className="group  cursor-pointer rounded bg-[#3b3b3b] p-4 pb-6 shadow-xl transition duration-200 hover:bg-[#535353]">
-        <div className="relative">
-          <div className="relative mb-3 w-full h-40">
+        <div className="relative flex justify-center">
+          <div className="relative mb-3 w-24 h-24 md:w-32 md:h-32 xl:w-36 xl:h-36 2xl:w-40 2xl:h-40">
             {img}
           </div>
           <button className="absolute bottom-2 right-2 hidden h-11 w-11 transform rounded-full bg-green-500 p-2 shadow-sm transition duration-200 hover:scale-105 group-hover:block">

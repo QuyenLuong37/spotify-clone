@@ -7,6 +7,7 @@ import { Button, Dropdown, Menu, Popover } from 'antd'
 import useSpotify from '../hook/useSpotify'
 import { LeftOutlined } from '@ant-design/icons';
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/outline'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 function Layout({ children }) {
   const { data: session }: any = useSession()
@@ -15,6 +16,7 @@ function Layout({ children }) {
   const prevScrollY = useRef(0)
 
   const [goingUp, setGoingUp] = useState(false)
+  const [items, setItems]: any = useState(Array.from({ length: 20 }));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -118,19 +120,26 @@ function Layout({ children }) {
       </Menu.Item>
     </Menu>
   );
+
+  
+  // const fetchMoreData: any = () => {
+  //   console.log('fet more');
+  //   setTimeout(() => {
+  //     setItems(items.concat(Array.from({ length: 20 })))
+  //   }, 1500);
+  // }
+
+  // const handleScroll = (e) => {
+  //     console.log('scroll: ', e);;
+      
+  // }
   return (
     <>
       <div className="layout grid">
-        {/* Sidebar */}
         <div className="nav-bar">
           <Sidebar />
         </div>
-        {/* Center */}
-        {/* <div className='overflow-auto main-view'>
-          
-          </div> */}
-
-        <div className="main-view h-[calc(100vh-90px)] overflow-auto bg-gradient-to-r from-[#2e2e2e] to-[#2e2e2e]">
+        <div className="main-view h-[calc(100vh-90px)] overflow-hidden bg-gradient-to-r from-[#2e2e2e] to-[#2e2e2e]">
           <header className="sticky top-0 z-10 flex cursor-pointer justify-between bg-[#2e2e2e] p-4 text-white shadow-sm">
 
             <div className="flex  space-x-3">
@@ -156,7 +165,9 @@ function Layout({ children }) {
             </Dropdown>
             
           </header>
-          <div className="pb-6">{{ ...children }}</div>
+          <div className="pb-6 overflow-auto" style={{height: 'calc(100vh - 162px)'}}>
+            {{ ...children }}
+          </div>
         </div>
 
         {/* <div className="now-playing-bar sticky bottom-0 left-0 right-0">

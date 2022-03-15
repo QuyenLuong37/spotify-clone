@@ -20,7 +20,7 @@ function episodes() {
   return (
       <Layout >
         <div className='text-white'>
-            <MediaSummary description={playlist?.description} followerCount={playlist?.followers?.total} name={playlist?.name} ownerImg={ownerPlaylist?.images?.[0]?.url} ownerName={playlist?.owner?.display_name} playlistImg={playlist?.images?.[0]?.url} trackCount={playlist?.tracks?.items?.length} fromColor={'#066552'} toColor={'#1f2937'} type={'episode'} />   
+            <MediaSummary description={playlist?.description} followerCount={playlist?.followers?.total} name={playlist?.name} ownerImg={ownerPlaylist?.images?.[0]?.url} owner={[]} playlistImg={playlist?.images?.[0]?.url} trackTotal={playlist?.tracks?.items?.length} fromColor={'#066552'} toColor={'#1f2937'} type={'episode'} />   
         </div>
       </Layout>
   )

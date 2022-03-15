@@ -1,11 +1,12 @@
 import { HeartIcon } from '@heroicons/react/outline';
 import { MusicNoteIcon, PauseIcon, PlayIcon, DotsHorizontalIcon } from '@heroicons/react/solid';
 import { format } from 'date-fns';
+import Link from 'next/link';
 import React, { useState } from 'react'
 import { useRecoilValue } from 'recoil';
 import useSpotify from '../hook/useSpotify';
 import { currentTrackIsPlayingState } from '../recoil/currentTrackAtom';
-import { millisToMinutesAndSeconds } from '../untils/duration-to-time';
+import { millisToMinutesAndSeconds } from '../utils/duration-to-time';
 
 function MediaTableRow({track, uri, index, colsVisible}) {
     const [trackSelected, setTrackSelected]: any = useState(null)
@@ -44,10 +45,18 @@ function MediaTableRow({track, uri, index, colsVisible}) {
                 </div>
                 <div className={colsVisible.includes('title') ? 'visible' : 'invisible'}>
                     <div className="flex items-center space-x-3">
-                    {track?.album?.images[0]?.url && <img src={track?.album?.images[0]?.url} className="w-10 h-10" alt="" />}
+                    {track?.trackImg && <img src={track?.trackImg} className="w-10 h-10" alt="" />}
                     <div>
                         <div className={(track?.id === currentTrackIsPlaying?.id  || track?.id === currentTrackIsPlaying?.linked_from?.id) ? 'text-green-500 font-semibold text-sm' : 'text-white font-semibold text-sm'}>{track?.name}</div>
-                        <div className='text-sm'>{track?.artists?.[0].name}</div>
+                        <div className='text-sm flex space-x-1 text-gray-400'>
+                            {track?.artists?.length > 0 && (
+                                track?.artists?.map((item, index) => {
+                                    return <Link href={`/artist/${item.id}`} key={index}>
+                                        <div className='flex space-x-2'><span className='transition duration-200 hover:underline hover:text-gray-300'>{item.name}</span>{track.artists.length - 1 !== index ? ', ' : ''}</div>
+                                    </Link>
+                                })
+                            )}
+                        </div>
                     </div>
                     </div>
                 </div>

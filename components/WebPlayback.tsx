@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import useSpotify from '../hook/useSpotify'
 import { currentTrackIsPlayingState } from '../recoil/currentTrackAtom'
-import { millisToMinutesAndSeconds } from '../untils/duration-to-time'
+import { millisToMinutesAndSeconds } from '../utils/duration-to-time'
 
 type RepeatState = 'off' | 'context' | 'track';
 

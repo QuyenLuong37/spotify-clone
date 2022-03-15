@@ -8,14 +8,14 @@ function MediaSummary({
   description,
   ownerImg,
   followerCount,
-  trackCount,
+  trackTotal,
   type,
   owner,
   fromColor = '',
   toColor = '',
   navigateFunc = () => {}
 }) {
-  let trackCountUI;
+  let trackTotalUI;
   let followerCountUI;
   let playlistImgUI;
   
@@ -42,18 +42,18 @@ function MediaSummary({
       break;
   }
 
-  if (trackCount || trackCount === 0) {
-    trackCountUI = <>
+  if (trackTotal || trackTotal === 0) {
+    trackTotalUI = <>
       <span> - </span>
-      <span>{trackCount === 1 ? trackCount + ' song' : trackCount + ' songs'}</span>
+      <span>{trackTotal === 1 ? trackTotal + ' song' : trackTotal + ' songs'}</span>
     </>
   } else {
-    trackCountUI = null;
+    trackTotalUI = null;
   }
   if (followerCount || followerCount === 0) {
     followerCountUI = <>
       <span> - </span>
-      <span>{followerCount === 1 ? followerCount + ' like' : followerCount + ' likes'} </span>
+      <span>{followerCount === 1 ? followerCount?.toLocaleString() + ' like' : followerCount?.toLocaleString() + ' likes'} </span>
     </>
   } else {
     followerCountUI = null;
@@ -65,7 +65,7 @@ function MediaSummary({
           {playlistImgUI}
         </div>
         <div className="space-y-3">
-          <div className="font-medium uppercase">{type}</div>
+          <div className="font-medium uppercase">{type === 'liked' ? 'Playlist' : type}</div>
           <div className="text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
             {name}
           </div>
@@ -87,7 +87,7 @@ function MediaSummary({
                 })}
                 {/* <span onClick={() => handleNavigateCallback()} className="font-semibold text-white cursor-pointer transition duration-200 hover:underline">{owner?.map(item => item?.name)?.join(', ')}</span> */}
                 {followerCountUI}
-                {trackCountUI}
+                {trackTotalUI}
                 
               </div>
             </div>

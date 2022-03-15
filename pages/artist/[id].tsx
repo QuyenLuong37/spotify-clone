@@ -1,6 +1,6 @@
 import { DotsHorizontalIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon, ChevronUpIcon,  } from '@heroicons/react/solid'
-import { Button, Dropdown, Menu, notification } from 'antd'
+import { Button, Dropdown, Menu, message, notification } from 'antd'
 import SubMenu from 'antd/lib/menu/SubMenu'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
@@ -33,7 +33,14 @@ function Artist() {
 
       spotifyApi.getArtistTopTracks(id as string, 'VN').then((res) => {
         console.log('getArtistTopTracks: ', res.body)
-        setArtistTopTracks(res.body.tracks)
+        const result = res.body.tracks.map(item => {
+          return {
+            ...item,
+            artists: [],
+            trackImg: item.album.images[0].url
+          }
+        });
+        setArtistTopTracks(result)
       })
 
       spotifyApi.getArtistRelatedArtists(id as string).then((res) => {
@@ -71,10 +78,11 @@ function Artist() {
     spotifyApi.followArtists([router.query.id as string]).then(res => {
       console.log('followArtists: ', res);
       setIsFollowingArtists(true);
-      notification['success']({
-        message: '',
-        description: 'Follow successful artist',
-      });
+      message.success({content: 'Follow successful artist'});
+      // notification['success']({
+      //   message: '',
+      //   description: 'Follow successful artist',
+      // });
     })
   }
 
@@ -82,10 +90,11 @@ function Artist() {
     spotifyApi.unfollowArtists([router.query.id as string]).then(res => {
       console.log('unfollowArtists: ', res);
       setIsFollowingArtists(false);
-      notification['success']({
-        message: '',
-        description: 'Unfollow successful artist',
-      });
+      message.success('Unfollow successful artist');
+      // notification['success']({
+      //   message: '',
+      //   description: 'Unfollow successful artist',
+      // });
     })
   }
 
@@ -98,7 +107,7 @@ function Artist() {
             name={artist?.name}
             ownerImg={artist?.images?.[0]?.url}
             playlistImg={artist?.images?.[0]?.url}
-            trackCount={artist?.tracks?.items?.length ?? null}
+            trackTotal={artist?.tracks?.items?.length ?? null}
             type='artist'
             owner={[artist]}
         />
@@ -126,7 +135,7 @@ function Artist() {
 
         <div className='px-6 flex flex-col space-y-10'>
           <div>
-            <div className='text-heading-2xl mb-2'>Popular</div>
+            <div className='text-heading-2xl mb-4'>Popular</div>
             <div>
               {artistTopTracksLocal?.map((item, index) => {
                 return <MediaTableRow
@@ -148,8 +157,8 @@ function Artist() {
           </div>
 
           <div>
-            <div className='text-heading-2xl mb-2'>Album</div>
-            <div className='grid grid-cols-4 md:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
+            <div className='text-heading-2xl mb-4'>Album</div>
+            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
               {artistAlbums?.map((item, index) => {
                 return <Track key={index} id={item?.id} name={item?.name} images={item?.images} artist={null}  type={item?.type} />
               })}
@@ -157,8 +166,8 @@ function Artist() {
           </div>
 
           <div>
-            <div className='text-heading-2xl mb-2'>Related artists</div>
-            <div className='grid grid-cols-4 md:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
+            <div className='text-heading-2xl mb-4'>Related artists</div>
+            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
               {artistRelatedArtists?.map((item, index) => {
                 return <Track key={index} id={item?.id} name={item?.name} images={item?.images} artist={null}  type={item?.type} />
               })}

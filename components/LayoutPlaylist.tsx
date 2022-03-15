@@ -5,7 +5,7 @@ import MediaSummary from './MediaSummary'
 import MediaTableHeader from './MediaTableHeader'
 import MediaTableRow from './MediaTableRow'
 
-function LayoutPlaylist({description, name,followerCount,ownerImg, type, playlistImg, uri, tracks, owner, colsVisible}) {
+function LayoutPlaylist({description, name,followerCount,ownerImg, type, playlistImg, uri, tracks, trackTotal, owner, colsVisible}) {
     return (
         <div className="text-white">
             <MediaSummary
@@ -14,7 +14,7 @@ function LayoutPlaylist({description, name,followerCount,ownerImg, type, playlis
                 name={name}
                 ownerImg={ownerImg}
                 playlistImg={playlistImg}
-                trackCount={tracks?.length ?? 0}
+                trackTotal={trackTotal}
                 fromColor={'#066552'}
                 toColor={'#1f2937'}
                 type={type}

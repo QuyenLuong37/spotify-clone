@@ -38,9 +38,7 @@ function Album() {
       }
     }, [session, router.query])
     
-  const navigateToArtistById = (id) => {
-    router.push(`/artist/${id}`)
-  }
+
   return (
     <Layout>
         <div>
@@ -51,15 +49,16 @@ function Album() {
                 ownerImg={album?.ownerImg?.[0]?.url}
                 // ownerName={album?.ownerName}
                 playlistImg={album?.images?.[0]?.url}
-                tracks={album?.tracks?.items}
+                tracks={album?.tracks?.items?.map(item => ({...item, trackImg: null}))}
                 type="album"
                 uri={album?.uri}
-                owner={album.artists}
+                owner={album?.artists}
+                trackTotal={album?.total}
                 colsVisible={['title', 'duration']}
             />
            <div className="px-6 mt-8">
                 <div className='text-heading text-2xl mb-3'>More by {album?.ownerName}</div>
-                <div className='grid grid-cols-4 md:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
+                <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
                     {artistAlbum?.map((item, index) => {
                         return (
                             <Track key={index} id={item?.id} name={item?.name} images={item?.images} artist={item?.description}  type={item?.type} />

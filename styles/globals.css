@@ -1,12 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @import url('./tailwind.custom.css');
-
 body {
     overflow: hidden;
     color: white;
+}
+
+.ant-message-custom-content {
+    display: flex;
+    align-items: center;
 }
 
 ::-webkit-scrollbar-track {

@@ -52,7 +52,7 @@ function search() {
             {!searchInput && (
                 <div>
                     <h3 className='text-xl font-bold text-white mb-2'>Browse all</h3>
-                    <div className="grid grid-cols-4 md:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7 gap-6">
                         {categories && categories.length && categories.map((item: any, index: number) => {
                             return (
                                 <Genres name={item?.name} image={item?.icons?.[0]?.url} key={index} />
@@ -69,7 +69,7 @@ function search() {
                         return <div key={index}>
                             <h3 className='capitalize font-bold text-lg text-white mb-2'>{key}</h3>
                             {/* {JSON.stringify(searchResult)} */}
-                            <div className='grid grid-cols-4 md:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
+                            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
                                 {searchResult?.[key]?.items?.map((item, i) => {
                                     if (key === 'tracks') {
                                         return  <Track key={i} id={item?.id} name={item?.name} images={item?.album?.images} artist={item?.artists?.[0]?.name} type={item?.type} />

@@ -53,7 +53,7 @@ function PlaylistDetail() {
       ownerImg={playlist?.ownerImg?.[0]?.url}
       // ownerName={playlist?.owner?.display_name}
       playlistImg={playlist?.images?.[0]?.url}
-      tracks={playlist?.tracks?.items}
+      tracks={playlist?.tracks?.items?.map(item => ({...item, trackImg: item?.album?.images?.[0]?.url}))}
       type="playlist"
       uri={playlist?.uri}
       owner={playlist?.owner ? [playlist?.owner] : []}
