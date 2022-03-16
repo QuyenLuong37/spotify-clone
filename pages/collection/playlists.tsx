@@ -1,8 +1,13 @@
 import React from 'react'
+import Layout from '../../components/Layout'
 
 function playlist() {
   return (
-    <div>playlist</div>
+    <Layout>
+      <div>
+        <div>Playlist</div>
+      </div>
+    </Layout>
   )
 }
 

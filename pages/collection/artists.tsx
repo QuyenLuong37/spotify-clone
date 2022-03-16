@@ -1,8 +1,13 @@
+import Layout from '../../components/Layout'
 import React from 'react'
 
 function artist() {
   return (
-    <div>artist</div>
+    <Layout>
+      <div>
+        <div>artist</div>
+      </div>
+    </Layout>
   )
 }
 

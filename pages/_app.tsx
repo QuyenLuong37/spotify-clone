@@ -4,6 +4,7 @@ import { SessionProvider } from 'next-auth/react'
 import { RecoilRoot } from 'recoil'
 import '../styles/app.css';
 import '../styles/layout.css';
+import '../styles/header.css';
 import '../styles/globals.css'
 function MyApp({ Component, pageProps }: AppProps) {
   return (

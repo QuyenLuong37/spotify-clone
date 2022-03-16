@@ -1,0 +1,7 @@
+.tabSelected {
+    @apply cursor-pointer bg-[#4c4c4c] transition duration-200 hover:bg-[#4c4c4c] px-4 py-2 rounded font-medium;
+}
+
+.tabUnSelected {
+    @apply cursor-pointer transition duration-200 hover:bg-[#4c4c4c] px-4 py-2 rounded font-medium;
+}

@@ -26,6 +26,27 @@ const getAccessToken = async (refresh_token: string) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    })
+    .then((res) => res.json())
+    .then((res) => {
+      const result = {
+          ...res,
+          items: res.items.map(item => {
+              return {
+                  ...item.episode
+              }
+          })
+      }
+      return result;
+    });
+  };
+
+  export const removeSavedEpisodeApi = async (ids: string, token: string) => {
+    return fetch(MY_EPISODES_ENDPOINT + `?ids=${ids}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      method: 'DELETE'
     });
   };
 

@@ -1,8 +1,13 @@
+import Layout from '../../components/Layout'
 import React from 'react'
 
 function album() {
   return (
-    <div>album</div>
+    <Layout>
+      <div>
+        <div>album</div>
+      </div>
+    </Layout>
   )
 }
 

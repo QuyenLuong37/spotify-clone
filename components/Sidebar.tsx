@@ -58,8 +58,12 @@ function Sidebar() {
           </Link>
         </div>
         <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
-          <LibraryIcon className="h-5 w-5" />
-          <span className="">Your library</span>
+        <Link href="/collection/playlists">
+            <div className="flex items-center space-x-3">
+              <LibraryIcon className="h-5 w-5" />
+              <span className="">Your library</span>
+            </div>
+          </Link>
         </div>
         <hr className="my-3 border-t-[0.1px] border-gray-900" />
         <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
@@ -81,7 +85,7 @@ function Sidebar() {
         </div>
 
         <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
-          <Link href="/episodes">
+          <Link href="/collection/episodes">
             <div className="flex items-center space-x-3">
               <RssIcon className="h-5 w-5" />
               <span className="">Your Episodes</span>
