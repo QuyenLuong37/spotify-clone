@@ -13,7 +13,7 @@ function PlaylistDetail() {
   useEffect(() => {
     if (session && playlistId) {
       spotifyApi.getPlaylist(playlistId).then((res) => {
-        console.log('play list: ', res.body)
+        
         const playlistRes = {
           ...res.body,
           tracks: {

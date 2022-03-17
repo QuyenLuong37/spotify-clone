@@ -34,7 +34,7 @@ function search() {
     }, [session])
     const debounceDropDown = useCallback(_.debounce((val) => {
         spotifyApi.search(val, ['track', 'album', 'episode', 'show', 'artist', 'playlist'], {market: 'VN', include_external: 'audio', limit: 10}).then(res => {
-            console.log('resss: ', res);
+            
             setSearchResult(res.body);
         })
     }, 1000), [])

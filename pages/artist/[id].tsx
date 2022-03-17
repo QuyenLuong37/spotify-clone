@@ -27,12 +27,12 @@ function Artist() {
     const { id } = router.query
     if (session && id) {
       spotifyApi.getArtist(id as string).then((res) => {
-        console.log('artist: ', res.body)
+        
         setArtist(res.body)
       })
 
       spotifyApi.getArtistTopTracks(id as string, 'VN').then((res) => {
-        console.log('getArtistTopTracks: ', res.body)
+        
         const result = res.body.tracks.map(item => {
           return {
             ...item,
@@ -44,17 +44,17 @@ function Artist() {
       })
 
       spotifyApi.getArtistRelatedArtists(id as string).then((res) => {
-        console.log('getArtistRelatedArtists: ', res.body)
+        
         setArtistRelatedArtists(res.body.artists)
       })
 
       spotifyApi.getArtistAlbums(id as string, {limit: 8}).then((res) => {
-        console.log('getArtistAlbums: ', res.body)
+        
         setArtistAlbums(res.body.items)
       })
 
       spotifyApi.isFollowingArtists([id as string]).then((res) => {
-        console.log('isFollowingArtists: ', res.body)
+        
         setIsFollowingArtists(res.body[0]);
       })
     }
@@ -76,7 +76,7 @@ function Artist() {
 
   const followArtist = () => {
     spotifyApi.followArtists([router.query.id as string]).then(res => {
-      console.log('followArtists: ', res);
+      
       setIsFollowingArtists(true);
       message.success({content: 'Follow successful artist'});
       // notification['success']({
@@ -88,7 +88,7 @@ function Artist() {
 
   const unFollowArtist = () => {
     spotifyApi.unfollowArtists([router.query.id as string]).then(res => {
-      console.log('unfollowArtists: ', res);
+      
       setIsFollowingArtists(false);
       message.success('Unfollow successful artist');
       // notification['success']({

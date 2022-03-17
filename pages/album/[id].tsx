@@ -21,14 +21,14 @@ function Album() {
                 ...res.body,
                 ownerName: res.body.artists.map(item => item.name).join(', ')
             }
-            console.log('album: ', albumRes);
+            
             if (artists.length) {
                 spotifyApi.getArtistAlbums(artists[0].id, {limit: 10}).then(res => {
                     setArtistAlbum(res.body.items);
-                    console.log('getArtistAlbums: ', res.body.items);
+                    
                 })
                 spotifyApi.getArtist(artists[0].id).then((user) => {
-                    console.log('getArtist: ', user);
+                    
                     setAlbum({...albumRes, ownerImg: user.body.images});
                 })
               } else {

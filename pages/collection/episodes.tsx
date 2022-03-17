@@ -19,7 +19,7 @@ function episodes() {
     if (session) {
       getMySavedEpisodes(session.accessToken)
         .then((result) => {
-          console.log('getMySavedEpisodes: ', result)
+          
           setSavedEpisode(result)
         })
     }

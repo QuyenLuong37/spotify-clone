@@ -12,7 +12,7 @@ function tracks() {
   useEffect(() => {
     if (session) {
       spotifyWebApi.getMySavedTracks({ limit: 50 }).then((res) => {
-        console.log('getMySavedTracks: ', res)
+        
         const result = {
           tracks: res.body.items.map((item) => {
             return {

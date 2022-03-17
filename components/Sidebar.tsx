@@ -21,7 +21,7 @@ function Sidebar() {
   // const [isSelectSavedTrack, setSavedTrack] = useRecoilState(savedTrackState)
   useEffect(() => {
     if (session) {
-      console.log('sibar run')
+      
       spotifyApi.getUserPlaylists().then((res) => {
         setPlaylists(res.body.items)
       })

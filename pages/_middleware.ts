@@ -9,12 +9,12 @@ export async function middleware(req: any) {
     req,
     secret: process.env.SPOTIFY_CLIENT_SECRET,
   })
-  // console.log('token; ', token);
+  // 
   const { pathname } = req.nextUrl
   if (pathname.includes('/api/auth') || token) {
       return NextResponse.next()
     }
-    console.log('???????????????');
+    
   if (!token || pathname !== '/login') {
     const url = req.nextUrl.clone()
     url.pathname = '/login'

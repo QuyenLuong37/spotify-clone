@@ -14,7 +14,7 @@ function MediaTableRow({track, uri, index, colsVisible}) {
     const currentTrackIsPlaying: any = useRecoilValue(currentTrackIsPlayingState);
     const pausePlayback = () => {
         spotifyApi.pause().then(res => {
-            console.log('pause res: ', res);
+            
         })
     }
 
@@ -22,7 +22,7 @@ function MediaTableRow({track, uri, index, colsVisible}) {
     const playTrackInPlaylist = (e, track, index) => {
         e.stopPropagation();
         spotifyApi.play({context_uri: uri, offset: {position: index}, position_ms: 0}).then(res => {
-        console.log('res: ', res);
+        
         })
     }
   return (

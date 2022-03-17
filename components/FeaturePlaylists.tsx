@@ -2,7 +2,7 @@ import React from 'react'
 import Track from './Track';
 
 function FeaturePlaylists({featurePlaylist}) {
-    console.log('playlists: ', featurePlaylist);
+    
     return (
         <div>
             <div className='text-[28px] xxl:text-3xl font-semibold mb-6 '>{featurePlaylist.message}</div>

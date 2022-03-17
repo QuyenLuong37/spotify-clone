@@ -28,7 +28,7 @@ export default function Login({ providers }: any) {
 // This is the recommended way for Next.js 9.3 or newer
 export async function getServerSideProps() {
   const providers = await getProviders()
-  console.log('providers: ', providers)
+  
   return {
     props: { providers },
   }

@@ -5,7 +5,7 @@ import Header from './Header'
 
 function LayoutLibrary({children}) {
     const router = useRouter();
-    console.log('router: ', router)
+    
     const [tabSelected, setTabSelected] = useState('playlists');
     return (
             <div>

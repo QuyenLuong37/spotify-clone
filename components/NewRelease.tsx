@@ -2,7 +2,7 @@ import React from 'react'
 import Track from './Track';
 
 function NewRelease({newRelease}) {
-    console.log('newRelease: ', newRelease);
+    
     if (newRelease && newRelease.length) {
         return (
             <div>

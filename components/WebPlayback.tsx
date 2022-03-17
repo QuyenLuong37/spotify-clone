@@ -1,95 +1,57 @@
 import { HeartIcon, PauseIcon } from '@heroicons/react/outline'
 import { AdjustmentsIcon, FastForwardIcon, PlayIcon, RefreshIcon, RewindIcon, VolumeOffIcon, VolumeUpIcon } from '@heroicons/react/solid'
 import { Slider } from 'antd'
-import { useSession } from 'next-auth/react'
 import React, { useState, useEffect } from 'react'
-import { useRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import useSpotify from '../hook/useSpotify'
 import { currentTrackIsPlayingState } from '../recoil/currentTrackAtom'
+import { playerState } from '../recoil/playerAtom'
 import { millisToMinutesAndSeconds } from '../utils/duration-to-time'
+import Icon, {StepBackwardOutlined, StepForwardOutlined, PlayCircleFilled, PauseCircleFilled } from '@ant-design/icons';
 
 type RepeatState = 'off' | 'context' | 'track';
+const RepeatSvg = () => (
+  <svg role="img" height="16" width="16" viewBox="0 0 16 16" fill='#fff' ><path d="M0 4.75A3.75 3.75 0 013.75 1h8.5A3.75 3.75 0 0116 4.75v5a3.75 3.75 0 01-3.75 3.75H9.81l1.018 1.018a.75.75 0 11-1.06 1.06L6.939 12.75l2.829-2.828a.75.75 0 111.06 1.06L9.811 12h2.439a2.25 2.25 0 002.25-2.25v-5a2.25 2.25 0 00-2.25-2.25h-8.5A2.25 2.25 0 001.5 4.75v5A2.25 2.25 0 003.75 12H5v1.5H3.75A3.75 3.75 0 010 9.75v-5z"></path></svg>
+);
 
-function WebPlayback({ accessToken }) {
-  const [is_paused, setPaused] = useState(false)
-  const [is_shuffle, setShuffle] = useState(false)
-  const [is_active, setActive] = useState(false)
-  const [repeat_mode, setRepeatMode] = useState(0)
-  const volumeLocal = localStorage.getItem('volume');
-  const [volume, setVolume] = useState(volumeLocal ? +volumeLocal : 0.5)
-  const [player, setPlayer]: any = useState(null)
+const SkipForwardSvg = () => (
+  <svg role="img" height="16" width="16" viewBox="0 0 16 16" ><path d="M13.536 4.5h-1.473a.75.75 0 100 1.5H16V2.063a.75.75 0 00-1.5 0v1.27A8.25 8.25 0 103.962 15.887a.75.75 0 10.827-1.25A6.75 6.75 0 1113.535 4.5z"></path><path d="M6.303 8.407c.79 0 1.214-.52 1.214-.907h1.5v8h-1.5V9.907H6v-1.5h.303zm4.832-.911h4.05v1.5H12.33l-.245 1.067c.256-.071.525-.11.804-.11 1.621 0 2.954 1.3 2.954 2.924 0 1.624-1.333 2.923-2.954 2.923a2.945 2.945 0 01-2.93-2.54l1.487-.197c.092.69.696 1.237 1.443 1.237.813 0 1.454-.647 1.454-1.423s-.64-1.423-1.454-1.423c-.49 0-.92.235-1.183.594l-.01.014-.206.254-1.314-.639.96-4.181z"></path></svg>
+)
+
+const SkipBackSvg = () => (
+  <svg role="img" height="16" width="16" viewBox="0 0 16 16"><path d="M2.464 4.5h1.473a.75.75 0 110 1.5H0V2.063a.75.75 0 011.5 0v1.27a8.25 8.25 0 1110.539 12.554.75.75 0 01-.828-1.25A6.75 6.75 0 102.464 4.5z"></path><path d="M.303 8.407c.79 0 1.214-.52 1.214-.907h1.5v8h-1.5V9.907H0v-1.5h.303zm4.832-.911h4.05v1.5H6.33l-.245 1.067c.256-.071.525-.11.804-.11 1.621 0 2.954 1.3 2.954 2.924C9.843 14.5 8.51 15.8 6.89 15.8a2.945 2.945 0 01-2.93-2.54l1.487-.197c.092.69.696 1.237 1.443 1.237.813 0 1.454-.647 1.454-1.423s-.64-1.423-1.454-1.423c-.49 0-.92.235-1.183.594l-.01.014-.206.254-1.314-.639.96-4.181z"></path></svg>
+)
+
+const ShuffleSvg = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512" >
+    <g>
+      <path d="M168.7,328.5L112.6,384c-14.8,14.9-40.7,25.6-61.4,25.6H0v-51.2h51.2c7.4,0,20.5-5.1,25.6-10.5l55.6-55.8L168.7,328.5z    M409.6,102.4V25.6L512,128L409.6,230.4v-76.8h-51.2c-7.4,0-20.5,5.1-25.6,10.5l-55.5,55.8l-36.6-36.3L297,128   c14.9-14.8,40.7-25.6,61.7-25.6h51.2H409.6z M409.6,358.4v-76.8L512,384L409.6,486.4v-76.8h-51.2c-21,0-46.9-10.8-61.7-25.6   L76.6,164.1c-4.9-5.1-17.7-10.5-25.4-10.5H0v-51.2h51.2c21,0,46.9,10.8,61.7,25.6L333,347.9c5.1,5.1,17.9,10.5,25.4,10.5H409.6z"/>
+    </g>
+  </svg>
+)
+
+const RepeatIcon = props => <Icon component={RepeatSvg} {...props} />;
+const SkipForwardIcon = props => <Icon component={SkipForwardSvg} {...props} />;
+const SkipBackIcon = props => <Icon component={SkipBackSvg} {...props} />;
+const ShuffleIcon = props => <Icon component={ShuffleSvg} {...props} />;
+
+function WebPlayback() {
+  const [isPaused, setPaused] = useState(true)
+  const [isShuffle, setShuffle] = useState(false)
+  const [isActive, setActive] = useState(false)
+  const [repeatMode, setRepeatMode] = useState(0)
+  const [volume, setVolume] = useState(0.01)
   const [position, setPosition] = useState(0);
-  // const [isSlideMoving, setIsSlideMoving] = useState(false)
-  const [current_track, setCurrentTrackIsPlaying]: any = useRecoilState(currentTrackIsPlayingState)
+  const player: any = useRecoilValue(playerState)
+  const currentTrack: any = useRecoilValue(currentTrackIsPlayingState);
   
   const spotifyApi = useSpotify()
-  useEffect(() => {
-    const script = document.createElement('script')
-    script.src = 'https://sdk.scdn.co/spotify-player.js'
-    script.async = true
-
-    document.body.appendChild(script)
-    ;(window as any).onSpotifyWebPlaybackSDKReady = async () => {
-      const player = new (window as any).Spotify.Player({
-        name: 'May cua Quyen',
-        getOAuthToken: (cb) => {
-          cb(accessToken)
-        },
-        // volume: 0.5,
-      })
-      setPlayer(player)
-
-      player.addListener('ready', ({ device_id }) => {
-        console.log('Ready with Device ID', device_id)
-        spotifyApi.transferMyPlayback([device_id]).then(
-          (res) => {
-            console.log('transferMyPlayback: ', res)
-          },
-          (err) => {
-            //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
-            console.log('Something went wrong!', err)
-          }
-        )
-      })
-
-      player.addListener('not_ready', ({ device_id }) => {
-        console.log('Device ID has gone offline', device_id)
-      })
-
-      player.addListener('player_state_changed', (state) => {
-        if (!state) {
-          return
-        }
-        // console.log('current_track: ', state)
-        const volume = localStorage.getItem('volume');
-        player.setVolume(volume ? +volume : .5).then(volume => {
-        })
-        setCurrentTrackIsPlaying({...state.track_window.current_track, paused: state.paused, duration: state.duration});
-        setPaused(state.paused)
-        setShuffle(state.shuffle);
-        setRepeatMode(state.repeat_mode);
-        // player.seek(Math.floor(state.position / 1000))
-        setPosition(state.position)
-
-        player.getCurrentState().then((a) => {
-          !state ? setActive(false) : setActive(true)
-        })
-      })
-
-
-      player.connect().then((success) => {
-        if (success) {
-          console.log('The Web Playback SDK successfully connected to Spotify!')
-        }
-      })
-    }
-  }, [])
-
+  
   useEffect(() => {
     // exit early when we reach 0
     let intervalId;
-    if (current_track  ) {
-      if (current_track.paused) {
+    if (currentTrack  ) {
+      if (currentTrack.paused) {
         setPosition(position);
         return
       } else {
@@ -100,62 +62,43 @@ function WebPlayback({ accessToken }) {
         }, 1000);
       }
     };
-
-    
-
     // clear interval on re-render to avoid memory leaks
     return () => clearInterval(intervalId);
     // add timeLeft as a dependency to re-rerun the effect
     // when we update it
   }, [position]);
-  
-  let repeatIcon, volumeTmp;
-  if (volume) {
-    volumeTmp = <div className="flex items-center justify-end">
-      <VolumeUpIcon className="h-5 mr-3 cursor-pointer" onClick={() => toggleVolume('off')} />
-      <Slider tooltipVisible={false} step={0.01}  value={volume} min={0} max={1} onChange={(e) => adjustVolume(e)} className="flex-grow w-36" />
-    </div>
-  } else {
-    volumeTmp = <div className="flex items-center justify-end">
-      <VolumeOffIcon className="h-5 mr-3 cursor-pointer" onClick={() => toggleVolume('on')} />
-      <Slider tooltipVisible={false} step={0.01} value={volume} min={0} max={1} onChange={(e) => adjustVolume(e)} className="flex-grow w-36" />
-    </div>
-  }
 
-  if (repeat_mode === 2) {
-    repeatIcon = <div className="relative">
-      <RefreshIcon onClick={() => changeRepeatMode('off')} className="h-5 text-green-500 cursor-pointer" /> <span className="absolute -top-1 -right-1 text-[10px] text-green-500">1</span>
-    </div>
-  } else if (repeat_mode === 1) {
-    repeatIcon = <RefreshIcon onClick={() => changeRepeatMode('track')} className="h-5 text-green-500 cursor-pointer" />
-  } else {
-    repeatIcon = <RefreshIcon onClick={() => changeRepeatMode('context')} className="h-5 cursor-pointer" />
-  }
-
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     setPosition(position + 1);
-  //   }, 1000);
-
-  //   if (position >= current_track?.duration) {
-  //     clearInterval();
-  //   }
-  // }, [position])
+  useEffect(() => {
+    if (player) {
+      if (currentTrack) {
+        console.log("🚀 currentTrack", currentTrack)
+        const volumeLocal = localStorage.getItem('volume');
+        setVolume(volumeLocal ? +volumeLocal : 0.5)
+        setPaused(currentTrack.paused)
+        setShuffle(currentTrack.shuffle);
+        setRepeatMode(currentTrack.repeat_mode);
+        setPosition(currentTrack.position)
+        // player.getCurrentState().then((a) => {
+        //   !currentTrack ? setActive(false) : setActive(true)
+        // })
+      }
+    }
+  }, [player, currentTrack])
 
 
   const changeRepeatMode = (type: RepeatState) => {
     spotifyApi.setRepeat(type).then(res => {
-      console.log('changeRepeatMode: ', res);
+      
     })
   }
   const shuffle = () => {
-    spotifyApi.setShuffle(!is_shuffle).then(res => {
-      console.log('setShuffle: ', res);
+    spotifyApi.setShuffle(!isShuffle).then(res => {
+      
     })
   }
 
   const adjustVolume = (e) => {
-    console.log('set : ', e);
+    
     setVolume(e);
     localStorage.setItem('volume', e);
     player.setVolume(e);
@@ -177,75 +120,99 @@ function WebPlayback({ accessToken }) {
   }
   
   const setPositionPlayMusic = (position: number) => {
-    setPosition(position)
-    console.log('setPositionPlayMusic: ', position);
+    // const duration = currentTrack.duration;
+    // if (position <= duration) {
+    //   player.seek(position);
+    // }
+    
   }
 
   const onAfterChangeSlider = (e) => {
-    console.log('onAfterChangeSlider: ', e);
-    const duration = current_track.duration;
+    
+    const duration = currentTrack.duration;
     if (position <= duration) {
       player.seek(position);
     }
   }
 
+  const skip = (ms) => {
+    if (position + ms < 0) {
+      player.seek(0);
+    } else {
+      player.seek(position + ms);
+    }
+  }
+  
+  let repeatIcon, volumeTmp;
+  if (volume) {
+    volumeTmp = <div className="flex items-center justify-end">
+      <VolumeUpIcon className="h-5 mr-3 cursor-pointer" onClick={() => toggleVolume('off')} />
+      <Slider tooltipVisible={false} step={0.01}  value={volume} min={0} max={1} onChange={(e) => adjustVolume(e)} className="flex-grow w-36" />
+    </div>
+  } else {
+    volumeTmp = <div className="flex items-center justify-end">
+      <VolumeOffIcon className="h-5 mr-3 cursor-pointer" onClick={() => toggleVolume('on')} />
+      <Slider tooltipVisible={false} step={0.01} value={volume} min={0} max={1} onChange={(e) => adjustVolume(e)} className="flex-grow w-36" />
+    </div>
+  }
+
+  if (repeatMode === 2) {
+    repeatIcon = <div className="relative">
+      <RepeatIcon onClick={() => changeRepeatMode('off')} className=" text-green-500 cursor-pointer" /> <span className="absolute -top-1 -right-1 text-[10px] text-green-500">1</span>
+    </div>
+  } else if (repeatMode === 1) {
+    repeatIcon = <RepeatIcon onClick={() => changeRepeatMode('track')} className=" text-green-500 cursor-pointer" />
+  } else {
+    repeatIcon = <RepeatIcon onClick={() => changeRepeatMode('context')} className=" cursor-pointer" />
+  }
+
   return (
-            <div className="grid grid-cols-3 gap-6 items-center text-white h-[90px] bg-[#181818] px-6">
-                <div className="flex items-center space-x-4">
-                  <img
-                      src={current_track?.album?.images?.[0]?.url}
-                      className="now-playing__cover h-12 w-12"
-                      alt=""
-                    />
+    <div className="grid grid-cols-3 gap-6 items-center text-white h-[105px] bg-[#181818] px-6">
+        <div className="flex items-center space-x-4">
+          <img
+              src={currentTrack?.track_window?.current_track?.album?.images?.[0]?.url}
+              className="now-playing__cover h-12 w-12"
+              alt=""
+            />
 
-                  <div className="">
-                    <div className='line-clamp-1'>{current_track?.name}</div>
-                    <div className="text-gray-500 text-xs">
-                      {current_track?.artists?.[0]?.name}
-                    </div>
-                  </div>
-                  <div>
-                  <HeartIcon className="h-5" />
-                  </div>
-                </div>
-
-              <div className="">
-                <div className="flex items-center justify-center space-x-8">
-                    <svg onClick={() => shuffle()} className={is_shuffle ? 'h-4 cursor-pointer fill-green-500' : 'h-4 fill-white cursor-pointer'} xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512" >
-                      <g>
-                        <path d="M168.7,328.5L112.6,384c-14.8,14.9-40.7,25.6-61.4,25.6H0v-51.2h51.2c7.4,0,20.5-5.1,25.6-10.5l55.6-55.8L168.7,328.5z    M409.6,102.4V25.6L512,128L409.6,230.4v-76.8h-51.2c-7.4,0-20.5,5.1-25.6,10.5l-55.5,55.8l-36.6-36.3L297,128   c14.9-14.8,40.7-25.6,61.7-25.6h51.2H409.6z M409.6,358.4v-76.8L512,384L409.6,486.4v-76.8h-51.2c-21,0-46.9-10.8-61.7-25.6   L76.6,164.1c-4.9-5.1-17.7-10.5-25.4-10.5H0v-51.2h51.2c21,0,46.9,10.8,61.7,25.6L333,347.9c5.1,5.1,17.9,10.5,25.4,10.5H409.6z"/>
-                      </g>
-                      </svg>
-
-                  <RewindIcon onClick={() => player.previousTrack()} className="cursor-pointer h-6" />
-                  {/* <PauseIcon className="cursor-pointer h-6" /> */}
-                  {is_paused && (
-                    <PlayIcon onClick={() => player.togglePlay()} className="cursor-pointer h-6" />
-                  )}
-                  {!is_paused && (
-                    <PauseIcon onClick={() => player.togglePlay()} className="cursor-pointer h-6" />
-                  )}
-                  <FastForwardIcon onClick={() => player.nextTrack()}  className="cursor-pointer h-6" />
-                  {repeatIcon}
-                  {/* <AdjustmentsIcon className="cursor-pointer h-5" /> */}
-                </div>
-
-                <div className="flex items-center space-x-2 mt-2">
-                  <div>{millisToMinutesAndSeconds(position)}</div>
-                  <Slider value={Math.round(position)} tooltipVisible={false} step={1000} min={0} max={Math.round(current_track?.duration) } className="flex-grow" defaultValue={0} onChange={(e) => setPositionPlayMusic(e)} onAfterChange={(e) => onAfterChangeSlider(e)} />
-                  <div className="justify-self-end">{current_track?.duration ? millisToMinutesAndSeconds(current_track?.duration) : ''}</div>
-                </div>
-              </div>
-
-              <div className="justify-self-end">
-                {volumeTmp}
-              </div>
+          <div className="">
+            <div className='line-clamp-1'>{currentTrack?.track_window?.current_track?.name}</div>
+            <div className="text-gray-500 text-xs">
+              {currentTrack?.track_window?.current_track?.artists?.[0]?.name}
             </div>
-    // <div className="text-gray-300 bg-gray-800">
-    //       <div className="px-4 py-6">
+          </div>
+          <div>
+          <HeartIcon className="h-5" />
+          </div>
+        </div>
 
-    //       </div>
-    // </div>
+      <div className="">
+        <div className="flex items-center justify-center space-x-8">
+          {currentTrack?.track_window?.current_track?.type !== 'episode' && <ShuffleIcon onClick={() => shuffle()} className={isShuffle ? 'transition duration-200 cursor-pointer text-xl flex h-4 fill-green-500' : 'transition duration-200 cursor-pointer text-xl flex h-4 fill-white'}/>}
+          {currentTrack?.track_window?.current_track?.type === 'episode' && <SkipBackIcon onClick={() => skip(-15000)} className="cursor-pointer text-xl flex fill-white" />}
+          <StepBackwardOutlined onClick={() => player.previousTrack()} className="cursor-pointer text-xl flex" />
+          {isPaused && (
+            <PlayCircleFilled onClick={() => player.togglePlay()} className="cursor-pointer text-3xl flex" />
+          )}
+          {!isPaused && (
+            <PauseCircleFilled  onClick={() => player.togglePlay()} className="cursor-pointer text-3xl flex" />
+          )}
+          <StepForwardOutlined onClick={() => player.nextTrack()}  className="cursor-pointer text-xl flex" />
+          {currentTrack?.track_window?.current_track?.type === 'episode' && <SkipForwardIcon onClick={() => skip(15000)} className="cursor-pointer text-xl flex fill-white" />}
+          {currentTrack?.track_window?.current_track?.type !== 'episode' ? repeatIcon : null}
+        </div>
+
+        <div className="flex items-center space-x-2 mt-1">
+          <div>{millisToMinutesAndSeconds(position)}</div>
+          <Slider value={Math.round(position)} tooltipVisible={false} step={1000} min={0} max={Math.round(currentTrack?.duration) } className="flex-grow" defaultValue={0} onChange={(e) => setPositionPlayMusic(e)} onAfterChange={(e) => onAfterChangeSlider(e)} />
+          <div className="justify-self-end">{currentTrack?.duration ? millisToMinutesAndSeconds(currentTrack?.duration) : ''}</div>
+        </div>
+      </div>
+
+      <div className="justify-self-end">
+        {volumeTmp}
+      </div>
+    </div>
   )
 }
 

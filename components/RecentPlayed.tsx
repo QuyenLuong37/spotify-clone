@@ -2,7 +2,7 @@ import React from 'react'
 import Track from './Track';
 
 function RecentPlayed({recentTracks}) {
-    console.log('recentTracks: ', recentTracks);
+    
     if (recentTracks && recentTracks.length) {
         return (
             <div>
