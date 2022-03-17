@@ -20,13 +20,13 @@ function Sidebar() {
   const [playlistIdSelected, setplaylistId] = useRecoilState(playlistIdState)
   // const [isSelectSavedTrack, setSavedTrack] = useRecoilState(savedTrackState)
   useEffect(() => {
-    console.log('Sidebar runn')
     if (session) {
+      console.log('sibar run')
       spotifyApi.getUserPlaylists().then((res) => {
         setPlaylists(res.body.items)
       })
     }
-  }, [session, spotifyApi])
+  }, [session])
 
   return (
     <div className="flex h-screen min-h-0 w-60 flex-col bg-black p-6 text-sm font-medium text-gray-400">

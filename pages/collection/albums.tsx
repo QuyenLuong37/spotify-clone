@@ -1,13 +1,11 @@
-import Layout from '../../components/Layout'
 import React from 'react'
+import LayoutLibrary from '../../components/LayoutLibrary'
 
 function album() {
   return (
-    <Layout>
-      <div>
-        <div>album</div>
-      </div>
-    </Layout>
+    <LayoutLibrary>
+      <div>album</div>
+    </LayoutLibrary>
   )
 }
 

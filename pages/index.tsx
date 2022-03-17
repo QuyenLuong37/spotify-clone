@@ -3,6 +3,7 @@ import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import FeaturePlaylists from '../components/FeaturePlaylists'
 import Greeting from '../components/Greeting'
+import Header from '../components/Header'
 import Layout from '../components/Layout'
 import NewRelease from '../components/NewRelease'
 import RecentPlayed from '../components/RecentPlayed'
@@ -79,8 +80,9 @@ const Home: NextPage = () => {
     }
   }, [session])
   return <>
-    <Layout >
       <div className="space-y-8 text-white p-6">
+        
+        <Header />
         <Greeting />
 
         {/* new release album */}
@@ -92,7 +94,6 @@ const Home: NextPage = () => {
         {/* Feature playlists */}
         <FeaturePlaylists featurePlaylist={featurePlaylist} />
       </div>
-     </Layout>
   </>
 }
 

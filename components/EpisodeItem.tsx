@@ -1,10 +1,9 @@
 import Image from 'next/image'
-import React, { useEffect } from 'react'
+import React from 'react'
 import {DeleteOutlined} from '@ant-design/icons';
 import { format } from 'date-fns';
 import { millisToMinutesAndSeconds } from '../utils/duration-to-time';
 import Link from 'next/link';
-import useSpotify from '../hook/useSpotify';
 import { useSession } from 'next-auth/react';
 import { removeSavedEpisodeApi } from '../lib/spotify';
 import { message } from 'antd';

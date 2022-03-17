@@ -4,9 +4,7 @@ import PlaylistDetail from '../components/PlaylistDetail'
 
 function Playlist() {
   return (
-      <Layout>
         <PlaylistDetail />
-      </Layout>
   )
 }
 

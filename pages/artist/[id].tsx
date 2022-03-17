@@ -4,7 +4,7 @@ import { Button, Dropdown, Menu, message, notification } from 'antd'
 import SubMenu from 'antd/lib/menu/SubMenu'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
 import MediaPlayButton from '../../components/MediaPlayButton'
 import MediaSummary from '../../components/MediaSummary'
@@ -99,7 +99,6 @@ function Artist() {
   }
 
   return (
-    <Layout>
       <div>
         <MediaSummary
             description={artist?.description}
@@ -177,7 +176,6 @@ function Artist() {
           </div>
         </div>
       </div>
-    </Layout>
   )
 }
 

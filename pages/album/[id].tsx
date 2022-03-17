@@ -40,7 +40,6 @@ function Album() {
     
 
   return (
-    <Layout>
         <div>
             <LayoutPlaylist
                 description={album?.description}
@@ -67,7 +66,6 @@ function Album() {
                 </div>
            </div>
         </div>
-    </Layout>
   )
 }
 

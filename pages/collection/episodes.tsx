@@ -2,6 +2,7 @@ import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import EpisodeItem from '../../components/EpisodeItem'
+import Header from '../../components/Header'
 import Layout from '../../components/Layout'
 import MediaPlayButton from '../../components/MediaPlayButton'
 import MediaSummary from '../../components/MediaSummary'
@@ -24,8 +25,8 @@ function episodes() {
     }
   }, [session])
   return (
-    <Layout>
       <div>
+        <Header />
         <MediaSummary
             description={null}
             followerCount={null}
@@ -51,7 +52,6 @@ function episodes() {
             })}
         </div>
       </div>
-    </Layout>
   )
 }
 

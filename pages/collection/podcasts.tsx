@@ -1,13 +1,13 @@
-import React from 'react'
-import Layout from '../../components/Layout'
+import React, { useState } from 'react'
+import LayoutLibrary from '../../components/LayoutLibrary';
 
 function podcast() {
   return (
-    <Layout>
+    <LayoutLibrary>
       <div>
-        <div>Podcast</div>
+          <div>podcast</div>
       </div>
-    </Layout>
+    </LayoutLibrary>
   )
 }
 

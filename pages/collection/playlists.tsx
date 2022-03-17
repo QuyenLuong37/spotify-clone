@@ -1,13 +1,15 @@
-import React from 'react'
-import Layout from '../../components/Layout'
+import Link from 'next/link'
+import React, { useState } from 'react'
+import Header from '../../components/Header';
+import Layout from '../../components/Layout';
+import LayoutLibrary from '../../components/LayoutLibrary';
 
 function playlist() {
+  const [tabSelected, setTabSelected] = useState('playlists');
   return (
-    <Layout>
-      <div>
-        <div>Playlist</div>
-      </div>
-    </Layout>
+    <LayoutLibrary>
+      <div>playlist</div>
+    </LayoutLibrary>
   )
 }
 

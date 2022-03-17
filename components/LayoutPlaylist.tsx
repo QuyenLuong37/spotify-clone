@@ -1,5 +1,5 @@
 import React from 'react'
-import useSpotify from '../hook/useSpotify';
+import Header from './Header';
 import MediaPlayButton from './MediaPlayButton';
 import MediaSummary from './MediaSummary'
 import MediaTableHeader from './MediaTableHeader'
@@ -8,6 +8,8 @@ import MediaTableRow from './MediaTableRow'
 function LayoutPlaylist({description, name,followerCount,ownerImg, type, playlistImg, uri, tracks, trackTotal, owner, colsVisible}) {
     return (
         <div className="text-white">
+            
+            <Header />
             <MediaSummary
                 description={description}
                 followerCount={followerCount}

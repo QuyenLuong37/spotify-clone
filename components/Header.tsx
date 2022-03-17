@@ -1,12 +1,12 @@
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/solid'
 import { Dropdown, Menu } from 'antd'
 import { signOut, useSession } from 'next-auth/react';
-import Link from 'next/link';
-import React, { useState } from 'react'
-
-function Header() {
+import React from 'react'
+const isChildNull = children => {
+    return Boolean(!children?.type);
+  };
+function Header({children}: any) {
     const { data: session }: any = useSession()
-    const [tabSelected, setTabSelected] = useState('playlists');
 
     const menu = (
       <Menu>
@@ -19,7 +19,7 @@ function Header() {
       </Menu>
     );
   return (
-    <header className="sticky top-0 z-10 flex cursor-pointer justify-between bg-[#2e2e2e] p-4 text-white shadow-sm">
+    <header className="sticky top-0 z-20 flex cursor-pointer justify-between bg-[#2e2e2e] p-4 text-white shadow-sm">
 
         <div className="flex items-center space-x-10">
             <div className="flex  space-x-3">
@@ -31,29 +31,7 @@ function Header() {
                 <ChevronRightIcon className='h-5' />
                 </div>
             </div>
-
-            <div className='flex space-x-6'>
-                <div className={tabSelected === 'playlists' ? 'tabSelected' : 'tabUnSelected'} onClick={() => setTabSelected('playlists')}>
-                    <Link href='/collection/playlists'>
-                        <span>Playlist</span>
-                    </Link>
-                </div>
-                <div className={tabSelected === 'podcasts' ? 'tabSelected' : 'tabUnSelected'} onClick={() => setTabSelected('podcasts')}>
-                    <Link href='/collection/podcasts'>
-                        <span>Podcasts</span>
-                    </Link>
-                </div>
-                <div className={tabSelected === 'artists' ? 'tabSelected' : 'tabUnSelected'} onClick={() => setTabSelected('artists')}>
-                    <Link href='/collection/artists'>
-                        <span>Artists</span>
-                    </Link>
-                </div>
-                <div className={tabSelected === 'albums' ? 'tabSelected' : 'tabUnSelected'} onClick={() => setTabSelected('albums')}>
-                    <Link href='/collection/albums'>
-                        <span>Albums</span>
-                    </Link>
-                </div>
-            </div>
+            {!isChildNull(children) && {...children}}
         </div>
 
         <Dropdown overlay={menu} trigger={['click']}>
