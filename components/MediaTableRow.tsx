@@ -21,9 +21,12 @@ function MediaTableRow({track, uri, index, colsVisible}) {
     
     const playTrackInPlaylist = (e, track, index) => {
         e.stopPropagation();
-        spotifyApi.play({context_uri: uri, offset: {position: index}, position_ms: 0}).then(res => {
-        
-        })
+        if (track.type === 'track') {
+            console.log('uri: ', track.uri);
+            spotifyApi.play({context_uri: track.uri, position_ms: 0});
+        } else {
+            spotifyApi.play({context_uri: uri, offset: {position: index}, position_ms: 0});
+        }
     }
   return (
     <div className=''>
@@ -45,7 +48,7 @@ function MediaTableRow({track, uri, index, colsVisible}) {
                 </div>
                 <div className={colsVisible.includes('title') ? 'visible' : 'invisible'}>
                     <div className="flex items-center space-x-3">
-                    {track?.trackImg && <img src={track?.trackImg} className="w-10 h-10" alt="" />}
+                    {track?.trackImg && <img src={track?.trackImg} className="w-10 h-10 rounded" alt="" />}
                     <div>
                         <div className={(track?.id === currentTrackIsPlaying?.id  || track?.id === currentTrackIsPlaying?.linked_from?.id) ? 'text-green-500 font-semibold text-sm' : 'text-white font-semibold text-sm'}>{track?.name}</div>
                         <div className='text-sm flex space-x-1 text-gray-400'>

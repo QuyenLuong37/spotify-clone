@@ -32,15 +32,10 @@ function Layout({ children }) {
 
         player.addListener('ready', ({ device_id }) => {
           
-          spotifyApi.transferMyPlayback([device_id]).then(
-            (res) => {
-              
-            },
-            (err) => {
-              //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
-              
-            }
-          )
+          console.log('device id: ', device_id);
+          spotifyApi.transferMyPlayback([device_id]).then(res => {
+
+          })
         })
 
         player.addListener('not_ready', ({ device_id }) => {
@@ -51,7 +46,6 @@ function Layout({ children }) {
           if (!state) {
             return
           }
-          // 
           setCurrentTrackIsPlaying(state);
           const volume = localStorage.getItem('volume');
           player.setVolume(volume ? +volume : .5).then(volume => {
@@ -71,7 +65,6 @@ function Layout({ children }) {
         
         player.connect().then((success) => {
           if (success) {
-            
             setPlayer(player)
           }
         })

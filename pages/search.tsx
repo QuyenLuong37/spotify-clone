@@ -8,11 +8,12 @@ import Genres from '../components/Genres';
 import Track from '../components/Track';
 import { useRouter } from 'next/router';
 import Header from '../components/Header';
+import TopResult from '../components/TopResult';
 function search() {
     const spotifyApi = useSpotify();
     const { data: session } = useSession();
     const [searchInput, setSearchInput] = useState('');
-    const [searchResult, setSearchResult] = useState({});
+    const [searchResult, setSearchResult]: any = useState({});
     const [genres, setGenres] = useState([]);
     const [categories, setCategories] = useState([]);
     const router = useRouter()
@@ -33,7 +34,8 @@ function search() {
         }
     }, [session])
     const debounceDropDown = useCallback(_.debounce((val) => {
-        spotifyApi.search(val, ['track', 'album', 'episode', 'show', 'artist', 'playlist'], {market: 'VN', include_external: 'audio', limit: 10}).then(res => {
+        spotifyApi.search(val, ['track', 'album', 'episode', 'show', 'artist', 'playlist']).then(res => {
+            console.log("search: ", res)
             
             setSearchResult(res.body);
         })
@@ -67,6 +69,9 @@ function search() {
 
                 {searchInput && (
                     <div className='space-y-5'>
+                        <TopResult album={searchResult?.albums?.items?.[0]} songs={searchResult?.tracks?.items?.slice(0, 4)} />
+
+
                         {Object.keys(searchResult).map((key, index) => {
                             return <div key={index}>
                                 <h3 className='capitalize font-bold text-lg text-white mb-2'>{key}</h3>

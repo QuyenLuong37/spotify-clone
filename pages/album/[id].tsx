@@ -60,7 +60,7 @@ function Album() {
                 <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
                     {artistAlbum?.map((item, index) => {
                         return (
-                            <Track key={index} id={item?.id} name={item?.name} images={item?.images} artist={item?.description}  type={item?.type} />
+                            <Track key={index} id={item?.id} name={item?.name} images={item?.images} artist={null}  type={item?.type} />
                         )
                     })}
                 </div>
