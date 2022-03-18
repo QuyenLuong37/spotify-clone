@@ -33,18 +33,19 @@ function MediaPlayButton({ uri }) {
   const currentTrack: any = useRecoilValue(currentTrackIsPlayingState)
   const player: any = useRecoilValue(playerState)
   const play = () => {
-    spotifyApi.play({ context_uri: uri }).then((res) => {})
+    spotifyApi.play({ context_uri: uri, position_ms:  currentTrack?.position}).then((res) => {})
+  }
+  const pause = () => {
+    spotifyApi.pause().then((res) => {})
   }
   return (
-    <div>
-      <div className="flex h-12 w-12 transform cursor-pointer items-center justify-center rounded-full bg-green-400 p-3 text-white transition duration-150 hover:scale-110">
+      <div onClick={() => currentTrack?.context?.uri === uri && !currentTrack?.paused ? pause() : play()} className="flex h-10 w-10 2xl:h-12 2xl:w-12 transform cursor-pointer items-center justify-center rounded-full bg-green-400 p-3 text-white transition duration-150 hover:scale-110">
         {currentTrack?.context?.uri === uri && !currentTrack?.paused ? (
-          <PauseIcon onClick={() => player?.togglePlay()} />
+          <PauseIcon onClick={() => pause()} />
         ) : (
-          <PlayIcon onClick={() => player?.togglePlay()}  />
+          <PlayIcon onClick={() => play()}  />
         )}
       </div>
-    </div>
   )
 }
 

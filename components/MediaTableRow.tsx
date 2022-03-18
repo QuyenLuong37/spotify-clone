@@ -1,5 +1,6 @@
 import { HeartIcon } from '@heroicons/react/outline';
 import { MusicNoteIcon, PauseIcon, PlayIcon, DotsHorizontalIcon } from '@heroicons/react/solid';
+import { Tooltip } from 'antd';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import React, { useState } from 'react'
@@ -50,12 +51,14 @@ function MediaTableRow({track, uri, index, colsVisible}) {
                     <div className="flex items-center space-x-3">
                     {track?.trackImg && <img src={track?.trackImg} className="w-10 h-10 rounded" alt="" />}
                     <div>
-                        <div className={(track?.id === currentTrackIsPlaying?.id  || track?.id === currentTrackIsPlaying?.linked_from?.id) ? 'text-green-500 font-semibold text-sm' : 'text-white font-semibold text-sm'}>{track?.name}</div>
+                        <div className={(track?.id === currentTrackIsPlaying?.id  || track?.id === currentTrackIsPlaying?.linked_from?.id) ? 'text-green-500 font-semibold text-sm line-clamp-1' : 'text-white font-semibold text-sm line-clamp-1'}>{track?.name}</div>
                         <div className='text-sm flex space-x-1 text-gray-400'>
                             {track?.artists?.length > 0 && (
                                 track?.artists?.map((item, index) => {
                                     return <Link href={`/artist/${item.id}`} key={index}>
-                                        <div className='flex space-x-2'><span className='transition duration-200 hover:underline hover:text-gray-300'>{item.name}</span>{track.artists.length - 1 !== index ? ', ' : ''}</div>
+                                        <Tooltip title={item.name}>
+                                            <div className='flex space-x-2'><span className='transition duration-200 hover:underline hover:text-gray-300 line-clamp-1'>{item.name}</span>{track.artists.length - 1 !== index ? ', ' : ''}</div>
+                                        </Tooltip>
                                     </Link>
                                 })
                             )}

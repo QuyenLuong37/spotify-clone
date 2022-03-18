@@ -14,24 +14,6 @@ const Home: NextPage = () => {
   const [recentTracks, setRecentTracks] = useState([])
   const [featurePlaylist, setFeaturePlaylist] = useState({})
   const [newRelease, setNewRelease] = useState({})
-  const [savedShows, setSavedShows] = useState([])
-  // const [categories, setCategories] = useState([])
-
-  // const getCategories = () => {
-
-  // }
-
-  // const getMyShows = () => {
-  //   spotifyApi.getMySavedShows({ limit: 6 }).then(
-  //     (data: any) => {
-  //       
-  //       setSavedShows(data?.body?.items ?? [])
-  //     },
-  //     (err) => {
-  //       
-  //     }
-  //   )
-  // }
   // Get tracks in the signed in user's Your Music library
   const getRecentTracks = () => {
     spotifyApi
@@ -58,9 +40,8 @@ const Home: NextPage = () => {
     )
   }
   const getNewRelease = () => {
-    spotifyApi.getNewReleases({ limit: 10 }).then(
+    spotifyApi.getNewReleases({ limit: 10, country: 'VN' }).then(
       (data: any) => {
-        
         setNewRelease(data?.body?.albums?.items ?? [])
       },
       (err) => {

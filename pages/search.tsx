@@ -21,7 +21,7 @@ function search() {
     useEffect(() => {
         const {query} = router.query;
         if (query) {
-            setSearchInput(query as string);
+            setSearchInput(decodeURI(query as string));
             debounceDropDown(query);
         }
     }, [router.query])
@@ -42,7 +42,7 @@ function search() {
     }, 1000), [])
     
     const handleSearch = (value) => {
-        router.push('/search', {query: {query: encodeURI(value)}, })
+        router.replace('/search', {query: {query: decodeURI(value)}, }, {shallow: true})
         setSearchInput(value);
         if (value) {
             debounceDropDown(value);
