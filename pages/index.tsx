@@ -59,7 +59,7 @@ const Home: NextPage = () => {
   }, [session])
   return <>
       <Header />
-      <div className="space-y-8 p-6">
+      <div className="space-y-10 p-6">
         
         <Greeting />
 

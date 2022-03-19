@@ -10,48 +10,54 @@ import { currentTrackIsPlayingState } from '../recoil/currentTrackAtom';
 import { millisToMinutesAndSeconds } from '../utils/duration-to-time';
 
 function MediaTableRow({track, uri, index, colsVisible}) {
-    const [trackSelected, setTrackSelected]: any = useState(null)
+    // const [trackSelected, setTrackSelected]: any = useState(null)
     const spotifyApi = useSpotify();
-    const currentTrackIsPlaying: any = useRecoilValue(currentTrackIsPlayingState);
+    const currentTrack: any = useRecoilValue(currentTrackIsPlayingState);
+    // console.log("track", track)
+    console.log("currentTrack", currentTrack)
     const pausePlayback = () => {
         spotifyApi.pause().then(res => {
             
         })
     }
-
     
     const playTrackInPlaylist = (e, track, index) => {
         e.stopPropagation();
         if (track.type === 'track') {
-            console.log('uri: ', track.uri);
-            spotifyApi.play({context_uri: track.uri, position_ms: 0});
+            spotifyApi.play({context_uri: track.album.uri, position_ms: track?.id === currentTrack?.track_window?.current_track?.id ? currentTrack?.position : 0});
         } else {
-            spotifyApi.play({context_uri: uri, offset: {position: index}, position_ms: 0});
+            spotifyApi.play({context_uri: uri, offset: {position: index}, position_ms: track?.id === currentTrack?.track_window?.current_track?.id ? currentTrack?.position : 0});
         }
     }
+
+    const setSelected = () => {
+        // setTrackSelected(track?.id)
+    }
   return (
-    <div className=''>
-        <div onClick={() => setTrackSelected(track?.id)} className={trackSelected === track?.id ? 'bg-gray-800 text-white' : 'bg-transparent'}>
+    <div>
+        <div>
             <div  className="media-table-cols-5 group">
                 <div className="flex justify-center">
-                    {((track?.id === currentTrackIsPlaying?.id  || track?.id === currentTrackIsPlaying?.linked_from?.id) && currentTrackIsPlaying?.paused === false) && (
+                    {((track?.id === currentTrack?.track_window?.current_track?.id  || track?.id === currentTrack?.track_window?.current_track?.linked_from?.id) && currentTrack?.paused === false) && (
                     <>
-                        <MusicNoteIcon className={((track?.id === currentTrackIsPlaying?.id  || track?.id === currentTrackIsPlaying?.linked_from?.id) && trackSelected !== track?.id) ? 'h-6 text-green-500 group-hover:hidden' : 'hidden'} />
+                        {/* <MusicNoteIcon className={((track?.id === currentTrack?.track_window?.current_track?.id  || track?.id === currentTrack?.track_window?.current_track?.linked_from?.id) && trackSelected !== track?.id) ? 'h-6 text-green-500 group-hover:hidden' : 'hidden'} /> */}
 
-                        <PauseIcon onClick={() => pausePlayback()} className={trackSelected === track?.id ? 'group-hover:block h-7' : 'hidden group-hover:block h-7'} />
+                        <img width='16' height='16' className={((track?.id === currentTrack?.track_window?.current_track?.id  || track?.id === currentTrack?.track_window?.current_track?.linked_from?.id)) ? 'text-green-500 group-hover:hidden' : 'hidden'} src="/equaliser-animated-green.gif"  />
+
+                        <PauseIcon onClick={() => pausePlayback()} className='hidden group-hover:block h-7' />
                     </>
                     )}
-                    {((track?.id !== currentTrackIsPlaying?.id && track?.id !== currentTrackIsPlaying?.linked_from?.id) || currentTrackIsPlaying?.paused === true) && (
+                    {((track?.id !== currentTrack?.track_window?.current_track?.id && track?.id !== currentTrack?.track_window?.current_track?.linked_from?.id) || currentTrack?.paused === true) && (
                     <>
-                    <PlayIcon onClick={(e) => {playTrackInPlaylist(e, track, index)}} className={trackSelected === track?.id ? 'h-7' : 'h-7 hidden group-hover:inline-block'}/>
-                    <span className={trackSelected === track?.id ? 'hidden' : ((track?.id === currentTrackIsPlaying?.id  || track?.id === currentTrackIsPlaying?.linked_from?.id) ) ? 'group-hover:hidden text-green-500' : 'group-hover:hidden'}>{index + 1}</span></>
+                    <PlayIcon onClick={(e) => {playTrackInPlaylist(e, track, index)}} className='h-7 hidden group-hover:inline-block'/>
+                    <span className={((track?.id === currentTrack?.track_window?.current_track?.id  || track?.id === currentTrack?.track_window?.current_track?.linked_from?.id) ) ? 'group-hover:hidden text-green-500' : 'group-hover:hidden'}>{index + 1}</span></>
                     )}
                 </div>
                 <div className={colsVisible.includes('title') ? 'visible' : 'invisible'}>
                     <div className="flex items-center space-x-3">
                     {track?.trackImg && <img src={track?.trackImg} className="w-10 h-10 rounded" alt="" />}
                     <div>
-                        <div className={(track?.id === currentTrackIsPlaying?.id  || track?.id === currentTrackIsPlaying?.linked_from?.id) ? 'text-green-500 font-semibold text-sm line-clamp-1' : 'text-white font-semibold text-sm line-clamp-1'}>{track?.name}</div>
+                        <div className={(track?.id === currentTrack?.track_window?.current_track?.id  || track?.id === currentTrack?.track_window?.current_track?.linked_from?.id) ? 'text-green-500 font-semibold text-sm line-clamp-1' : 'text-white font-semibold text-sm line-clamp-1'}>{track?.name}</div>
                         <div className='text-sm flex space-x-1 text-gray-400'>
                             {track?.artists?.length > 0 && (
                                 track?.artists?.map((item, index) => {
@@ -77,9 +83,9 @@ function MediaTableRow({track, uri, index, colsVisible}) {
                 <div className={colsVisible.includes('duration') ? 'visible' : 'invisible'}>
                     <div className='text-sm flex justify-center'>
                         <div className="flex items-center">
-                            <HeartIcon  className={trackSelected === track?.id ? 'h-5 cursor-pointer mr-4' : 'hidden group-hover:block h-5 cursor-pointer mr-4'} />
+                            <HeartIcon  className='hidden group-hover:block h-5 cursor-pointer mr-4' />
                             <div>{millisToMinutesAndSeconds(track?.duration_ms)}</div>
-                            <DotsHorizontalIcon  className={trackSelected === track?.id ? 'h-5 cursor-pointer ml-4' : 'hidden group-hover:block h-5 cursor-pointer ml-4'} />
+                            <DotsHorizontalIcon  className='hidden group-hover:block h-5 cursor-pointer ml-4' />
                         </div>
                     </div>
                 </div>

@@ -75,7 +75,7 @@ function WebPlayback() {
   useEffect(() => {
     if (player) {
       if (currentTrack) {
-        console.log("🚀 currentTrack", currentTrack)
+        // console.log("🚀 currentTrack", currentTrack)
         const volumeLocal = localStorage.getItem('volume');
         setVolume(volumeLocal ? +volumeLocal : 0.5)
         setPaused(currentTrack.paused)
@@ -124,16 +124,10 @@ function WebPlayback() {
   }
   
   const setPositionPlayMusic = (position: number) => {
-    // const duration = currentTrack.duration;
-    // if (position <= duration) {
-    //   player.seek(position);
-    // }
     setPosition(position)
-    
   }
 
   const onAfterChangeSlider = (e) => {
-    
     const duration = currentTrack.duration;
     if (position <= duration) {
       player.seek(position);
@@ -147,7 +141,7 @@ function WebPlayback() {
       player.seek(position + ms);
     }
   }
-  
+
   let repeatIcon, volumeTmp;
   if (volume) {
     volumeTmp = <div className="flex items-center justify-end">
@@ -161,7 +155,6 @@ function WebPlayback() {
     </div>
   }
 
-  console.log("🚀repeatMode", repeatMode)
   if (repeatMode === 0) {
     repeatIcon = <RepeatIcon onClick={() => changeRepeatMode('context')} className="fill-white cursor-pointer" />
   } else if (repeatMode === 1) {

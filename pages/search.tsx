@@ -14,7 +14,6 @@ function search() {
     const { data: session } = useSession();
     const [searchInput, setSearchInput] = useState('');
     const [searchResult, setSearchResult]: any = useState({});
-    const [genres, setGenres] = useState([]);
     const [categories, setCategories] = useState([]);
     const router = useRouter()
     
@@ -38,6 +37,7 @@ function search() {
             console.log("search: ", res)
             
             setSearchResult(res.body);
+            console.log("🚀 search: ", res.body)
         })
     }, 1000), [])
     
