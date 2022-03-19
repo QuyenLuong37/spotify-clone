@@ -5,6 +5,7 @@ import SubMenu from 'antd/lib/menu/SubMenu'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import Header from '../../components/Header'
 import Layout from '../../components/Layout'
 import MediaPlayButton from '../../components/MediaPlayButton'
 import MediaSummary from '../../components/MediaSummary'
@@ -31,13 +32,15 @@ function Artist() {
         setArtist(res.body)
       })
 
-      spotifyApi.getArtistTopTracks(id as string, 'VN').then((res) => {
-        
-        const result = res.body.tracks.map(item => {
+      spotifyApi.getArtistTopTracks(id as string, 'VN').then(async (res) => {
+        const trackIds = res.body.tracks.map(item => item.id);
+        const checkUserSavedTracks = await spotifyApi.containsMySavedTracks(trackIds);
+        const result = res.body.tracks.map((item, index) => {
           return {
             ...item,
             artists: [],
-            trackImg: item.album.images[0].url
+            trackImg: item.album.images[0].url,
+            isSaved: checkUserSavedTracks.body[index]
           }
         });
         setArtistTopTracks(result)
@@ -100,6 +103,7 @@ function Artist() {
 
   return (
       <div>
+        <Header />
         <MediaSummary
             description={artist?.description}
             followerCount={artist?.followers?.total}
@@ -143,7 +147,7 @@ function Artist() {
                   uri={item?.uri}
                   key={index}
                   track={item}
-                  colsVisible={['title', 'duration']}
+                  colsVisible={['ordinal', 'title', 'duration']}
                 />
               })}
             </div>
@@ -160,7 +164,7 @@ function Artist() {
             <div className='text-heading-2xl mb-4'>Album</div>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
               {artistAlbums?.map((item, index) => {
-                return <Track key={index} id={item?.id} name={item?.name} images={item?.images} artist={null}  type={item?.type} />
+                return <Track key={index} id={item?.id} name={item?.name} images={item?.images} artist={null}  type={item?.type} uri={item?.uri} />
               })}
             </div>
           </div>
@@ -169,7 +173,7 @@ function Artist() {
             <div className='text-heading-2xl mb-4'>Related artists</div>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
               {artistRelatedArtists?.map((item, index) => {
-                return <Track key={index} id={item?.id} name={item?.name} images={item?.images} artist={null}  type={item?.type} />
+                return <Track key={index} id={item?.id} name={item?.name} images={item?.images} artist={null}  type={item?.type} uri={item?.uri} />
               })}
             </div>
             

@@ -6,19 +6,21 @@ import useSpotify from '../../hook/useSpotify'
 
 function tracks() {
   const { data: session }: any = useSession()
-  const spotifyWebApi = useSpotify()
+  const spotifyApi = useSpotify()
   const [savedTracks, setTracks]: any = useState({})
 
   useEffect(() => {
     if (session) {
-      spotifyWebApi.getMySavedTracks({ limit: 50 }).then((res) => {
-        
+      spotifyApi.getMySavedTracks({ limit: 50 }).then(async (res) => {
+        const trackIds = res.body.items.map(item => item.track.id);
+        const checkUserSavedTracks = await spotifyApi.containsMySavedTracks(trackIds);
         const result = {
-          tracks: res.body.items.map((item) => {
+          tracks: res.body.items.map((item, index) => {
             return {
               ...item,
               ...item.track,
               trackImg: item.track.album.images[0]?.url,
+              isSaved: checkUserSavedTracks.body[index]
             }
           }),
           total: res.body.total,
@@ -39,7 +41,7 @@ function tracks() {
         uri={''}
         owner={[session?.user]}
         trackTotal={savedTracks?.total ?? 0}
-        colsVisible={['title', 'album', 'added_at', 'duration']}
+        colsVisible={['ordinal', 'title', 'album', 'added_at', 'duration']}
       />
   )
 }

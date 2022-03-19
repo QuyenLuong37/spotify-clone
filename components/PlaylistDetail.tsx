@@ -12,15 +12,18 @@ function PlaylistDetail() {
   const [playlist, setPlaylist]: any = useState(null)
   useEffect(() => {
     if (session && playlistId) {
-      spotifyApi.getPlaylist(playlistId).then((res) => {
-        
+      spotifyApi.getPlaylist(playlistId).then(async (res) => {
+        const trackIds = res.body.tracks.items.map(item => item.track.id);
+        const checkUserSavedTracks = await spotifyApi.containsMySavedTracks(trackIds);
         const playlistRes = {
           ...res.body,
           tracks: {
-            items: res.body.tracks.items.map(item => {
+            items: res.body.tracks.items.map((item, index) => {
               return {
                 ...item,
-                ...item.track
+                ...item.track,
+                trackImg: item.track.album.images[0].url,
+                isSaved: checkUserSavedTracks.body[index]
               }
             })
           },
@@ -53,59 +56,14 @@ function PlaylistDetail() {
       ownerImg={playlist?.ownerImg?.[0]?.url}
       // ownerName={playlist?.owner?.display_name}
       playlistImg={playlist?.images?.[0]?.url}
-      tracks={playlist?.tracks?.items?.map(item => ({...item, trackImg: item?.album?.images?.[0]?.url}))}
+      tracks={playlist?.tracks?.items}
       type="playlist"
       uri={playlist?.uri}
       owner={playlist?.owner ? [playlist?.owner] : []}
-      colsVisible={['title', 'album', 'added_at', 'duration']}
+      colsVisible={['ordinal', 'title', 'album', 'added_at', 'duration']}
       trackTotal={'song'}
     />
   )
 }
 
 export default PlaylistDetail
-
-
-    // <div className="text-white">
-    //   <MediaSummary
-    //     description={playlist?.description}
-    //     followerCount={playlist?.followers?.total}
-    //     name={playlist?.name}
-    //     ownerImg={playlist?.ownerImg?.[0]?.url}
-    //     ownerName={playlist?.owner?.display_name}
-    //     playlistImg={playlist?.images?.[0]?.url}
-    //     trackCount={playlist?.tracks?.items?.length}
-    //     fromColor={'#066552'}
-    //     toColor={'#1f2937'}
-    //     type={'episode'}
-    //   />
-    //     <div className="px-8 py-6">
-    //       <div
-    //         onClick={() => playPlayList()}
-    //         className="flex h-12 w-12 transform cursor-pointer items-center justify-center rounded-full bg-green-400 p-3 text-white transition duration-150 hover:scale-110"
-    //       >
-    //         <svg
-    //           viewBox="0 0 16 16"
-    //           xmlns="http://www.w3.org/2000/svg"
-    //           fill="#ffffff"
-    //           height="100%"
-    //           width="100%"
-    //           preserveAspectRatio="xMidYMid meet"
-    //           focusable="false"
-    //         >
-    //           <path d="M4.018 14L14.41 8 4.018 2z"></path>
-    //         </svg>
-    //       </div>
-    //     </div>
-    //     <MediaTableHeader />
-    //     {playlist?.tracks?.items?.map((item, index) => {
-    //       return (
-    //         <MediaTableRow
-    //           index={index}
-    //           playlistUri={playlist?.uri}
-    //           key={index}
-    //           row={item}
-    //         />
-    //       )
-    //     })}
-    // </div>

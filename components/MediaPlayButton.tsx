@@ -3,7 +3,6 @@ import useSpotify from '../hook/useSpotify'
 import Icon from '@ant-design/icons'
 import { useRecoilValue } from 'recoil'
 import { currentTrackIsPlayingState } from '../recoil/currentTrackAtom'
-import { playerState } from '../recoil/playerAtom'
 
 const PauseSvg = () => (
   <svg fill="#ffffff" role="img" height="24" width="24" viewBox="0 0 24 24">
@@ -31,19 +30,22 @@ const PauseIcon = (props) => <Icon component={PauseSvg} {...props} />
 function MediaPlayButton({ uri }) {
   const spotifyApi = useSpotify()
   const currentTrack: any = useRecoilValue(currentTrackIsPlayingState)
-  const player: any = useRecoilValue(playerState)
-  const play = () => {
-    spotifyApi.play({ context_uri: uri, position_ms:  currentTrack?.position}).then((res) => {})
+  const play = (e) => {
+    e.stopPropagation();
+    console.log("🚀 currentTrack", currentTrack)
+    console.log("🚀 uri", uri)
+    spotifyApi.play({ context_uri: uri, position_ms:  currentTrack?.context?.uri === uri ? currentTrack?.position : 0});
   }
-  const pause = () => {
-    spotifyApi.pause().then((res) => {})
+  const pause = (e) => {
+    e.stopPropagation();
+    spotifyApi.pause();
   }
   return (
-      <div onClick={() => currentTrack?.context?.uri === uri && !currentTrack?.paused ? pause() : play()} className="flex h-10 w-10 2xl:h-12 2xl:w-12 transform cursor-pointer items-center justify-center rounded-full bg-green-400 p-3 text-white transition duration-150 hover:scale-110">
+      <div onClick={(e) => currentTrack?.context?.uri === uri && !currentTrack?.paused ? pause(e) : play(e)} className="flex h-11 w-11 2xl:h-14 2xl:w-14 transform cursor-pointer items-center justify-center rounded-full bg-green-400 p-3 text-white transition duration-150 hover:scale-110 shadow-lg">
         {currentTrack?.context?.uri === uri && !currentTrack?.paused ? (
-          <PauseIcon onClick={() => pause()} />
+          <PauseIcon />
         ) : (
-          <PlayIcon onClick={() => play()}  />
+          <PlayIcon />
         )}
       </div>
   )

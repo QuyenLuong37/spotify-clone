@@ -1,10 +1,16 @@
 import { Tooltip } from 'antd'
 import Image from 'next/image'
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react'
+import { useRecoilValue } from 'recoil';
+import { currentTrackIsPlayingState } from '../recoil/currentTrackAtom';
+import MediaPlayButton from './MediaPlayButton';
 
-function Track({ name, images, artist, type, id }) {
+function Track({ name, images, artist, type, id, uri }) {
   let img;
+  const currentTrack: any = useRecoilValue(currentTrackIsPlayingState)
+  const router = useRouter();
   if (images?.[0]?.url) {
     img = <Image
       src={images?.[0]?.url}
@@ -26,33 +32,23 @@ function Track({ name, images, artist, type, id }) {
     }
   }
   return (
-    <Link href={`/${type}/${id}`}>
-      <div className="group  cursor-pointer rounded bg-[#3b3b3b] p-4 pb-6 shadow-xl transition duration-200 hover:bg-[#535353]">
+      <div onClick={() => router.push(`/${type}/${id}`)} className="group  cursor-pointer rounded bg-[#3b3b3b] p-4 pb-6 shadow-xl transition duration-200 hover:bg-[#535353]">
         <div className="relative flex justify-center">
           <div className="relative mb-3 w-24 h-24 md:w-32 md:h-32 xl:w-34 xl:h-34 2xl:w-40 2xl:h-44">
             {img}
           </div>
-          <button className="absolute bottom-2 right-2 hidden h-11 w-11 transform rounded-full bg-green-500 p-2 shadow-sm transition duration-200 hover:scale-105 group-hover:block">
-            <svg
-              viewBox="0 0 16 16"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#fff"
-              height="100%"
-              width="100%"
-              preserveAspectRatio="xMidYMid meet"
-              focusable="false"
-            >
-              <path d="M4.018 14L14.41 8 4.018 2z"></path>
-            </svg>
-          </button>
+          {(type !== 'show' && type !== 'episode') && <div className={currentTrack?.context?.uri === uri && !currentTrack?.paused ? 'transition duration-200 absolute bottom-2 right-2' : "absolute bottom-2 right-2 hidden transition duration-200 group-hover:block"}>
+            <MediaPlayButton uri={uri} />
+          </div>}
         </div>
-        {name && <Tooltip placement="top" title={name}>
+        {name && <Tooltip placement="bottomLeft" title={name}>
           <div className="font-bold line-clamp-1">{name}</div>
         </Tooltip>}
         {artist && <div className="text-gray-400 line-clamp-2 text-xs">{artist}</div>}
         {type === 'artist' && <div className="text-gray-400">Artist</div>}
       </div>
-    </Link>
+    // <Link href={`/${type}/${id}`}>
+    // </Link>
   )
 }
 

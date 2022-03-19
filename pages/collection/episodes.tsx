@@ -32,7 +32,7 @@ function episodes() {
             followerCount={null}
             name={'Your Episodes'}
             ownerImg={session?.user?.image}
-            owner={[{...session?.user, type: 'user'}]}
+            owner={[session?.user]}
             playlistImg={null}
             trackTotal={savedEpisode?.total ?? 0}
             fromColor={'#066552'}

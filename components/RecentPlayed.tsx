@@ -10,7 +10,7 @@ function RecentPlayed({recentTracks}) {
                 <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7 gap-6'>
                     {recentTracks?.map((item, index) => {
                         return (
-                            <Track key={index} id={item?.id} name={item?.track?.name} images={item?.track?.album?.images} artist={item?.track?.artists?.[0]?.name}  type={item?.type} />
+                            <Track key={index} id={item?.id} name={item?.track?.name} images={item?.track?.album?.images} artist={item?.track?.artists?.[0]?.name}  type={item?.type} uri={item?.album?.uri} />
                         )
                     })}
                 </div>

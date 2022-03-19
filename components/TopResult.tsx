@@ -34,7 +34,7 @@ function TopResult({album, songs}) {
          <h3 className='capitalize font-bold text-white mb-2 text-xl 2xltext-2xl'>Songs</h3>
          {songs?.map((item, index) => {
             return (
-               <MediaTableRow index={index} track={{...item, trackImg: item.album.images[0].url}} uri={item?.album?.uri} colsVisible={['title', 'duration']} key={index} />
+               <MediaTableRow index={index} track={{...item, trackImg: item.album.images[0].url}} uri={item?.album?.uri} colsVisible={['ordinal', 'title', 'duration']} hasOffset={false} key={index} />
            )
          })}
          

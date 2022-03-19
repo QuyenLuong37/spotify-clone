@@ -20,7 +20,7 @@ function LayoutPlaylist({description, name,followerCount,ownerImg, type, playlis
                 fromColor={'#066552'}
                 toColor={'#1f2937'}
                 type={type}
-                owner={owner}
+                owner={[owner]}
                 totalSuffix={'song'}
             />
             <div className="px-6 py-6">
