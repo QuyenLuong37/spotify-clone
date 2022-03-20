@@ -1,14 +1,15 @@
 import type { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ReactElement } from 'react'
 import FeaturePlaylists from '../components/FeaturePlaylists'
 import Greeting from '../components/Greeting'
 import Header from '../components/Header'
+import Layout from '../components/Layout'
 import NewRelease from '../components/NewRelease'
 import RecentPlayed from '../components/RecentPlayed'
 import useSpotify from '../hook/useSpotify'
 
-const Home: NextPage = () => {
+export default function Home()  {
   const spotifyApi = useSpotify()
     const { data: session }: any = useSession()
   const [recentTracks, setRecentTracks] = useState([])
@@ -75,4 +76,12 @@ const Home: NextPage = () => {
   </>
 }
 
-export default Home
+// export default Home;
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
+}

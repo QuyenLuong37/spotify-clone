@@ -1,36 +1,35 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React from 'react'
 import Header from './Header'
 
 function LayoutLibrary({children}) {
     const router = useRouter();
-    
-    const [tabSelected, setTabSelected] = useState('playlists');
+
     return (
             <div>
                 <Header>
                     <div className='flex space-x-6'>
-                        <div className={tabSelected === 'playlists' ? 'tabSelected' : 'tabUnSelected'} onClick={() => setTabSelected('playlists')}>
                             <Link href='/collection/playlists'>
-                                <span>Playlist</span>
+                                <div className={router.pathname.includes('playlists') ? 'tabSelected' : 'tabUnSelected'} >
+                                    <span>Playlist</span>
+                                </div>
                             </Link>
-                        </div>
-                        <div className={tabSelected === 'podcasts' ? 'tabSelected' : 'tabUnSelected'} onClick={() => setTabSelected('podcasts')}>
                             <Link href='/collection/podcasts'>
-                                <span>Podcasts</span>
+                                <div className={router.pathname.includes('podcasts') ? 'tabSelected' : 'tabUnSelected'} >
+                                    <span>Podcasts</span>
+                                </div>
                             </Link>
-                        </div>
-                        <div className={tabSelected === 'artists' ? 'tabSelected' : 'tabUnSelected'} onClick={() => setTabSelected('artists')}>
                             <Link href='/collection/artists'>
-                                <span>Artists</span>
+                                <div className={router.pathname.includes('artists') ? 'tabSelected' : 'tabUnSelected'} >
+                                    <span>Artists</span>
+                                </div>
                             </Link>
-                        </div>
-                        <div className={tabSelected === 'albums' ? 'tabSelected' : 'tabUnSelected'} onClick={() => setTabSelected('albums')}>
                             <Link href='/collection/albums'>
-                                <span>Albums</span>
+                                <div className={router.pathname.includes('albums') ? 'tabSelected' : 'tabUnSelected'} >
+                                    <span>Albums</span>
+                                </div>
                             </Link>
-                        </div>
                     </div>
                 </Header>
                 {{...children}}

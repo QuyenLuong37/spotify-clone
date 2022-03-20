@@ -11,7 +11,7 @@ function Layout({ children }) {
   const { data: session }: any = useSession()
   const spotifyApi = useSpotify();
   const [player, setPlayer] = useRecoilState(playerState);
-  const [currentTrack, setCurrentTrackIsPlaying] = useRecoilState(currentTrackIsPlayingState);
+  const [currentTrack, setCurrentTrack] = useRecoilState(currentTrackIsPlayingState);
   const [loadFirst, setLoadFirst] = useState(true);
   
   useEffect(() => {
@@ -28,40 +28,26 @@ function Layout({ children }) {
             cb(session.accessToken)
           }
         })
-        
 
         player.addListener('ready', ({ device_id }) => {
-          
-          console.log('device id: ', device_id);
-          spotifyApi.transferMyPlayback([device_id]).then(res => {
-
-          })
+          console.log('ready: ', device_id);
+          spotifyApi.transferMyPlayback([device_id])
         })
 
         player.addListener('not_ready', ({ device_id }) => {
-          
+          console.log('not_ready', device_id);
         })
 
         player.addListener('player_state_changed', (state) => {
           if (!state) {
             return
           }
-          setCurrentTrackIsPlaying(state);
+          setCurrentTrack(state);
+          // console.log("🚀current track: ", state)
           const volume = localStorage.getItem('volume');
           player.setVolume(volume ? +volume : .5).then(volume => {
           })
-          // setCurrentTrackIsPlaying({...state.track_window.current_track, paused: state.paused, duration: state.duration});
-          // setPaused(state.paused)
-          // setShuffle(state.shuffle);
-          // setRepeatMode(state.repeat_mode);
-          // // player.seek(Math.floor(state.position / 1000))
-          // setPosition(state.position)
-
-          // player.getCurrentState().then((a) => {
-          //   !state ? setActive(false) : setActive(true)
-          // })
         })
-
         
         player.connect().then((success) => {
           if (success) {

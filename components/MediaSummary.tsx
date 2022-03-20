@@ -1,3 +1,4 @@
+import { Tooltip } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
@@ -23,7 +24,8 @@ function MediaSummary({
     case 'album':
     case 'artist':
     case 'playlist':
-      playlistImgUI = <img className="" src={playlistImg} alt="" />
+    case 'podcast':
+      playlistImgUI = <img className="rounded" src={playlistImg} alt="" />
       break;
     case 'episode':
       playlistImgUI = <div className="p-[4.5rem] w-full bg-[#066552] h-[232px] shadow-lg rounded">
@@ -65,12 +67,12 @@ function MediaSummary({
           {playlistImgUI}
         </div>
         <div className="space-y-3">
-          <div className="font-medium uppercase">{type === 'liked' || type === 'episode' || type === 'playlist' ? 'Playlist' : type}</div>
-          <div className="text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+          <div className="font-medium uppercase">{type === 'liked' || type === 'playlist' ? 'Playlist' : type}</div>
+          <div className="text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl">
             {name}
           </div>
           <div className="flex flex-col space-y-3">
-            <div className="text-sm font-medium text-gray-400">{description} </div>
+            <div className="text-xs 2xl:text-sm text-gray-400 line-clamp-2">{description} </div>
             <div className="flex space-x-2 text-gray- mb-1">
               {ownerImg && (
                 <img src={ownerImg} className="h-6 rounded-full" alt="" />

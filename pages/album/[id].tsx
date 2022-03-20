@@ -1,6 +1,6 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
 import LayoutPlaylist from '../../components/LayoutPlaylist';
 import Track from '../../components/Track';
@@ -76,3 +76,11 @@ function Album() {
 }
 
 export default Album
+
+Album.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
+}

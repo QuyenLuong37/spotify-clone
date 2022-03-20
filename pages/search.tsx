@@ -1,5 +1,5 @@
 import { Empty, Input } from 'antd';
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { ReactElement, useCallback, useEffect, useState } from 'react'
 import Layout from '../components/Layout'
 import useSpotify from '../hook/useSpotify'
 import _ from 'lodash';
@@ -23,7 +23,7 @@ function search() {
             setSearchInput(decodeURI(query as string));
             debounceDropDown(query);
         }
-    }, [router.query])
+    }, [session, router.query])
     
     useEffect(() => {
         if (session) {
@@ -35,7 +35,10 @@ function search() {
     const debounceDropDown = useCallback(_.debounce((val) => {
         spotifyApi.search(val, ['track', 'album', 'episode', 'show', 'artist', 'playlist'], {limit: 10}).then(async (res) => {
             const trackIds = res.body.tracks?.items.map(item => item.id);
-            const checkUserSavedTracks = await spotifyApi.containsMySavedTracks(trackIds as string[]);
+            let checkUserSavedTracks;
+            if (trackIds && trackIds.length) {
+                checkUserSavedTracks = await spotifyApi.containsMySavedTracks(trackIds as string[]);
+            }
             const result = {
                 ...res.body,
                 tracks: {
@@ -43,7 +46,7 @@ function search() {
                     items: res.body.tracks?.items.map((item, index) => {
                         return {
                             ...item,
-                            isSaved: checkUserSavedTracks.body[index]
+                            isSaved: checkUserSavedTracks && checkUserSavedTracks.body[index]
                         }
                     })
                 }
@@ -106,3 +109,10 @@ function search() {
 
 export default search
 
+search.getLayout = function getLayout(page: ReactElement) {
+    return (
+      <Layout>
+        {page}
+      </Layout>
+    )
+}

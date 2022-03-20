@@ -1,10 +1,10 @@
 import { useSession } from 'next-auth/react'
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
 import LayoutPlaylist from '../../components/LayoutPlaylist'
 import useSpotify from '../../hook/useSpotify'
 
-function tracks() {
+function Tracks() {
   const { data: session }: any = useSession()
   const spotifyApi = useSpotify()
   const [savedTracks, setTracks]: any = useState({})
@@ -46,4 +46,13 @@ function tracks() {
   )
 }
 
-export default tracks
+export default Tracks
+
+
+Tracks.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
+}

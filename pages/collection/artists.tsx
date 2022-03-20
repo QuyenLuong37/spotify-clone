@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
+import Layout from '../../components/Layout'
 import LayoutLibrary from '../../components/LayoutLibrary'
 
-function artist() {
+function Artist() {
   return (
     <LayoutLibrary>
       <div>artist</div>
@@ -9,4 +10,13 @@ function artist() {
   )
 }
 
-export default artist
+export default Artist
+
+
+Artist.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
+}

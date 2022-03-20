@@ -1,17 +1,18 @@
-import { DotsHorizontalIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon, ChevronUpIcon,  } from '@heroicons/react/solid'
-import { Button, Dropdown, Menu, message, notification } from 'antd'
-import SubMenu from 'antd/lib/menu/SubMenu'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
+import { useRecoilState } from 'recoil'
+import FollowButton from '../../components/FollowButton'
 import Header from '../../components/Header'
 import Layout from '../../components/Layout'
+import MediaOptions from '../../components/MediaOptions'
 import MediaPlayButton from '../../components/MediaPlayButton'
 import MediaSummary from '../../components/MediaSummary'
 import MediaTableRow from '../../components/MediaTableRow'
 import Track from '../../components/Track'
 import useSpotify from '../../hook/useSpotify'
+import { isFollowingState } from '../../recoil/isFollowing'
 
 function Artist() {
   const router = useRouter()
@@ -23,7 +24,7 @@ function Artist() {
   const [artistTopTracksLocal, setArtistTopTracksLocal]: any = useState([])
   const [artistRelatedArtists, setArtistRelatedArtists]: any = useState([])
   const [artistAlbums, setArtistAlbums]: any = useState([])
-  const [isFollowingArtists, setIsFollowingArtists] = useState(false)
+  const [isFollowing, setIsFollowing] = useRecoilState(isFollowingState)
   useEffect(() => {
     const { id } = router.query
     if (session && id) {
@@ -58,7 +59,7 @@ function Artist() {
 
       spotifyApi.isFollowingArtists([id as string]).then((res) => {
         
-        setIsFollowingArtists(res.body[0]);
+        setIsFollowing(res.body[0]);
       })
     }
   }, [session, router.query])
@@ -77,29 +78,7 @@ function Artist() {
     setShowMore(!isShowMore);
   }
 
-  const followArtist = () => {
-    spotifyApi.followArtists([router.query.id as string]).then(res => {
-      
-      setIsFollowingArtists(true);
-      message.success({content: 'Follow successful artist'});
-      // notification['success']({
-      //   message: '',
-      //   description: 'Follow successful artist',
-      // });
-    })
-  }
-
-  const unFollowArtist = () => {
-    spotifyApi.unfollowArtists([router.query.id as string]).then(res => {
-      
-      setIsFollowingArtists(false);
-      message.success('Unfollow successful artist');
-      // notification['success']({
-      //   message: '',
-      //   description: 'Unfollow successful artist',
-      // });
-    })
-  }
+  
 
   return (
       <div>
@@ -117,24 +96,9 @@ function Artist() {
         />
         <div className='flex items-center px-6 py-6 space-x-8'>
           <MediaPlayButton uri={artist?.uri} />
-          <Button onClick={() => isFollowingArtists ? unFollowArtist() : followArtist()} className='text-white hover:text-white hover:border-white' type='ghost'>{isFollowingArtists ? 'Following' : 'Follow'}</Button>
+          <FollowButton  />
 
-          <Dropdown overlay={(
-            <Menu>
-              <Menu.Item>
-                <div onClick={() => isFollowingArtists ? unFollowArtist() : followArtist()}>{isFollowingArtists ? 'Unfollow' : 'Follow'}</div>
-              </Menu.Item>
-              <SubMenu title="Share">
-                <Menu.Item>Copy link to artist</Menu.Item>
-              </SubMenu>
-              <Menu.Divider />
-              <Menu.Item>
-                <div onClick={() => window.open(artist?.uri)}>Open in Desktop app</div>
-              </Menu.Item>
-            </Menu>
-          )} trigger={['click']}>
-            <DotsHorizontalIcon className='h-6 cursor-pointer' />
-          </Dropdown>
+          <MediaOptions uri={artist?.uri}  />
         </div>
 
         <div className='px-6 flex flex-col space-y-10'>
@@ -184,3 +148,11 @@ function Artist() {
 }
 
 export default Artist
+
+Artist.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
+}

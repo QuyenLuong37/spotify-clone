@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { ReactElement } from 'react'
+import Layout from '../../components/Layout';
 import LayoutLibrary from '../../components/LayoutLibrary';
 
-function podcast() {
+function Podcast() {
   return (
     <LayoutLibrary>
       <div>
@@ -11,4 +12,12 @@ function podcast() {
   )
 }
 
-export default podcast
+export default Podcast
+
+Podcast.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
+}

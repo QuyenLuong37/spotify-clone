@@ -1,0 +1,12 @@
+.ant-dropdown-menu {
+    background: #333;
+}
+.ant-dropdown-menu-item, .ant-dropdown-menu-submenu-title,.ant-dropdown-menu-submenu-arrow-icon {
+    color: #fff !important;
+}
+.ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title:hover {
+    background: #444;
+}
+.ant-dropdown-menu-item-divider {
+    background: #4a4a4a;
+}

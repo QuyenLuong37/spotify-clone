@@ -1,10 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import '~antd/dist/antd.css';
 @import url('./tailwind.custom.css');
 body {
     overflow: hidden;
+    color: white !important;
+}
+
+a:hover {
     color: white;
+    text-decoration: underline;
 }
 
 .ant-message-custom-content {

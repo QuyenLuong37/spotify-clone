@@ -1,4 +1,5 @@
 import { getProviders, signIn } from "next-auth/react"
+import { ReactElement } from "react"
 
 export default function Login({ providers }: any) {
   return (
@@ -32,4 +33,10 @@ export async function getServerSideProps() {
   return {
     props: { providers },
   }
+}
+
+Login.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <>{page}</>
+  )
 }

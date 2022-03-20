@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import Layout from '../components/Layout'
 import PlaylistDetail from '../components/PlaylistDetail'
 
@@ -9,3 +9,12 @@ function Playlist() {
 }
 
 export default Playlist
+
+
+Playlist.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
+}

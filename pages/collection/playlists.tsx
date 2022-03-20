@@ -1,10 +1,8 @@
-import Link from 'next/link'
-import React, { useState } from 'react'
-import Header from '../../components/Header';
+import React, { ReactElement, useState } from 'react'
 import Layout from '../../components/Layout';
 import LayoutLibrary from '../../components/LayoutLibrary';
 
-function playlist() {
+function Playlists() {
   const [tabSelected, setTabSelected] = useState('playlists');
   return (
     <LayoutLibrary>
@@ -13,4 +11,11 @@ function playlist() {
   )
 }
 
-export default playlist
+export default Playlists
+Playlists.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
+}
