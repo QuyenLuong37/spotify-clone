@@ -4,9 +4,7 @@ import LayoutLibrary from '../../components/LayoutLibrary'
 
 function Album() {
   return (
-    <LayoutLibrary>
-      <div>album</div>
-    </LayoutLibrary>
+    <div>album</div>
   )
 }
 
@@ -14,7 +12,9 @@ export default Album
 Album.getLayout = function getLayout(page: ReactElement) {
   return (
     <Layout>
-      {page}
+      <LayoutLibrary>
+        {page}
+      </LayoutLibrary>
     </Layout>
   )
 }

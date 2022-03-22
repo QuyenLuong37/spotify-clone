@@ -10,18 +10,17 @@ import { HomeIcon } from '@heroicons/react/solid'
 import useSpotify from '../hook/useSpotify'
 import { useSession } from 'next-auth/react'
 import { useRecoilState } from 'recoil'
-import { playlistIdState } from '../recoil/playlistAtom'
+import { playlistIdState, playlistsState } from '../recoil/playlistAtom'
 import Link from 'next/link'
 
 function Sidebar() {
+  console.log("🚀Sidebar runnnnn")
   const { data: session, status } = useSession()
   const spotifyApi = useSpotify()
-  const [playlists, setPlaylists]: any = useState([])
+  const [playlists, setPlaylists]: any = useRecoilState(playlistsState)
   const [playlistIdSelected, setplaylistId] = useRecoilState(playlistIdState)
-  // const [isSelectSavedTrack, setSavedTrack] = useRecoilState(savedTrackState)
   useEffect(() => {
     if (session) {
-      
       spotifyApi.getUserPlaylists().then((res) => {
         setPlaylists(res.body.items)
       })

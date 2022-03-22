@@ -4,11 +4,7 @@ import LayoutLibrary from '../../components/LayoutLibrary';
 
 function Podcast() {
   return (
-    <LayoutLibrary>
-      <div>
-          <div>podcast</div>
-      </div>
-    </LayoutLibrary>
+    <div>podcast</div>
   )
 }
 
@@ -17,7 +13,9 @@ export default Podcast
 Podcast.getLayout = function getLayout(page: ReactElement) {
   return (
     <Layout>
-      {page}
+      <LayoutLibrary>
+        {page}
+      </LayoutLibrary>
     </Layout>
   )
 }

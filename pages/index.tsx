@@ -51,12 +51,9 @@ export default function Home()  {
     )
   }
   useEffect(() => {
-    if (session) {
-      // getMyShows()
-      getRecentTracks()
-      getFeaturedPlaylists()
-      getNewRelease()
-    }
+    getRecentTracks()
+    getFeaturedPlaylists()
+    getNewRelease()
   }, [session])
   return <>
       <Header />

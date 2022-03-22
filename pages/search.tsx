@@ -63,8 +63,9 @@ function search() {
             debounceDropDown(value);
         }
     }
-  return (
-        <div>
+
+    if (!searchInput) {
+        return <div>
             <Header />
             <div className='flex flex-col text-white p-6'>
                 <Input value={searchInput} onChange={(e) => handleSearch(e.target.value)} placeholder='Type your search....' />
@@ -81,7 +82,14 @@ function search() {
 
                     </div>
                 )}
-
+            </div>
+        </div>
+    }
+  return (
+        <div>
+            <Header />
+            <div className='flex flex-col text-white p-6'>
+                <Input value={searchInput} onChange={(e) => handleSearch(e.target.value)} placeholder='Type your search....' />
                 {searchInput && (searchResult?.track?.items?.length || searchResult?.album?.items?.length || searchResult?.artists?.items?.length || searchResult?.episodes?.items?.length || searchResult?.playlists?.items?.length) ? (
                     <div className='mt-5 space-y-5'>
                         <TopResult album={searchResult?.albums?.items?.[0]} songs={searchResult?.tracks?.items?.slice(0, 4)} />

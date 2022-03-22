@@ -6,6 +6,7 @@ const isChildNull = children => {
     return Boolean(!children?.type);
   };
 function Header({children}: any) {
+    console.log("🚀Header runnn")
     const { data: session }: any = useSession()
 
     const menu = (

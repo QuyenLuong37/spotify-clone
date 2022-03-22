@@ -32,7 +32,10 @@ function LayoutLibrary({children}) {
                             </Link>
                     </div>
                 </Header>
-                {{...children}}
+
+                <div className='px-6 mt-6'>
+                    {{...children}}
+                </div>
             </div>
     )
 }
