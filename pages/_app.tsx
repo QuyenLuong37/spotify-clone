@@ -1,4 +1,3 @@
-
 import type { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
 import { RecoilRoot } from 'recoil'
@@ -7,7 +6,6 @@ import '../styles/layout.css';
 import '../styles/header.css';
 import '../styles/globals.css';
 import '../styles/ant.custom.css';
-import Layout from '../components/Layout';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 
