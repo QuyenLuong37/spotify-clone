@@ -17,25 +17,23 @@ function Playlists() {
   const [savedTracks, setTracks]: any = useState({})
 
   useEffect(() => {
-    if (session) {
-      spotifyApi.getMySavedTracks({ limit: 20 }).then((res) => {
-        console.log("getMySavedTracks", res)
-        const result = {
-          tracks: res.body.items.map((item, index) => {
-            return {
-              ...item,
-              ...item.track
-            }
-          }),
-          total: res.body.total,
-          // tracksHtml: savedTracks?.tracks?.map((item, index) => {
-          //   return `<span>${item.name}</span>`
-          // })?.join(' • ')
-        }
-        setTracks(result)
-      })
-    }
-  }, [session])
+    spotifyApi.getMySavedTracks({ limit: 20 }).then((res) => {
+      
+      const result = {
+        tracks: res.body.items.map((item, index) => {
+          return {
+            ...item,
+            ...item.track
+          }
+        }),
+        total: res.body.total,
+        // tracksHtml: savedTracks?.tracks?.map((item, index) => {
+        //   return `<span>${item.name}</span>`
+        // })?.join(' • ')
+      }
+      setTracks(result)
+    })
+  }, [])
 
   return (
     <div>

@@ -13,7 +13,7 @@ function Artist() {
 
   useEffect(() => {
     spotifyApi.getFollowedArtists().then(res => {
-      console.log('getFollowedArtists: ', res);
+      
       setArtists(res.body.artists.items)
     })
   }, [])

@@ -11,8 +11,8 @@ function MediaPlayButton({ uri }) {
   const currentTrack: any = useRecoilValue(currentTrackIsPlayingState)
   const play = (e) => {
     e.stopPropagation();
-    console.log("🚀 currentTrack", currentTrack)
-    console.log("🚀 uri", uri)
+    
+    
     spotifyApi.play({ context_uri: uri, position_ms:  currentTrack?.context?.uri === uri ? currentTrack?.position : 0});
   }
   const pause = (e) => {

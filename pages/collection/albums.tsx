@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react'
 import React, { ReactElement, useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
 import LayoutLibrary from '../../components/LayoutLibrary'
@@ -5,12 +6,14 @@ import Track from '../../components/Track'
 import useSpotify from '../../hook/useSpotify'
 
 function Album() {
+  const { data: session }: any = useSession()
   const spotifyApi = useSpotify()
   const [artists, setArtists]: any = useState([])
-
+  
+  
   useEffect(() => {
     spotifyApi.getMySavedAlbums().then(res => {
-      console.log('getMySavedAlbums: ', res);
+      // 
       setArtists(res.body.items.map(item => ({...item, ...item.album})))
     })
   }, [])

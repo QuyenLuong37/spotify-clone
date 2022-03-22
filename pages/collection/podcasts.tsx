@@ -17,16 +17,15 @@ function Podcast() {
   const [savedEpisode, setSavedEpisode]: any = useState([])
 
   useEffect(() => {
-    if (session) {
-      spotifyApi.getMySavedShows().then(res => {
-        setShows(res.body.items.map(item => ({...item, ...item.show})))
-      })
-  
-      getMySavedEpisodes(session.accessToken).then((res) => {
-        setSavedEpisode(res)
-      })
-    }
-  }, [session])
+    spotifyApi.getMySavedShows().then(res => {
+      setShows(res.body.items.map(item => ({...item, ...item.show})))
+    })
+
+    getMySavedEpisodes(session.accessToken).then((res) => {
+      
+      setSavedEpisode(res)
+    })
+  }, [])
   
   return (
     <div>
@@ -35,7 +34,7 @@ function Podcast() {
             <div onClick={() => router.push('/collection/episodes')} className='col-start-1 col-end-3 bg-gradient-to-tl to-[#00644e] from-[#1e886c] flex items-end rounded cursor-pointer'>
               <div className='p-4 space-y-2'>
                   <div className='font-medium text-gray-300 flex flex-wrap'>
-                    <div className='line-clamp-3'>{savedEpisode?.tracks?.map(item => item?.name)?.join(' • ')}</div>
+                    <div className='line-clamp-3'>{savedEpisode?.items?.map(item => item?.name)?.join(' • ')}</div>
                   </div>
                 <div className="text-heading text-4xl font-bold">Your episodes</div>
                 <div className='font-bold text-base'>{savedEpisode?.total === 1 ? '1 episode' : savedEpisode?.total + ' episodes'}</div>

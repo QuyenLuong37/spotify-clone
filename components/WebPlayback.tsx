@@ -1,6 +1,6 @@
 import { HeartIcon, PauseIcon } from '@heroicons/react/outline'
 import { AdjustmentsIcon, FastForwardIcon, PlayIcon, RefreshIcon, RewindIcon, VolumeOffIcon, VolumeUpIcon } from '@heroicons/react/solid'
-import { Slider } from 'antd'
+import { message, Slider } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
 import useSpotify from '../hook/useSpotify'
@@ -8,6 +8,7 @@ import { currentTrackIsPlayingState } from '../recoil/currentTrackAtom'
 import { playerState } from '../recoil/playerAtom'
 import { millisToMinutesAndSeconds } from '../utils/duration-to-time'
 import Icon, {StepBackwardOutlined, StepForwardOutlined, PlayCircleFilled, PauseCircleFilled } from '@ant-design/icons';
+import { useSession } from 'next-auth/react'
 
 type RepeatState = 'off' | 'context' | 'track';
 const RepeatSvg = () => (
@@ -46,21 +47,20 @@ function WebPlayback() {
   const [repeatMode, setRepeatMode] = useState(0)
   const [volume, setVolume] = useState(0.01)
   const [position, setPosition] = useState(0);
+  const [isSavedTrack, setIsSavedTrack] = useState(false);
+  const {data: session} = useSession();
   const player: any = useRecoilValue(playerState)
   const currentTrack: any = useRecoilValue(currentTrackIsPlayingState);
   
   const spotifyApi = useSpotify()
   
   useEffect(() => {
-    // exit early when we reach 0
     let intervalId;
     if (currentTrack  ) {
       if (currentTrack.paused) {
         setPosition(position);
         return
       } else {
-        // save intervalId to clear the interval when the
-        // component re-renders
         intervalId = setInterval(() => {
           setPosition(position + 1000);
         }, 1000);
@@ -68,26 +68,24 @@ function WebPlayback() {
     };
     // clear interval on re-render to avoid memory leaks
     return () => clearInterval(intervalId);
-    // add timeLeft as a dependency to re-rerun the effect
-    // when we update it
   }, [position]);
 
   useEffect(() => {
     if (player) {
       if (currentTrack) {
-        // console.log("🚀 currentTrack", currentTrack)
+        // console.log("🚀currentTrack", currentTrack)
+        spotifyApi.containsMySavedTracks([currentTrack?.track_window?.current_track?.id]).then(res => {
+          setIsSavedTrack(res.body[0])
+        })
         const volumeLocal = localStorage.getItem('volume');
         setVolume(volumeLocal ? +volumeLocal : 0.5)
         setPaused(currentTrack.paused)
         setShuffle(currentTrack.shuffle);
         setRepeatMode(currentTrack.repeat_mode);
         setPosition(currentTrack.position)
-        // player.getCurrentState().then((a) => {
-        //   !currentTrack ? setActive(false) : setActive(true)
-        // })
       }
     }
-  }, [player, currentTrack])
+  }, [session, player, currentTrack])
 
 
   const changeRepeatMode = (type: RepeatState) => {
@@ -163,6 +161,21 @@ function WebPlayback() {
     repeatIcon = <DisableRepeatIcon onClick={() => changeRepeatMode('off')} className=" fill-green-500 cursor-pointer" />
   }
 
+  const toggleSaveTrack = () => {
+    if (isSavedTrack) {
+      spotifyApi.removeFromMySavedTracks([currentTrack?.track_window?.current_track?.id]).then(res => {
+      setIsSavedTrack(false);
+      message.success('Removed from your Liked Songs')
+
+      })
+    } else {
+      spotifyApi.addToMySavedTracks([currentTrack?.track_window?.current_track?.id]).then(res => {
+        setIsSavedTrack(true);
+        message.success('Added to your Liked Songs')
+      })
+    }
+  }
+
   return (
     <div className="grid grid-cols-3 gap-6 items-center text-white h-[105px] bg-[#181818] px-6">
         <div className="flex items-center space-x-4">
@@ -179,7 +192,7 @@ function WebPlayback() {
             </div>
           </div>
           <div>
-          <HeartIcon className="h-5" />
+          <HeartIcon onClick={() => toggleSaveTrack()} className={isSavedTrack ? "h-5 fill-green-500 stroke-green-500" : 'h-5'} />
           </div>
         </div>
 

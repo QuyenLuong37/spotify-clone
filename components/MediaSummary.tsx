@@ -78,7 +78,7 @@ function MediaSummary({
                 <img src={ownerImg} className="h-6 rounded-full" alt="" />
               )}
               <div className="flex items-center space-x-2 text-xs sm:text-sm">
-                {owner?.map((item, index) => {
+                {owner && owner.length && owner?.map((item, index) => {
                   return (
                     <Link key={index} href={`/${item.type}/${item.id}`} >
                       <div className=''>

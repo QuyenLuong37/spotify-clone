@@ -23,15 +23,13 @@ function search() {
             setSearchInput(decodeURI(query as string));
             debounceDropDown(query);
         }
-    }, [session, router.query])
+    }, [router.query])
     
     useEffect(() => {
-        if (session) {
-            spotifyApi.getCategories({limit: 50, country: 'VN'}).then((res: any) => {
-                setCategories(res?.body?.categories?.items ?? []);
-            })
-        }
-    }, [session])
+        spotifyApi.getCategories({limit: 50, country: 'VN'}).then((res: any) => {
+            setCategories(res?.body?.categories?.items ?? []);
+        })
+    }, [])
     const debounceDropDown = useCallback(_.debounce((val) => {
         spotifyApi.search(val, ['track', 'album', 'episode', 'show', 'artist', 'playlist'], {limit: 10}).then(async (res) => {
             const trackIds = res.body.tracks?.items.map(item => item.id);
@@ -52,7 +50,7 @@ function search() {
                 }
             }
             setSearchResult(result);
-            console.log("🚀 search: ", result)
+            
         })
     }, 1000), [])
     

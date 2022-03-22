@@ -16,7 +16,7 @@ function Episode() {
     const { id } = router.query;
     if (id) {
       spotifyApi.getEpisode(id as string).then(res => {
-        console.log("🚀 getEpisode: ", res.body)
+        
         setEpisode(res.body);
       })
     }

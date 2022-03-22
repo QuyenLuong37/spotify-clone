@@ -6,23 +6,19 @@ import Header from '../../components/Header'
 import Layout from '../../components/Layout'
 import MediaPlayButton from '../../components/MediaPlayButton'
 import MediaSummary from '../../components/MediaSummary'
-import useSpotify from '../../hook/useSpotify'
 import { getMySavedEpisodes } from '../../lib/spotify'
 import { savedEpisodeState } from '../../recoil/episodeAtom'
 
 function Episodes() {
   const { data: session }: any = useSession()
-  // const [savedEpisode, setSavedEpisode]: any = useState({})
   const [savedEpisode, setSavedEpisode]: any = useRecoilState(savedEpisodeState);
 
   useEffect(() => {
-    if (session) {
-      getMySavedEpisodes(session.accessToken)
-        .then((result) => {
-          setSavedEpisode(result)
-        })
-    }
-  }, [session])
+    getMySavedEpisodes(session.accessToken)
+      .then((result) => {
+        setSavedEpisode(result)
+      })
+  }, [])
   return (
       <div>
         <Header />

@@ -60,7 +60,7 @@ function Playlist() {
       tracks={playlist?.tracks?.items}
       type="playlist"
       uri={playlist?.uri}
-      owner={playlist?.owner ? [playlist?.owner] : []}
+      owner={playlist?.owner ?? null}
       colsVisible={['ordinal', 'title', 'album', 'added_at', 'duration']}
       trackTotal={'song'}
     />

@@ -8,6 +8,7 @@ import Sidebar from './Sidebar'
 import WebPlayback from './WebPlayback'
 
 function Layout({ children }) {
+  
   const { data: session }: any = useSession()
   const spotifyApi = useSpotify();
   const [player, setPlayer] = useRecoilState(playerState);
@@ -30,12 +31,12 @@ function Layout({ children }) {
         })
 
         player.addListener('ready', ({ device_id }) => {
-          console.log('ready: ', device_id);
+          
           spotifyApi.transferMyPlayback([device_id])
         })
 
         player.addListener('not_ready', ({ device_id }) => {
-          console.log('not_ready', device_id);
+          
         })
 
         player.addListener('player_state_changed', (state) => {
@@ -43,10 +44,8 @@ function Layout({ children }) {
             return
           }
           setCurrentTrack(state);
-          // console.log("🚀current track: ", state)
           const volume = localStorage.getItem('volume');
-          player.setVolume(volume ? +volume : .5).then(volume => {
-          })
+          player.setVolume(volume ? +volume : .5);
         })
         
         player.connect().then((success) => {
@@ -58,6 +57,11 @@ function Layout({ children }) {
       setLoadFirst(false)
     }
   }, [session, loadFirst])
+
+  if (!session) {
+    return <></>;
+  }
+
   return (
     <>
       <div className="layout grid">

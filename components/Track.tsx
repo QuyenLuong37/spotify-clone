@@ -24,6 +24,7 @@ function Track({ name, images, artist, type, id, uri, allowNavigate = true }) {
         objectPosition='center'
         width={200}
         height={200}
+        priority
       />
     } else {
       img = <Image
@@ -32,6 +33,7 @@ function Track({ name, images, artist, type, id, uri, allowNavigate = true }) {
         className='rounded'
         objectFit="cover"
         objectPosition='center'
+        priority
       />
     }
   } else {

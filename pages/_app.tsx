@@ -12,6 +12,7 @@ import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 
 type NextPageWithLayout = NextPage & {
+  requiredAuth: boolean,
   getLayout?: (page: ReactElement) => ReactNode
 }
 
@@ -20,6 +21,9 @@ type AppPropsWithLayout = AppProps & {
 }
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  
+  const requiredAuth = Component.requiredAuth;
+  
   const getLayout = Component.getLayout ?? ((page) => page)
   return (
     <RecoilRoot>

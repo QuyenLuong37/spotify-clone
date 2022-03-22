@@ -54,7 +54,7 @@ export default function Home()  {
     getRecentTracks()
     getFeaturedPlaylists()
     getNewRelease()
-  }, [session])
+  }, [])
   return <>
       <Header />
       <div className="space-y-10 p-6">

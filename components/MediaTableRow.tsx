@@ -63,14 +63,14 @@ function MediaTableRow({track, uri, index, colsVisible, hasOffset = true}) {
         e.stopPropagation();
         if (newTrack?.isSaved) {
             spotifyApi.removeFromMySavedTracks([newTrack?.id]).then(res => {
-                console.log('removeFromMySavedTracks: ', res.body);
+                
                 setNewTrack({...track, isSaved: false})
                 track = {...track, isSaved: false}
                 message.success('Removed from your Liked Songs ')
             })
         } else {
             spotifyApi.addToMySavedTracks([newTrack?.id]).then(res => {
-                console.log('addToMySavedTracks: ', res.body);
+                
                 setNewTrack({...track, isSaved: true});
                 message.success('Added to your Liked Songs ')
             })

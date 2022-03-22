@@ -5,6 +5,7 @@ import { getToken } from 'next-auth/jwt'
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(req: any) {
+  
   const token = await getToken({
     req,
     secret: process.env.SPOTIFY_CLIENT_SECRET,

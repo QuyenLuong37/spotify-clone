@@ -22,7 +22,7 @@ function Show() {
       })
 
       spotifyApi.getShowEpisodes(id as string, {limit: 20}).then(res => {
-        console.log("🚀 getShowEpisodes", res.body)
+        
         setShowEpisodes(res.body.items);
       })
     }
