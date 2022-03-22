@@ -19,7 +19,6 @@ function Episodes() {
     if (session) {
       getMySavedEpisodes(session.accessToken)
         .then((result) => {
-          
           setSavedEpisode(result)
         })
     }

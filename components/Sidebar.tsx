@@ -14,11 +14,10 @@ import { playlistIdState, playlistsState } from '../recoil/playlistAtom'
 import Link from 'next/link'
 
 function Sidebar() {
-  console.log("🚀Sidebar runnnnn")
   const { data: session, status } = useSession()
   const spotifyApi = useSpotify()
   const [playlists, setPlaylists]: any = useRecoilState(playlistsState)
-  const [playlistIdSelected, setplaylistId] = useRecoilState(playlistIdState)
+  // const [playlistIdSelected, setplaylistId] = useRecoilState(playlistIdState)
   useEffect(() => {
     if (session) {
       spotifyApi.getUserPlaylists().then((res) => {
@@ -100,13 +99,10 @@ function Sidebar() {
           {playlists.map((item) => {
             return (
               <div
-                onClick={() => {
-                  setplaylistId(item.id)
-                }}
                 key={item.id}
                 className="cursor-pointer transition duration-200 hover:text-white "
               >
-                <Link href="/playlist">
+                <Link href={`/playlist/${item.id}`}>
                   <span>{item.name}</span>  
                 </Link>
               </div>

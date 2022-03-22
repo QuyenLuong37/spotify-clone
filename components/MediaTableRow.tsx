@@ -108,7 +108,7 @@ function MediaTableRow({track, uri, index, colsVisible, hasOffset = true}) {
                                 {newTrack?.artists?.length > 0 && (
                                     newTrack?.artists?.map((item, index) => {
                                         return <Link href={`/artist/${item.id}`} key={index}>
-                                            <Tooltip title={item.name}>
+                                            <Tooltip title={item.name} placement='bottomLeft'>
                                                 <div className='flex space-x-2'><span className='transition duration-200 hover:underline hover:text-gray-300 line-clamp-1'>{item.name}</span>{newTrack.artists.length - 1 !== index ? ', ' : ''}</div>
                                             </Tooltip>
                                         </Link>
