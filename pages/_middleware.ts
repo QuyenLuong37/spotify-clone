@@ -1,8 +1,7 @@
 // pages/_middleware.ts
 
-import { NextApiRequest } from 'next'
 import { getToken } from 'next-auth/jwt'
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
 export async function middleware(req: any) {
   
