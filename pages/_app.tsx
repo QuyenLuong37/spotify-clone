@@ -20,18 +20,12 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  
-  const requiredAuth = Component.requiredAuth;
-  
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {  
   const getLayout = Component.getLayout ?? ((page) => page)
   return (
     <RecoilRoot>
       <SessionProvider session={pageProps.session}>
         {getLayout(<Component {...pageProps} />)}
-        {/* <Layout >
-            <Component {...pageProps} />
-        </Layout> */}
       </SessionProvider>
     </RecoilRoot>
   )

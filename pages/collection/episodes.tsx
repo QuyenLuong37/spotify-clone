@@ -16,6 +16,7 @@ function Episodes() {
   useEffect(() => {
     getMySavedEpisodes(session.accessToken)
       .then((result) => {
+        console.log("🚀 result", result)
         setSavedEpisode(result)
       })
   }, [])
@@ -36,7 +37,7 @@ function Episodes() {
             totalSuffix={'episode'}
         />
         <div className="px-6 py-6">
-            <MediaPlayButton uri={''} />
+            <MediaPlayButton uri={savedEpisode?.uri} />
         </div>
 
         <div className='px-6'>

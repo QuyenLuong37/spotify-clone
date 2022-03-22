@@ -48,9 +48,9 @@ export default NextAuth({
             clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
         }),
     ],
-    pages: {
-        signIn: '/login',
-    },
+    // pages: {
+    //     signIn: '/login',
+    // },
     callbacks: {
         async jwt({ token, user, account }) {
             // Initial sign in
