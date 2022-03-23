@@ -16,7 +16,7 @@ export default function Login({ providers }: any) {
         <p className="text-3xl font-bold w-[320px] text-center ">Hàng triệu bài hát miễn phí trên spotify.</p>
       {providers && Object.values(providers).map((provider: any) => (
         <div key={provider.name} className="mb-8">
-          <button className="px-20 py-2 bg-green-500 rounded-full transition duration-200 hover:bg-green-600 hover:scale-105 font-medium text-md" onClick={() => signIn()}>
+          <button className="px-20 py-2 bg-green-500 rounded-full transition duration-200 hover:bg-green-600 hover:scale-105 font-medium text-md" onClick={() => signIn(provider.id)}>
             Sign in with {provider.name}
           </button>
         </div>
