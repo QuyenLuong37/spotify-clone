@@ -51,16 +51,8 @@ export default NextAuth({
     pages: {
         signIn: '/login',
     },
-    // secret: 'y9bcjS0cMt+CBrLVOBFRPgKOvFCssr99zxCQ7sWLb4Q=',
     callbacks: {
-        // async redirect({ url, baseUrl }) {
-        //     console.log("🚀baseUrl", baseUrl)
-        //     console.log("🚀url", url)
-        //     return baseUrl
-        // },
         async jwt({ token, user, account }) {
-            // Initial sign in
-            
             if (account && user) {
                 return {
                     accessToken: account.access_token,
