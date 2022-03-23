@@ -74,9 +74,11 @@ function WebPlayback() {
     if (player) {
       if (currentTrack) {
         // console.log("🚀currentTrack", currentTrack)
-        spotifyApi.containsMySavedTracks([currentTrack?.track_window?.current_track?.id]).then(res => {
-          setIsSavedTrack(res.body[0])
-        })
+        if (currentTrack?.track_window?.current_track?.id) {
+          spotifyApi.containsMySavedTracks([currentTrack?.track_window?.current_track?.id]).then(res => {
+            setIsSavedTrack(res.body[0])
+          })
+        }
         const volumeLocal = localStorage.getItem('volume');
         setVolume(volumeLocal ? +volumeLocal : 0.5)
         setPaused(currentTrack.paused)

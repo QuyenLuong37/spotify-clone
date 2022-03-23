@@ -35,13 +35,17 @@ function Artist() {
 
       spotifyApi.getArtistTopTracks(id as string, 'VN').then(async (res) => {
         const trackIds = res.body.tracks.map(item => item.id);
-        const checkUserSavedTracks = await spotifyApi.containsMySavedTracks(trackIds);
+        let checkUserSavedTracks;
+        if (trackIds.length) {
+          checkUserSavedTracks = await spotifyApi.containsMySavedTracks(trackIds);
+        }
+
         const result = res.body.tracks.map((item, index) => {
           return {
             ...item,
             artists: [],
             trackImg: item.album.images[0].url,
-            isSaved: checkUserSavedTracks.body[index]
+            isSaved: checkUserSavedTracks ? checkUserSavedTracks.body[index] : false
           }
         });
         setArtistTopTracks(result)

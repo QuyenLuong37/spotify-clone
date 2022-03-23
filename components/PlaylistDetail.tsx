@@ -14,7 +14,10 @@ function PlaylistDetail() {
     if (session && playlistId) {
       spotifyApi.getPlaylist(playlistId).then(async (res) => {
         const trackIds = res.body.tracks.items.map(item => item.track.id);
-        const checkUserSavedTracks = await spotifyApi.containsMySavedTracks(trackIds);
+        let checkUserSavedTracks;
+        if (trackIds.length) {
+          checkUserSavedTracks = await spotifyApi.containsMySavedTracks(trackIds);
+        }
         const playlistRes = {
           ...res.body,
           tracks: {
@@ -23,7 +26,7 @@ function PlaylistDetail() {
                 ...item,
                 ...item.track,
                 trackImg: item.track.album.images[0].url,
-                isSaved: checkUserSavedTracks.body[index]
+                isSaved: checkUserSavedTracks ? checkUserSavedTracks.body[index] : false
               }
             })
           },

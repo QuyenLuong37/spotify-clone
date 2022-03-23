@@ -12,14 +12,17 @@ function Tracks() {
   useEffect(() => {
     spotifyApi.getMySavedTracks({ limit: 50 }).then(async (res) => {
       const trackIds = res.body.items.map(item => item.track.id);
-      const checkUserSavedTracks = await spotifyApi.containsMySavedTracks(trackIds);
+      let checkUserSavedTracks;
+      if (trackIds.length) {
+        checkUserSavedTracks = await spotifyApi.containsMySavedTracks(trackIds);
+      }
       const result = {
         tracks: res.body.items.map((item, index) => {
           return {
             ...item,
             ...item.track,
             trackImg: item.track.album.images[0]?.url,
-            isSaved: checkUserSavedTracks.body[index]
+            isSaved: checkUserSavedTracks ? checkUserSavedTracks.body[index] : false
           }
         }),
         total: res.body.total,

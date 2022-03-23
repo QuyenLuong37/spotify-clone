@@ -17,29 +17,33 @@ function Album() {
       if (session && id) {
         spotifyApi.getAlbum(id as string).then(async (res) => {
           const trackIds = res.body.tracks.items.map(item => item.id);
-          const checkUserSavedTracks = await spotifyApi.containsMySavedTracks(trackIds);
-            const albumRes = {
-                ...res.body,
-                ownerName: res.body.artists.map(item => item.name).join(', '),
-                tracks: res.body.tracks.items.map((item, index) => {
-                  return {
-                    ...item,
-                    trackImg: null,
-                    isSaved: checkUserSavedTracks.body[index]
-                  }
-                })
-            }
-            const artists = res.body.artists;
-            if (artists.length) {
-                spotifyApi.getArtistAlbums(artists[0].id, {limit: 10}).then(res => {
-                    setArtistAlbum(res.body.items);
-                })
-                spotifyApi.getArtist(artists[0].id).then((user) => {
-                    setAlbum({...albumRes, ownerImg: user.body.images});
-                })
-              } else {
-                setAlbum(albumRes);
-              }
+          
+          let checkUserSavedTracks;
+          if (trackIds.length) {
+            checkUserSavedTracks = await spotifyApi.containsMySavedTracks(trackIds);
+          }
+          const albumRes = {
+              ...res.body,
+              ownerName: res.body.artists.map(item => item.name).join(', '),
+              tracks: res.body.tracks.items.map((item, index) => {
+                return {
+                  ...item,
+                  trackImg: null,
+                  isSaved: checkUserSavedTracks ? checkUserSavedTracks.body[index] : false
+                }
+              })
+          }
+          const artists = res.body.artists;
+          if (artists.length) {
+            spotifyApi.getArtistAlbums(artists[0].id, {limit: 10}).then(res => {
+                setArtistAlbum(res.body.items);
+            })
+            spotifyApi.getArtist(artists[0].id).then((user) => {
+                setAlbum({...albumRes, ownerImg: user.body.images});
+            })
+          } else {
+            setAlbum(albumRes);
+          }
         })
       }
     }, [session, router.query])

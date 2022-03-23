@@ -21,9 +21,9 @@ function Show() {
         setShow(res.body);
       })
 
-      spotifyApi.getShowEpisodes(id as string, {limit: 20}).then(res => {
+      spotifyApi.getShowEpisodes(id as string, {limit: 50}).then(res => {
         
-        setShowEpisodes(res.body.items);
+        setShowEpisodes(res.body);
       })
     }
     
@@ -51,8 +51,8 @@ function Show() {
       </div>
 
       <div className='px-6'>
-        {showEpisodes.length > 0 && showEpisodes?.map((item, index) => {
-          return <EpisodeItem key={index} description={item.description} duration_ms={item.duration_ms} image={item.images[0].url} name={item.name} release_date={item.release_date} uri={show?.uri} showName={show?.name} id={item.id} position={showEpisodes.length - (index + 1)} />
+        {showEpisodes?.items?.length > 0 && showEpisodes?.items?.map((item, index) => {
+          return <EpisodeItem key={index} description={item.description} duration_ms={item.duration_ms} image={item.images[0].url} name={item.name} release_date={item.release_date} uri={show?.uri} showName={show?.name} id={item.id} position={showEpisodes.total - (index + 1)} />
         })}
       </div>
     </div>

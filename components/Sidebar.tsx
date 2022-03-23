@@ -5,6 +5,7 @@ import {
   HeartIcon,
   PlusCircleIcon,
   RssIcon,
+  ViewGridIcon,
 } from '@heroicons/react/outline'
 import { HomeIcon } from '@heroicons/react/solid'
 import useSpotify from '../hook/useSpotify'
@@ -52,6 +53,14 @@ function Sidebar() {
             <div className="flex items-center space-x-3">
               <SearchIcon className="h-5 w-5" />
               <span className="">Search</span>
+            </div>
+          </Link>
+        </div>
+        <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
+        <Link href="/browse">
+            <div className="flex items-center space-x-3">
+              <ViewGridIcon className="h-5 w-5" />
+              <span className="">Browse</span>
             </div>
           </Link>
         </div>
