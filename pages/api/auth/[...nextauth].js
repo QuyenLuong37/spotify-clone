@@ -51,6 +51,7 @@ export default NextAuth({
     pages: {
         signIn: '/login',
     },
+    secret: 'lRh3njL7SnUfVo9OCenr29BP/dnZC8KGQatcIjM6Hxo=',
     callbacks: {
         // async redirect({ url, baseUrl }) {
         //     console.log("🚀baseUrl", baseUrl)
