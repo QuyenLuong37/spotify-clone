@@ -53,11 +53,11 @@ export default NextAuth({
     },
     debug: true,
     callbacks: {
-        async redirect({ url, baseUrl }) {
-            console.log("🚀baseUrl", baseUrl)
-            console.log("🚀url", url)
-            return baseUrl
-        },
+        // async redirect({ url, baseUrl }) {
+        //     console.log("🚀baseUrl", baseUrl)
+        //     console.log("🚀url", url)
+        //     return baseUrl
+        // },
         async jwt({ token, user, account }) {
             // Initial sign in
             

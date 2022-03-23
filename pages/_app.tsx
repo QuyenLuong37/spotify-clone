@@ -10,7 +10,6 @@ import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 
 type NextPageWithLayout = NextPage & {
-  requiredAuth: boolean,
   getLayout?: (page: ReactElement) => ReactNode
 }
 
