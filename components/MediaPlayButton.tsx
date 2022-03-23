@@ -18,7 +18,7 @@ function MediaPlayButton({ uri }) {
     spotifyApi.pause();
   }
   return (
-      <div onClick={(e) => currentTrack?.context?.uri === uri && !currentTrack?.paused ? pause(e) : play(e)} className="flex h-10 w-10 2xl:h-14 2xl:w-14 transform cursor-pointer items-center justify-center rounded-full bg-green-400 p-[10px] text-white transition duration-150 hover:scale-110 shadow-lg">
+      <div onClick={(e) => currentTrack?.context?.uri === uri && !currentTrack?.paused ? pause(e) : play(e)} className="flex h-10 w-10 2xl:h-12 2xl:w-12 transform cursor-pointer items-center justify-center rounded-full bg-green-400 p-[10px] text-white transition duration-150 hover:scale-110 shadow-lg">
         {currentTrack?.context?.uri === uri && !currentTrack?.paused ? (
           <PauseIcon />
         ) : (
