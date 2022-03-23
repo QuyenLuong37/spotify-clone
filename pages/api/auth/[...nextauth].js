@@ -55,7 +55,7 @@ export default NextAuth({
         async redirect({ url, baseUrl }) {
             console.log("🚀baseUrl", baseUrl)
             console.log("🚀url", url)
-            return url
+            return baseUrl
         },
         async jwt({ token, user, account }) {
             // Initial sign in
