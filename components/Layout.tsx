@@ -61,7 +61,7 @@ function Layout({ children }) {
 
   if (!session) {
     router.push('/login')
-    return <></>;
+    // return <></>;
   }
 
   return (
