@@ -57,11 +57,14 @@ function Layout({ children }) {
       }
       setLoadFirst(false)
     }
+    if (!session) {
+      router.push('/login')
+    }
   }, [session, loadFirst])
 
+  
   if (!session) {
-    router.push('/login')
-    // return <></>;
+    return <></>;
   }
 
   return (
