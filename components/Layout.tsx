@@ -1,5 +1,4 @@
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import useSpotify from '../hook/useSpotify'
@@ -14,7 +13,6 @@ function Layout({ children }) {
   const [player, setPlayer] = useRecoilState(playerState);
   const [currentTrack, setCurrentTrack] = useRecoilState(currentTrackIsPlayingState);
   const [loadFirst, setLoadFirst] = useState(true);
-  const router = useRouter();
   
   useEffect(() => {
     if (session && loadFirst) {
@@ -57,12 +55,7 @@ function Layout({ children }) {
       }
       setLoadFirst(false)
     }
-    if (!session) {
-      router.push('/login')
-    }
   }, [session, loadFirst])
-
-  
   if (!session) {
     return <></>;
   }
