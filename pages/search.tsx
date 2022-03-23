@@ -23,7 +23,7 @@ function search() {
     }, [router.query])
     
     const debounceDropDown = useCallback(_.debounce((val) => {
-        spotifyApi.search(val, ['track', 'album', 'episode', 'show', 'artist', 'playlist'], {limit: 10}).then(async (res) => {
+        spotifyApi.search(val, ['track', 'album', 'episode', 'show', 'artist', 'playlist'], {limit: 10, market: 'VN'}).then(async (res) => {
             const trackIds = res.body.tracks?.items.map(item => item.id);
             let checkUserSavedTracks;
             if (trackIds && trackIds.length) {
