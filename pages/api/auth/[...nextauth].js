@@ -51,7 +51,6 @@ export default NextAuth({
     pages: {
         signIn: '/login',
     },
-    debug: true,
     callbacks: {
         // async redirect({ url, baseUrl }) {
         //     console.log("🚀baseUrl", baseUrl)
