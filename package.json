@@ -12,7 +12,7 @@
     "date-fns": "^2.28.0",
     "lodash": "^4.17.21",
     "next": "latest",
-    "next-auth": "^4.2.1",
+    "next-auth": "^4.3.1",
     "rc-virtual-list": "^3.4.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
