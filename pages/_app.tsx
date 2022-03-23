@@ -8,6 +8,7 @@ import '../styles/globals.css';
 import '../styles/ant.custom.css';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
+import React from 'react';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -22,7 +23,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <RecoilRoot>
       <SessionProvider session={pageProps.session}>
-        {getLayout(<Component {...pageProps} />)}
+        
+        {getLayout(<React.StrictMode><Component {...pageProps} /></React.StrictMode>)}
+        
       </SessionProvider>
     </RecoilRoot>
   )

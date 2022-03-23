@@ -214,7 +214,9 @@ function WebPlayback() {
 
         <div className="flex items-center space-x-2 mt-1">
           <div>{millisToMinutesAndSeconds(position)}</div>
-          <Slider value={Math.round(position)} tooltipVisible={false} step={1000} min={0} max={Math.round(currentTrack?.duration) } className="flex-grow" defaultValue={0} onChange={(e) => setPositionPlayMusic(e)} onAfterChange={(e) => onAfterChangeSlider(e)} />
+          <div className='flex-grow'>
+            <Slider value={Math.round(position)} tooltipVisible={false} step={1000} min={0} max={Math.round(currentTrack?.duration) } defaultValue={0} onChange={(e) => setPositionPlayMusic(e)} onAfterChange={(e) => onAfterChangeSlider(e)} />
+          </div>
           <div className="justify-self-end">{currentTrack?.duration ? millisToMinutesAndSeconds(currentTrack?.duration) : ''}</div>
         </div>
       </div>
