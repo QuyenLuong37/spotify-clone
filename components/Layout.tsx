@@ -66,15 +66,17 @@ function Layout({ children }) {
         <div className="nav-bar">
           <Sidebar />
         </div>
-        <div className="main-view h-[calc(100vh-105px)] overflow-hidden bg-gradient-to-r from-[#2e2e2e] to-[#2e2e2e]">
-          <div className="pb-6 overflow-auto h-full">
-            {{ ...children }}
+        <div className={currentTrack ? 'h-[calc(100vh-105px)]' : 'h-screen'}>
+          <div className="h-full main-view overflow-hidden bg-gradient-to-r from-[#2e2e2e] to-[#2e2e2e]">
+            <div className="pb-6 overflow-auto h-full">
+              {{ ...children }}
+            </div>
           </div>
         </div>
 
-        <div className="now-playing-bar sticky bottom-0 left-0 right-0">
+        {currentTrack && <div className="now-playing-bar sticky bottom-0 left-0 right-0">
           <WebPlayback />
-        </div>
+        </div>}
       </div>
     </>
   )
