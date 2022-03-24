@@ -47,7 +47,7 @@ function WebPlayback() {
   const [repeatMode, setRepeatMode] = useState(0)
   const [volume, setVolume] = useState(0.01)
   const [position, setPosition] = useState(0);
-  const [isSlideMoving, setIsSlideMoving] = useState(false);
+  // const [isSlideMoving, setIsSlideMoving] = useState(false);
   const [isSavedTrack, setIsSavedTrack] = useState(false);
   const player: any = useRecoilValue(playerState)
   const currentTrack: any = useRecoilValue(currentTrackIsPlayingState);
@@ -121,14 +121,14 @@ function WebPlayback() {
   }
   
   const setPositionPlayMusic = (position: number) => {
-    setIsSlideMoving(true);
+    // setIsSlideMoving(true);
     setPosition(position)
   }
 
   const onAfterChangeSlider = (e) => {
     const duration = currentTrack.duration;
     if (position <= duration) {
-      spotifyApi.seek(e[0]);
+      player.seek(e[0]);
     }
   }
 

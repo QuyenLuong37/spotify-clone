@@ -25,7 +25,13 @@ function MediaSummary({
     case 'artist':
     case 'playlist':
     case 'podcast':
-      playlistImgUI = <img className="rounded" src={playlistImg} alt="" />
+      if (playlistImg) {
+        playlistImgUI = <img className="rounded" src={playlistImg} alt="" />
+      } else {
+        playlistImgUI = <div className="p-[4.5rem] w-full bg-[#2e2e2e] h-[232px] shadow-lg rounded">
+          <div className='h-full bg-cover bg-no-repeat bg-[url("/default.svg")]'></div>
+        </div>
+      }
       break;
     case 'episode':
       playlistImgUI = <div className="p-[4.5rem] w-full bg-[#066552] h-[232px] shadow-lg rounded">

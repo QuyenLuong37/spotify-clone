@@ -73,14 +73,14 @@ function Sidebar() {
           </Link>
         </div>
         <hr className="my-3 border-t-[0.1px] border-gray-900" />
-        <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
+        {/* <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
           <Link href="/playlist">
             <div className="flex items-center space-x-3">
               <PlusCircleIcon className="h-5 w-5" />
               <span className="">Create Playlist</span>
             </div>
           </Link>
-        </div>
+        </div> */}
 
         <div className="flex cursor-pointer items-center space-x-3 transition duration-200 hover:text-white ">
           <Link href="/collection/tracks">
@@ -105,7 +105,7 @@ function Sidebar() {
       {/* Playlist */}
       <div className="flex flex-col overflow-auto mt-5">
         <div className=" space-y-5">
-          {playlists.map((item) => {
+          {playlists.filter(item => item.name !== 'Liked Songs' && item.name !== 'Episodes').map((item) => {
             return (
               <div
                 key={item.id}

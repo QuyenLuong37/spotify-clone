@@ -1,3 +1,4 @@
+import { Empty } from 'antd';
 import React from 'react'
 import Header from './Header';
 import MediaPlayButton from './MediaPlayButton';
@@ -23,22 +24,24 @@ function LayoutPlaylist({description, name,followerCount,ownerImg, type, playlis
                 owner={owner ? [owner] : null}
                 totalSuffix={'song'}
             />
-            <div className="px-6 py-6">
-                <MediaPlayButton uri={uri} />
-            </div>
-            <div className="px-6">
-                <MediaTableHeader colsVisible={colsVisible} />
-                {tracks?.map((item, index) => {
-                    return (
-                        <MediaTableRow
-                            index={index}
-                            uri={uri}
-                            key={index}
-                            track={item}
-                            colsVisible={colsVisible}
-                        />
-                    )
-                })}
+            <div className='space-y-6'>
+                {uri && <div className="px-6 pt-6">
+                    {tracks.length > 0 && <MediaPlayButton uri={uri} />}
+                </div>}
+                <div className="px-6">
+                    <MediaTableHeader colsVisible={colsVisible} />
+                    {tracks && tracks.length > 0 ? tracks?.map((item, index) => {
+                        return (
+                            <MediaTableRow
+                                index={index}
+                                uri={uri}
+                                key={index}
+                                track={item}
+                                colsVisible={colsVisible}
+                            />
+                        )
+                    }) : <div className='mt-16'><Empty /></div>}
+                </div>
             </div>
         </div>
     )
