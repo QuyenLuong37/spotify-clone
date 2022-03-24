@@ -58,14 +58,13 @@ function Playlist() {
       followerCount={playlist?.followers?.total}
       name={playlist?.name}
       ownerImg={playlist?.ownerImg?.[0]?.url}
-      // ownerName={playlist?.owner?.display_name}
       playlistImg={playlist?.images?.[0]?.url}
       tracks={playlist?.tracks?.items}
       type="playlist"
       uri={playlist?.uri}
       owner={playlist?.owner ?? null}
       colsVisible={['ordinal', 'title', 'album', 'added_at', 'duration']}
-      trackTotal={'song'}
+      trackTotal={playlist?.tracks?.items?.length ?? 0}
     />
   )
 }

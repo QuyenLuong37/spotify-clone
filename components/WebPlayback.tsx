@@ -1,6 +1,6 @@
 import { HeartIcon, PauseIcon } from '@heroicons/react/outline'
 import { AdjustmentsIcon, FastForwardIcon, PlayIcon, RefreshIcon, RewindIcon, VolumeOffIcon, VolumeUpIcon } from '@heroicons/react/solid'
-import { message, Slider } from 'antd'
+import { message, Slider, Tooltip } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
 import useSpotify from '../hook/useSpotify'
@@ -47,10 +47,11 @@ function WebPlayback() {
   const [repeatMode, setRepeatMode] = useState(0)
   const [volume, setVolume] = useState(0.01)
   const [position, setPosition] = useState(0);
+  const [isSlideMoving, setIsSlideMoving] = useState(false);
   const [isSavedTrack, setIsSavedTrack] = useState(false);
-  const {data: session} = useSession();
   const player: any = useRecoilValue(playerState)
   const currentTrack: any = useRecoilValue(currentTrackIsPlayingState);
+
   
   const spotifyApi = useSpotify()
   
@@ -73,7 +74,7 @@ function WebPlayback() {
   useEffect(() => {
     if (player) {
       if (currentTrack) {
-        // console.log("🚀currentTrack", currentTrack)
+        console.log("🚀currentTrack", currentTrack)
         if (currentTrack?.track_window?.current_track?.id) {
           spotifyApi.containsMySavedTracks([currentTrack?.track_window?.current_track?.id]).then(res => {
             setIsSavedTrack(res.body[0])
@@ -87,18 +88,14 @@ function WebPlayback() {
         setPosition(currentTrack.position)
       }
     }
-  }, [session, player, currentTrack])
+  }, [ player, currentTrack])
 
 
   const changeRepeatMode = (type: RepeatState) => {
-    spotifyApi.setRepeat(type).then(res => {
-      
-    })
+    spotifyApi.setRepeat(type)
   }
   const shuffle = () => {
-    spotifyApi.setShuffle(!isShuffle).then(res => {
-      
-    })
+    spotifyApi.setShuffle(!isShuffle)
   }
 
   const adjustVolume = (e) => {
@@ -124,13 +121,14 @@ function WebPlayback() {
   }
   
   const setPositionPlayMusic = (position: number) => {
+    setIsSlideMoving(true);
     setPosition(position)
   }
 
   const onAfterChangeSlider = (e) => {
     const duration = currentTrack.duration;
     if (position <= duration) {
-      player.seek(position);
+      spotifyApi.seek(e[0]);
     }
   }
 
@@ -156,19 +154,24 @@ function WebPlayback() {
   }
 
   if (repeatMode === 0) {
-    repeatIcon = <RepeatIcon onClick={() => changeRepeatMode('context')} className="fill-white cursor-pointer" />
+    repeatIcon = <Tooltip title='Enable repeat'>
+      <RepeatIcon onClick={() => changeRepeatMode('context')} className="fill-white cursor-pointer" />
+    </Tooltip>
   } else if (repeatMode === 1) {
-    repeatIcon = <RepeatIcon onClick={() => changeRepeatMode('track')} className="fill-green-500 cursor-pointer" />
+    repeatIcon = <Tooltip title='Enable repeat one'>
+      <RepeatIcon onClick={() => changeRepeatMode('track')} className="fill-green-500 cursor-pointer" />
+    </Tooltip>
   } else if (repeatMode === 2) {
-    repeatIcon = <DisableRepeatIcon onClick={() => changeRepeatMode('off')} className=" fill-green-500 cursor-pointer" />
+    repeatIcon = <Tooltip title='Disabled repeat'>
+      <DisableRepeatIcon onClick={() => changeRepeatMode('off')} className=" fill-green-500 cursor-pointer" />
+    </Tooltip>
   }
 
   const toggleSaveTrack = () => {
     if (isSavedTrack) {
       spotifyApi.removeFromMySavedTracks([currentTrack?.track_window?.current_track?.id]).then(res => {
-      setIsSavedTrack(false);
-      message.success('Removed from your Liked Songs')
-
+        setIsSavedTrack(false);
+        message.success('Removed from your Liked Songs')
       })
     } else {
       spotifyApi.addToMySavedTracks([currentTrack?.track_window?.current_track?.id]).then(res => {
@@ -217,7 +220,7 @@ function WebPlayback() {
         <div className="flex items-center space-x-2 mt-1">
           <div>{millisToMinutesAndSeconds(position)}</div>
           <div className='flex-grow'>
-            <Slider value={Math.round(position)} tooltipVisible={false} step={1000} min={0} max={Math.round(currentTrack?.duration) } defaultValue={0} onChange={(e) => setPositionPlayMusic(e)} onAfterChange={(e) => onAfterChangeSlider(e)} />
+            <Slider value={position} tooltipVisible={false} step={1000} min={0} max={currentTrack?.duration} defaultValue={0} onChange={(e) => setPositionPlayMusic(e)} onAfterChange={(e) => onAfterChangeSlider(e)} />
           </div>
           <div className="justify-self-end">{currentTrack?.duration ? millisToMinutesAndSeconds(currentTrack?.duration) : ''}</div>
         </div>
