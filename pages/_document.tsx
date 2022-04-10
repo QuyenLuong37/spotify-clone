@@ -11,7 +11,7 @@ class MyDocument extends Document {
           <meta name='apple-mobile-web-app-title' content='PWA Spotify' />
           <meta name='description' content='Best PWA Spotify in the world' />
           <meta name='format-detection' content='telephone=no' />
-          <link rel='manifest' href='/manifest.json' />
+          <link rel="manifest" crossOrigin="use-credentials" href="manifest.json"/>
           <meta name='msapplication-TileColor' content='#2B5797' />
           <meta name='msapplication-tap-highlight' content='no' />
 
