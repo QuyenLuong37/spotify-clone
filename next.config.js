@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const withPWA = require('next-pwa')
+const runtimeCaching = require('next-pwa/cache')
+module.exports = withPWA({
   reactStrictMode: true,
   images: {
     domains: [
@@ -14,13 +16,10 @@ module.exports = {
       'charts-images.scdn.co',
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: '/search',
-        destination: '/about',
-      },
-    ]
+  pwa: {
+    dest: 'public',
+    disable: false,
+    scope: '/',
+    runtimeCaching
   },
-  reactStrictMode: false
-}
+})
