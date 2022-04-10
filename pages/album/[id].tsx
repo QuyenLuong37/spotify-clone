@@ -32,7 +32,8 @@ function Album() {
                   isSaved: checkUserSavedTracks ? checkUserSavedTracks.body[index] : false
                 }
               })
-          }
+            }
+            console.log("🚀 ~ file: [id].tsx ~ line 27 ~ spotifyApi.getAlbum ~ albumRes", albumRes)
           const artists = res.body.artists;
           if (artists.length) {
             spotifyApi.getArtistAlbums(artists[0].id, {limit: 10}).then(res => {
@@ -58,7 +59,7 @@ function Album() {
                 ownerImg={album?.ownerImg?.[0]?.url}
                 // ownerName={album?.ownerName}
                 playlistImg={album?.images?.[0]?.url}
-                tracks={album?.tracks?.items}
+                tracks={album?.tracks}
                 type="album"
                 uri={album?.uri}
                 owner={album?.artists}
