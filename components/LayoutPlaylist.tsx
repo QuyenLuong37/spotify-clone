@@ -26,7 +26,7 @@ function LayoutPlaylist({description, name,followerCount,ownerImg, type, playlis
             />
             <div className='space-y-6'>
                 {uri && <div className="px-6 pt-6">
-                    {tracks.length > 0 && <MediaPlayButton uri={uri} />}
+                    {tracks && tracks.length > 0 && <MediaPlayButton uri={uri} />}
                 </div>}
                 <div className="px-6">
                     <MediaTableHeader colsVisible={colsVisible} />
